@@ -1,0 +1,30 @@
+{
+  "name": "future-fellows-registration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "start:dev": "nodemon --watch src src/server.js",
+    "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:e2e": "mocha -R xunit -O output=test/e2e.xml test/end-to-end/*test.js",
+    "test:integration": "mocha -R xunit -O output=test/integration.xml test/integration/*test.js",
+    "test:unit": "mocha -R xunit -O output=test/unit.xml test/unit/*test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "koa": "^2.6.1",
+    "koa-body": "^4.0.4",
+    "koa-compose": "^4.1.0",
+    "koa-route": "^3.2.0",
+    "koa-static": "^5.0.0",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.6"
+  }
+}
