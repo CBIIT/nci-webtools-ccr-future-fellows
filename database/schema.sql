@@ -1,56 +1,56 @@
 create table lu_citizenship
 (
     lu_citizenship_id integer primary key auto_increment,
-    name varchar(200)
+    name varchar(200) not null
 );
 
 create table lu_education_level
 (
     lu_education_level_id integer primary key auto_increment,
-    name varchar(20)
+    name varchar(20) not null
 );
 
 create table lu_job_category
 (
     lu_job_category_id integer primary key auto_increment,
-    name varchar(200)
+    name varchar(200) not null
 );
 
 create table lu_scientific_focus
 (
     lu_scientific_focus_id integer primary key auto_increment,
-    name varchar(200)
+    name varchar(200) not null
 );
 
 create table lu_state
 (
     lu_state_id integer primary key auto_increment,
-    short_name nchar(2) unique
+    short_name nchar(2) unique not null
 );
 
 create table applicant
 (
     applicant_id integer primary key auto_increment,
-    job_category_id integer,
-    first_name varchar(200),
+    job_category_id integer not null,
+    first_name varchar(200) not null,
     middle_initial nchar(1),
-    last_name varchar(200),
-    email varchar(200),
-    address1 varchar(200),
+    last_name varchar(200) not null,
+    email varchar(200) not null,
+    address1 varchar(200) not null,
     address2 varchar(200),
-    city varchar(200),
+    city varchar(200) not null,
     state nchar(2),
     zip varchar(20),
-    home_phone varchar(20),
+    home_phone varchar(20) not null,
     work_phone varchar(20),
     fax_phone varchar(20),
-    citizenship_id integer,
+    citizenship_id integer not null,
     undergraduate_gpa decimal(2,1),
-    research_interests varchar(2000),
-    postdoc_experience varchar(2000),
-    referral_source varchar(2000),
-    availability_date date,
-    resume_filepath varchar(2000),
+    research_interests varchar(2000) not null,
+    postdoc_experience varchar(2000) not null,
+    referral_source varchar(2000) not null,
+    availability_date date not null,
+    resume_filepath varchar(2000) not null,
     status enum('PENDING', 'APPROVED', 'ON_HOLD'),
     is_foreign boolean,
     created_date datetime default NOW(),
@@ -64,8 +64,8 @@ create table applicant
 create table education_level
 (
     education_level_id integer primary key auto_increment,
-    applicant_id integer,
-    lu_education_level_id integer,
+    applicant_id integer not null,
+    lu_education_level_id integer not null,
     created_date datetime default NOW(),
     updated_date datetime default NOW(),
     foreign key (applicant_id) references applicant(applicant_id),
@@ -75,8 +75,8 @@ create table education_level
 create table scientific_focus
 (
     scientific_focus_id integer primary key auto_increment,
-    applicant_id integer,
-    lu_scientific_focus_id integer,
+    applicant_id integer not null,
+    lu_scientific_focus_id integer not null,
     created_date datetime default NOW(),
     updated_date datetime default NOW(),
     foreign key (applicant_id) references applicant(applicant_id),
@@ -86,10 +86,10 @@ create table scientific_focus
 create table user_track
 (
     user_track_id integer primary key auto_increment,
-    username varchar(200),
+    username varchar(200) not null,
     first_name varchar(200),
     last_name varchar(200),
-    login_date datetime,
+    login_date datetime not null,
     created_date datetime default NOW(),
     updated_date datetime default NOW()
 );
