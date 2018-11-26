@@ -1,0 +1,179 @@
+<h1 class="h3">Apply Online</h1>
+<hr>
+
+<p>The National Cancer Institute maintains a resume databank of interested candidates to be considered for postdoctoral fellowship, intern and professional positions in science. Candidates are welcomed and encouraged to post their contact information and resume.</p>
+
+<p>The NCI Future Fellows website accepts resumes from interested applicants for positions that may have future openings, it is not intended to solicit or accept applications for official vacancy announcements. Your contact information and resume will be kept on file for six months from the date you post your resume. Should position openings occur and if there is interest in your credentials/qualifications, you may be invited to participate in a formal interview.</p>
+
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>
+
+<form [formGroup]="form" *ngIf="fields$ | async as fields; else loading">
+
+  <h2 class="h6 mb-1">Select a job category</h2>
+  <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
+    <div class="custom-control custom-radio" *ngFor="let item of fields.job_categories">
+      <input type="radio" class="custom-control-input" id="job-category-{{ item.value }}" name="job_category">
+      <label class="custom-control-label" for="job-category-{{ item.value }}">{{ item.label }}</label>
+    </div>
+  </div>
+
+
+  <h2 class="h6 mb-1">Select up to 5 scientific focus areas</h2>
+  <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
+    <div class="row">
+      <div class="col-lg-6" *ngFor="let item of fields.scientific_focus_areas">
+        <div class=" custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="scientific-focus-{{ item.value }}" name="scientific_focus">
+          <label class="custom-control-label" for="scientific-focus-{{ item.value }}">{{ item.label }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <h2 class="h6 mb-1">Please enter the following information</h2>
+  <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
+    <div class="row">
+      <div class="col-md-4  mb-3">
+        <label>First Name</label>
+        <input type="text" class="form-control" placeholder="Jane">
+      </div>
+      <div class="col-md-4  mb-3">
+        <label>Middle Initial</label>
+        <input type="text" class="form-control" placeholder="M.I.">
+      </div>
+      <div class="col-md-4  mb-3">
+        <label>Last Name</label>
+        <input type="text" class="form-control" placeholder="Doe">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6  mb-3">
+        <label>Email Address</label>
+        <input type="email" class="form-control" placeholder="jane.doe@example.com">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8  mb-3">
+        <label>Address 1</label>
+        <input class="form-control" placeholder="1 First St.">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8  mb-3">
+        <label>Address 2</label>
+        <input class="form-control" placeholder="Apt #1">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4  mb-3">
+        <label>City</label>
+        <input type="text" class="form-control" placeholder="Washington">
+      </div>
+      <div class="col-md-4  mb-3">
+        <label>State</label>
+        <input type="text" class="form-control" placeholder="DC">
+      </div>
+      <div class="col-md-4  mb-3">
+        <label>Zip</label>
+        <input type="text" class="form-control" placeholder="20001">
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4  mb-3">
+          <label>Home Phone</label>
+          <input type="text" class="form-control" placeholder="">
+        </div>
+        <div class="col-md-4  mb-3">
+          <label>Work Phone</label>
+          <input type="text" class="form-control" placeholder="">
+        </div>
+        <div class="col-md-4  mb-3">
+          <label>Fax Phone</label>
+          <input type="text" class="form-control" placeholder="">
+        </div>
+      </div>
+
+
+      <div class="row">
+          <div class="col-md-4  mb-3">
+            <label>Citizenship</label>
+            <select class="form-control">
+              <option [value]="null" hidden>Select a value</option>
+              <option *ngFor="let field of fields.citizenship" [value]="field.value">
+                {{ field.label }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4  mb-3">
+            <label>Undergraduate Degree GPA</label>
+            <input type="number" class="form-control" min="0" max="4" step="0.1">
+          </div>
+        </div>
+
+
+
+  </div>
+
+
+  <h2 class="h6 mb-1">Select completed education levels</h2>
+  <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
+    <div class="row">
+      <div class="col-xl-1 col-lg-2 col-sm-3" *ngFor="let item of fields.education_levels">
+        <div class=" custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="education-level-{{ item.value }}" name="education_level">
+          <label class="custom-control-label" for="education-level-{{ item.value }}">{{ item.label }}</label>
+        </div>
+      </div>
+    </div>
+    <!-- div class="custom-control custom-checkbox d-inline-block mr-4" *ngFor="let item of fields.education_levels">
+      <input type="checkbox" class="custom-control-input" id="education-level-{{ item.value }}" name="education_level">
+      <label class="custom-control-label" for="education-level-{{ item.value }}">{{ item.label }}</label>
+    </div> -->
+  </div>
+
+  <h2 class="h6 mb-1">Please answer the following questions</h2>
+  <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
+    <ol>
+      <li>
+        <label>Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI</label>
+        <textarea class="form-control mb-3"></textarea>
+      </li>
+
+      <li>
+        <label>Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed.</label>
+        <textarea class="form-control mb-3"></textarea>
+      </li>
+
+      <li>
+        <label>Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.)</label>
+        <textarea class="form-control mb-3"></textarea>
+      </li>
+
+      <li>
+        <label>Please let us know your date of availability</label>
+        <textarea class="form-control"></textarea>
+      </li>
+    </ol>
+  </div>
+
+  <h2 class="h6 mb-1">Choose your .pdf resume to upload</h2>
+  <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
+    <input type="file" aria-describedby="resume-help">
+
+    <small id="resume-help" class="form-text text-muted">Note: Attached resumes must be in .pdf format. See <a href="https://www.acrobat.com/createpdf/en/home.html">https://www.acrobat.com/createpdf/en/home.html</a> for a free .pdf conversion tool.</small>
+
+
+  </div>
+
+
+
+
+</form>
