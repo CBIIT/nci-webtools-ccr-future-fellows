@@ -55,6 +55,7 @@ create table applicant
     is_foreign boolean,
     created_date datetime default NOW(),
     updated_date datetime default NOW(),
+    check (undergraduate_gpa >= 0 and undergraduate_gpa <= 4),
     foreign key (job_category_id) references  lu_job_category(lu_job_category_id),
     foreign key (state) references lu_state(short_name),
     foreign key (citizenship_id) references lu_citizenship(lu_citizenship_id)
