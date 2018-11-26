@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
+    "build": "cd client && npm run build",
     "start": "node src/server.js",
+    "start:client": "cd client && npm run start",
     "start:dev": "nodemon --watch src src/server.js",
     "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
     "test:e2e": "mocha -R xunit -O output=test/e2e.xml test/end-to-end/*test.js",
