@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
+
+import { AppRoutingModule } from './router/app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -15,6 +17,7 @@ import { ApplicantsComponent } from './components/applicants/applicants.componen
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DataService } from './services/data/data.service';
 import { StoreService } from './services/store/store.service';
+import { FileValueAccessorDirective } from './directives/file-value-accessor/file-value-accessor.directive';
 
 @NgModule({
   declarations: [
@@ -27,10 +30,12 @@ import { StoreService } from './services/store/store.service';
     UserTrackComponent,
     SearchComponent,
     ApplicantsComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    FileValueAccessorDirective
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
   ],
