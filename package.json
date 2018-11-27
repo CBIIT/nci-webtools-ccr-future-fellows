@@ -2,12 +2,12 @@
   "name": "future-fellows-registration",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "server/server.js",
   "scripts": {
     "build": "cd client && npm run build",
-    "start": "node src/server.js",
+    "start": "node server/server.js",
     "start:client": "cd client && npm run start",
-    "start:dev": "nodemon --watch src src/server.js",
+    "start:dev": "nodemon --watch server server/server.js",
     "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
     "test:e2e": "mocha -R xunit -O output=test/e2e.xml test/end-to-end/*test.js",
     "test:integration": "mocha -R xunit -O output=test/integration.xml test/integration/*test.js",
@@ -16,13 +16,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@koa/cors": "^2.2.2",
     "dotenv": "^6.1.0",
     "koa": "^2.6.1",
     "koa-body": "^4.0.4",
     "koa-compose": "^4.1.0",
+    "koa-ejs": "^4.1.2",
+    "koa-json": "^2.0.2",
     "koa-route": "^3.2.0",
     "koa-static": "^5.0.0",
-    "mysql": "^2.16.0"
+    "mysql2": "^1.6.4"
   },
   "devDependencies": {
     "chai": "^4.2.0",
