@@ -1,10 +1,10 @@
 
 create procedure execute_sql(input text)
 begin
- set @sql = input
- prepare stmt from @sql
- execute stmt
- deallocate prepare stmt
+  set @sql = input;
+  prepare stmt from @sql;
+  execute stmt;
+  deallocate prepare stmt;
 end;
 
 create procedure insert_delimited_values
@@ -16,7 +16,7 @@ create procedure insert_delimited_values
 begin
   call execute_sql(concat(
     'insert into ', table_name, ' select ',
-    replace(strlist, delimiter, ' union select ')))
+    replace(strlist, delimiter, ' union select ')));
 end;
 
 create procedure add_applicant
