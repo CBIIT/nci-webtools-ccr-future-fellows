@@ -74,19 +74,19 @@ textarea {
 }
 
 .navar-dark .navbar-nav .nav-item .nav-link {
-    color: white;
-    border-bottom: 7px solid transparent;
-    border-top: 7px solid transparent;
-    transition: background-color .15s linear;
+    color: white !important;
+    border-bottom: 7px solid transparent !important;
+    border-top: 7px solid transparent !important;
+    transition: background-color .15s linear !important;
 }
 
 .navar-dark .navbar-nav .nav-item .nav-link:active {
-    border-bottom-color: #14819b;
+    border-bottom-color: #14819b !important;
 }
 
 .navar-dark .navbar-nav .nav-item .nav-link:active,
 .navar-dark .navbar-nav .nav-item .nav-link:focus,
 .navar-dark .navbar-nav .nav-item .nav-link:hover {
     color: #2f2f2f !important;
-    background-color: #fff;
+    background-color: #fff !important;
 }
