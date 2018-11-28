@@ -1,34 +1,29 @@
 // require environmental variables
 require('dotenv').config();
 const path = require('path');
-
 const Koa = require('koa');
-const body = require('koa-body');
-const compose = require('koa-compose');
-const cors = require('@koa/cors');
 const ejs = require('koa-ejs');
-const json = require('koa-json');
 const static = require('koa-static');
 const routes = require('./routes');
+const { getLookupTables } = require('./controllers');
 const { PORT, PRODUCTION } = process.env;
 
 const app = new Koa();
 
-// use ejs templates (default layout: templates/layout.html)
-ejs(app, {
-    root: path.join(__dirname, 'templates'),
-    debug: !PRODUCTION,
-    cache: PRODUCTION,
-    delimiter: ':'
-});
+// use IIFE to for async/await
+(async app => {
+    // use ejs templates (default layout: views/layout.html)
+    ejs(app, {
+        root: path.join(__dirname, 'views'),
+        // debug: !PRODUCTION, // turn off debug mode in production
+        cache: PRODUCTION,  // turn on cache in production
+    });
 
-const middleware = compose([
-    static('public'),
-    body(),
-    cors(),
-    json(),
-    ...routes,
-]);
+    // make lookup tables available globally
+    app.context.lookupTables = await getLookupTables();
 
-app.use(middleware);
-app.listen(PORT || 3000);
+    // use middleware
+    app.use(static('public'));
+    app.use(routes);
+    app.listen(PORT || 3000);
+})(app);
