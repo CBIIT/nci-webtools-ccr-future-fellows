@@ -1,20 +1,49 @@
-const { get, post, put } = require('koa-route');
+var Router = require('koa-router');
+var body = require('koa-body');
+var router = new Router();
+
 const {
     getLookupTables,
     searchApplicants,
     addApplicant,
-    updateApplicant
+    updateApplicant,
+    validateApplicant
 } = require('./controllers');
 
-const defaults = {
-    title: 'Future Fellows'
-};
+router.get('/', ctx => ctx.render('index'));
+router.get('/auth', ctx => ctx.render('auth'));
 
-module.exports = [
-    get('/', ctx => ctx.render('index', {...defaults})),
+router.get('/apply', ctx => ctx.render('apply', {
+    fields: ctx.lookupTables, // form fields
+    formValues: {job_category: '1'} // default form values
+}));
 
-    get('/api/lookup_tables', async ctx => ctx.body = await getLookupTables()),
-    get('/api/applicants', async ctx => ctx.body = await searchApplicants(ctx.request.query)),
-    post('/api/applicants', async ctx => ctx.body = await addApplicant(ctx.request)),
-    put('/api/applicants', async ctx => ctx.body = await updateApplicant(ctx.request)),
-];
+
+// router.post('/apply', body({multipart: true}), ctx => console.dir(ctx.request.body))
+
+router.post('/apply', body({multipart: true}), ctx => {
+    const errors = validateApplicant(ctx.request);
+    const alerts = [];
+
+    if (!Object.keys(errors)) {
+        alerts.push({
+            type: 'success',
+            message: 'Your application has been submitted.'
+        })
+    } else {
+        alerts.push({
+            type: 'warning',
+            message: 'Please correct the errors below and resubmit your application.'
+        });
+    }
+
+    return ctx.render('apply', {
+        fields: ctx.lookupTables,
+        formValues: ctx.request.body,
+        errors: errors,
+        alerts: alerts,
+    });
+});
+
+
+module.exports = router.routes();
