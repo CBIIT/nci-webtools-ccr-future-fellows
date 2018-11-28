@@ -5,6 +5,7 @@ module.exports = {
     getApplicants,
     addApplicant,
     updateApplicant,
+    validateApplicant,
 }
 
 /**
@@ -26,34 +27,11 @@ function getApplicants(query) {
 
 }
 
+function validateApplicant({body, files}) {
+    return {}
+}
+
 async function addApplicant(request) {
-    const {
-        job_category_id,
-        status,
-
-        first_name,
-        middle_initial,
-        last_name,
-        email,
-        address1,
-        address2,
-        city,
-        state,
-        zip,
-        home_phone,
-        work_phone,
-        fax_phone,
-        is_foreign,
-        citizenship_id,
-        undergraduate_gpa,
-        research_interests,
-        postdoc_experience,
-        referral_source,
-        availability_date,
-        resume_filepath
-    } = request.body;
-
-    connection.execute()
 
 }
 
