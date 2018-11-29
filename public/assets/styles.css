@@ -70,25 +70,30 @@ textarea {
 }
 
 .navbar-dark {
-    background-color: #444;
+    background-color: #444 !important;
 }
 
-.navar-dark .navbar-nav .nav-item .nav-link {
-    color: white !important;
-    border-bottom: 7px solid transparent !important;
-    border-top: 7px solid transparent !important;
-    transition: background-color .15s linear !important;
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+    border-bottom: 7px solid transparent;
+    border-top: 7px solid transparent;
+    transition: background-color .15s linear;
 }
 
-.navar-dark .navbar-nav .nav-item .nav-link:active {
-    border-bottom-color: #14819b !important;
+.navbar-dark .navbar-nav .active>.nav-link, 
+.navbar-dark .navbar-nav .nav-link.active, 
+.navbar-dark .navbar-nav .nav-link.show, 
+.navbar-dark .navbar-nav .show>.nav-link {
+    color: #2f2f2f;
+    background-color: #fff;
+    border-bottom-color: #14819b;
 }
 
-.navar-dark .navbar-nav .nav-item .nav-link:active,
-.navar-dark .navbar-nav .nav-item .nav-link:focus,
-.navar-dark .navbar-nav .nav-item .nav-link:hover {
-    color: #2f2f2f !important;
-    background-color: #fff !important;
+.navbar-dark .navbar-nav .nav-item .nav-link:active,
+.navbar-dark .navbar-nav .nav-item .nav-link:focus,
+.navbar-dark .navbar-nav .nav-item .nav-link:hover {
+    color: #2f2f2f;
+    background-color: #fff;
 }
 
 .custom-select.is-valid, 
