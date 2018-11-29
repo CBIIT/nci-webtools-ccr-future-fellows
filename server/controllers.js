@@ -30,12 +30,16 @@ function validateApplicant({body, files}) {
     return {}
 }
 
-async function addApplicant(request) {
+async function addApplicant(ctx) {
     const validationErrors = validateApplicant();
     if (Object.keys(validationErrors).length)
         return validationErrors;
 
-    const { body, files } = request;
+    const { uploadsFolder } = ctx;
+    const { body, files } = ctx.request;
+
+    if (files)
+        console.log(files);
 
     const parameters = {
         ...body,
@@ -77,7 +81,7 @@ async function addApplicant(request) {
             :availability_date,
             :resume_filepath,
             :education_level,
-            :scientific_focus            
+            :scientific_focus
         )`, parameters)
     return validationErrors;
 }
