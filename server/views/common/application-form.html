@@ -269,9 +269,18 @@
 
     <h2 class="h6 mb-1">Choose your .pdf resume to upload</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
-        <input type="file" aria-describedby="resume-help" required>
-        <div class="invalid-feedback">
-            Please provide a valid resume pdf. 
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="resume_file" name="resume_file" accept="application/pdf" aria-describedby="resume-help" required>
+            <label class="custom-file-label" for="resume_file">
+                <%= formValues.resume_filename 
+                        ? (formValues.resume_filename.length > 20 
+                            ? formValues.resume_filename.substr(20) + '...'
+                            : formValues.resume_filename) 
+                        : 'Choose file' %>
+            </label>
+            <div class="invalid-feedback">
+                Please provide a valid resume pdf. 
+            </div>
         </div>
         <small id="resume-help" class="form-text text-muted">
             Note: Attached resumes must be in .pdf format. See <a href="https://www.acrobat.com/createpdf/en/home.html">https://www.acrobat.com/createpdf/en/home.html</a> for a free .pdf conversion tool.
