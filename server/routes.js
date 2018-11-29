@@ -1,49 +1,32 @@
-var Router = require('koa-router');
-var body = require('koa-body');
-var router = new Router();
+const Router = require('koa-router');
+const Body = require('koa-body');
+const { addApplicant } = require('./controllers');
+const router = new Router();
 
-const {
-    getLookupTables,
-    searchApplicants,
-    addApplicant,
-    updateApplicant,
-    validateApplicant
-} = require('./controllers');
-
-router.get('/', ctx => ctx.render('index'));
-router.get('/auth', ctx => ctx.render('auth'));
-
-router.get('/apply', ctx => ctx.render('apply', {
-    fields: ctx.lookupTables, // form fields
-    formValues: {job_category: '1'} // default form values
-}));
-
-
-// router.post('/apply', body({multipart: true}), ctx => console.dir(ctx.request.body))
-
-router.post('/apply', body({multipart: true}), ctx => {
-    const errors = validateApplicant(ctx.request);
-    const alerts = [];
-
-    if (!Object.keys(errors)) {
-        alerts.push({
-            type: 'success',
-            message: 'Your application has been submitted.'
-        })
-    } else {
-        alerts.push({
-            type: 'warning',
-            message: 'Please correct the errors below and resubmit your application.'
-        });
-    }
-
-    return ctx.render('apply', {
-        fields: ctx.lookupTables,
-        formValues: ctx.request.body,
-        errors: errors,
-        alerts: alerts,
-    });
+// add template variables
+router.use((ctx, next) => {
+    ctx.state.route = ctx._matchedRoute;
+    ctx.state.method = ctx.request.method;
+    return next();
 });
 
+// use multipart/form-data parser for the following routes
+router.use(['/apply'], Body({multipart: true}))
+
+router.get('/', ctx => ctx.render('pages/index'));
+
+router.get('/auth', ctx => ctx.render('pages/auth'));
+
+router.get('/apply', ctx => ctx.render('pages/apply', {
+    fields: ctx.lookupTables, // use lookup tables for form fields
+    formErrors: null, // form validation errors (null)
+    formValues: {job_category_id: '1'}, // default form values
+}));
+
+router.post('/apply', ctx => ctx.render('pages/apply', {
+    fields: ctx.lookupTables, // use lookup tables for form fields
+    formErrors: addApplicant(ctx.request), // if no errors, applicant was added successfully
+    formValues: ctx.request.body, // use previously submitted values for form
+}));
 
 module.exports = router.routes();
