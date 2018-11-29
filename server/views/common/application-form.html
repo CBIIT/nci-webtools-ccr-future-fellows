@@ -137,15 +137,15 @@
                     required>
                     <div class="invalid-feedback">
                         Please provide a city
-                    </div>                    
+                    </div>
             </div>
             <div class="col-md-4  mb-3">
                 <label>State</label>
                 <select class="form-control" name="state">
                     <option value="">None</option>
                     <% for (let state of fields.state) { %>
-                    <option 
-                        value="<%- state.name %>" 
+                    <option
+                        value="<%- state.name %>"
                         <%= formValues.state == state.id && 'selected' %>>
                         <%- state.name %>
                     </option>
@@ -194,9 +194,9 @@
                 <select class="form-control" name="citizenship_id" required>
                     <option value="" hidden>Select a value</option>
                     <% for (let item of fields.citizenship) { %>
-                        <option 
+                        <option
                             value="<%- item.id %>"
-                            <%= formValues.citizenship_id == item.id && 'selected' %>    
+                            <%= formValues.citizenship_id == item.id && 'selected' %>
                         >
                             <%- item.name %>
                         </option>
@@ -270,19 +270,19 @@
     <h2 class="h6 mb-1">Choose your .pdf resume to upload</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="resume_file" name="resume_file" accept="application/pdf" aria-describedby="resume-help" required>
+            <input type="file" class="custom-file-input" id="resume_file" name="resume_file" accept="application/pdf" aria-describedby="resume-help" required data-custom-file-input>
             <label class="custom-file-label" for="resume_file">
-                <%= formValues.resume_filename 
-                        ? (formValues.resume_filename.length > 20 
+                <%= formValues.resume_filename
+                        ? (formValues.resume_filename.length > 20
                             ? formValues.resume_filename.substr(20) + '...'
-                            : formValues.resume_filename) 
+                            : formValues.resume_filename)
                         : 'Choose file' %>
             </label>
             <div class="invalid-feedback">
-                Please provide a valid resume pdf. 
+                Please provide a valid resume pdf.
             </div>
         </div>
-        <small id="resume-help" class="form-text text-muted">
+        <small id="resume-help" class="form-text">
             Note: Attached resumes must be in .pdf format. See <a href="https://www.acrobat.com/createpdf/en/home.html">https://www.acrobat.com/createpdf/en/home.html</a> for a free .pdf conversion tool.
         </small>
 
