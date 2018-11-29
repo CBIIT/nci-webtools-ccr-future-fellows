@@ -5,7 +5,6 @@ module.exports = {
     getApplicants,
     addApplicant,
     updateApplicant,
-    validateApplicant,
 }
 
 /**
@@ -32,7 +31,55 @@ function validateApplicant({body, files}) {
 }
 
 async function addApplicant(request) {
+    const validationErrors = validateApplicant();
+    if (Object.keys(validationErrors).length)
+        return validationErrors;
 
+    const { body, files } = request;
+
+    const parameters = {
+        ...body,
+        status: 'PENDING',
+        is_foreign: false,
+        education_level: '1,2',
+        scientific_focus: '1,2',
+        availability_date: '2000-01-01',
+        resume_filepath: 'temp/path'
+    };
+
+    for (let key in parameters) {
+        if (parameters[key] === '')
+            parameters[key] = null;
+    }
+
+    const result = await connection.execute(`
+        call add_applicant(
+            :job_category_id,
+            :status,
+            :first_name,
+            :middle_initial,
+            :last_name,
+            :email,
+            :address_1,
+            :address_2,
+            :city,
+            :state,
+            :zip,
+            :home_phone,
+            :work_phone,
+            :fax_phone,
+            :is_foreign,
+            :citizenship_id,
+            :undergraduate_gpa,
+            :research_interests,
+            :postdoc_experience,
+            :referral_source,
+            :availability_date,
+            :resume_filepath,
+            :education_level,
+            :scientific_focus            
+        )`, parameters)
+    return validationErrors;
 }
 
 /**
