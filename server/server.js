@@ -10,7 +10,7 @@ const { PORT, PRODUCTION } = process.env;
 
 const app = new Koa();
 
-// use IIFE to for async/await
+// async/await
 (async app => {
     // use ejs templates (default layout: views/layout.html)
     ejs(app, {
