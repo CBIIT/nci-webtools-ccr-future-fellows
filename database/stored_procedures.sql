@@ -27,8 +27,8 @@ create procedure add_applicant
 	middle_initial varchar(200),
 	last_name varchar(200),
 	email varchar(200),
-	address1 varchar(200),
-	address2 varchar(200),
+	address_1 varchar(200),
+	address_2 varchar(200),
 	city varchar(200),
 	state char(2),
 	zip varchar(20),
@@ -47,6 +47,14 @@ create procedure add_applicant
   scientific_focus varchar(2000) -- comma-separated list
 )
 begin
+
+  declare exit handler for sqlexception, sqlwarning
+  begin
+    rollback;
+  end;
+
+  start transaction;
+
   insert into applicant(
     job_category_id,
     status,
@@ -54,8 +62,8 @@ begin
     middle_initial,
     last_name,
     email,
-    address1,
-    address2,
+    address_1,
+    address_2,
     city,
     state,
     zip,
@@ -77,8 +85,8 @@ begin
     middle_initial,
     last_name,
     email,
-    address1,
-    address2,
+    address_1,
+    address_2,
     city,
     state,
     zip,
@@ -111,4 +119,7 @@ begin
   insert into education_level (applicant_id, lu_education_level_id)
     select @applicant_id, item from education_level_list;
   drop temporary table education_level_list;
+
+  commit;
+
 end;
