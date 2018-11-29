@@ -90,3 +90,25 @@ textarea {
     color: #2f2f2f !important;
     background-color: #fff !important;
 }
+
+.custom-select.is-valid, 
+.form-control.is-valid, 
+.was-validated .custom-select:valid, 
+.was-validated .form-control:valid {
+    border: 1px solid #ddd;
+}
+
+.custom-control-input.is-valid~.custom-control-label::before, 
+.was-validated .custom-control-input:valid~.custom-control-label::before {
+    background-color: #ddd;
+}
+
+.custom-control-input.is-valid:checked~.custom-control-label::before, 
+.was-validated .custom-control-input:valid:checked~.custom-control-label::before {
+    background-color: #2a71a5;
+}
+
+.custom-control-input.is-valid~.custom-control-label, 
+.was-validated .custom-control-input:valid~.custom-control-label {
+    color: #444;
+}
