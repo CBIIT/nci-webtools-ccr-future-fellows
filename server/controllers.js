@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const { difference, isArrayLike, isEmpty, isEqual, isNil, intersection, mapValues, map } = require('lodash');
 
 module.exports = {
     getLookupTables,
@@ -8,7 +9,7 @@ module.exports = {
 }
 
 /**
- *
+ * Retrieves lookup tables for applicants. These tables are used to
  */
 async function getLookupTables() {
     const query = async sql => (await connection.query(sql))[0];
@@ -26,12 +27,59 @@ function getApplicants(query) {
 
 }
 
-function validateApplicant({body, files}) {
-    return {}
+async function validateApplicant({body, files}) {
+    const errors = {};
+
+    // use ids for lookup values
+    const lookup = mapValues(
+        await getLookupTables(),
+        v => v.map(e => String(e.id))
+    );
+
+    console.log(lookup);
+
+    // define validator functions (return true if valid)
+    const required = e => !['', [], {}, undefined, null].some(v => isEqual(v, e));
+
+    // validators below are nullable (eg: return true if a value is not provided)
+    const pattern = p => e => !required(e) || p.test(e);
+    const range = (min, max) => e => !required(e) || e >= min && e <= max;
+    const inArray = arr => e => !required(e) || arr.includes(e);
+    const intersectsArray = arr => e => !required(e) || isEmpty(difference(e, arr));
+    const limitLength = len => e => !required(e) || (isArrayLike(e) && e.length <= len);
+
+    const rules = {
+        job_category_id: [required, inArray(lookup.job_category)],
+        first_name: [required],
+        last_name: [required],
+        email: [required, pattern(/a/)],
+        address_1: [required],
+        city: [required],
+        state: [inArray(lookup.state)],
+        home_phone: [required],
+        citizenship_id: [required, inArray(lookup.citizenship)],
+        undergraduate_gpa: [range(0, 4)],
+        research_interests: [required],
+        postdoc_experience: [required],
+        referral_source: [required],
+        availability_date: [required, pattern(/^\d{1,4}-\d{2}-\d{2}$/)],
+        education_level: [intersectsArray(lookup.education_level)],
+        scientific_focus: [intersectsArray(lookup.scientific_focus), limitLength(5)],
+    };
+
+    for (let key in rules) {
+        // iterate over validators for each key
+        for (let validator of rules[key]) {
+            const isValid = validator(body[key]);
+            if (!isValid) errors[key] = true;
+        }
+    }
+
+    return errors;
 }
 
 async function addApplicant(ctx) {
-    const validationErrors = validateApplicant();
+    const validationErrors = await validateApplicant(ctx);
     if (Object.keys(validationErrors).length)
         return validationErrors;
 
@@ -50,6 +98,14 @@ async function addApplicant(ctx) {
         availability_date: '2000-01-01',
         resume_filepath: 'temp/path'
     };
+
+    Object.prototype.replaceValues = function(value, newValue) {
+        for (let key in this)
+            if (this[key] === value)
+               this[key] = newValue;
+    }
+
+    parameters.replaceValues('', null);
 
     for (let key in parameters) {
         if (parameters[key] === '')
@@ -82,8 +138,9 @@ async function addApplicant(ctx) {
             :resume_filepath,
             :education_level,
             :scientific_focus
-        )`, parameters)
-    return validationErrors;
+        )`, parameters);
+
+    return null;
 }
 
 /**
