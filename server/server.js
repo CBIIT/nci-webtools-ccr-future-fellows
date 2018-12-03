@@ -10,10 +10,10 @@ const routes = require('./routes');
 const { getLookupTables } = require('./controllers');
 const { PORT, PRODUCTION, UPLOADS_FOLDER } = process.env;
 
-const app = new Koa();
+// async/await wrapper
+(async function() {
+    const app = new Koa();
 
-// async/await
-(async app => {
     // ensure uploads folder exists
     let uploadsFolder = UPLOADS_FOLDER || 'uploads'
     await fs.ensureDir(uploadsFolder)
@@ -25,7 +25,7 @@ const app = new Koa();
         cache: PRODUCTION,  // turn on cache in production
     });
 
-    // assign variables to context
+    // assign variables to context (available globally)
     app.context.lookupTables = await getLookupTables();
     app.context.uploadsFolder = uploadsFolder;
 
@@ -33,4 +33,4 @@ const app = new Koa();
     app.use(static('public'));
     app.use(routes);
     app.listen(PORT || 3000);
-})(app);
+})();
