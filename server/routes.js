@@ -24,14 +24,14 @@ router.get('/', ctx => ctx.render('pages/index'));
 router.get('/auth', ctx => ctx.render('pages/auth'));
 
 router.get('/apply', ctx => ctx.render('pages/apply', {
-    fields: ctx.lookupTables, // use lookup tables for form fields
-    errors: null, // form validation errors (null)
+    fields: ctx.lookupTables, // lookup tables for form fields
+    errors: null, // form validation errors
     values: {job_category_id: '1'}, // default form values
 }));
 
 router.post('/apply', async ctx => ctx.render('pages/apply', {
-    fields: ctx.lookupTables, // use lookup tables for form fields
-    errors: await addApplicant(ctx.request), // if no errors, applicant was added successfully
+    fields: ctx.lookupTables, // lookup tables for form fields
+    errors: await addApplicant(ctx), // if null, applicant was added successfully
     values: ctx.request.body, // use previously submitted values for form
 }));
 
