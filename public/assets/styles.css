@@ -31,11 +31,11 @@ textarea {
 
 
 .text-primary {
-    color: #2a71a5 !important;
+    color: #225c86 !important;
 }
 
 .bg-primary {
-    background-color: #2a71a5 !important;
+    background-color: #225c86 !important;
 }
 
 .bg-primary-dark {
@@ -80,9 +80,9 @@ textarea {
     transition: background-color .15s linear;
 }
 
-.navbar-dark .navbar-nav .active>.nav-link, 
-.navbar-dark .navbar-nav .nav-link.active, 
-.navbar-dark .navbar-nav .nav-link.show, 
+.navbar-dark .navbar-nav .active>.nav-link,
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link.show,
 .navbar-dark .navbar-nav .show>.nav-link {
     color: #2f2f2f;
     background-color: #fff;
@@ -96,24 +96,24 @@ textarea {
     background-color: #fff;
 }
 
-.custom-select.is-valid, 
-.form-control.is-valid, 
-.was-validated .custom-select:valid, 
+.custom-select.is-valid,
+.form-control.is-valid,
+.was-validated .custom-select:valid,
 .was-validated .form-control:valid {
     border: 1px solid #ddd;
 }
 
-.custom-control-input.is-valid~.custom-control-label::before, 
+.custom-control-input.is-valid~.custom-control-label::before,
 .was-validated .custom-control-input:valid~.custom-control-label::before {
     background-color: #ddd;
 }
 
-.custom-control-input.is-valid:checked~.custom-control-label::before, 
+.custom-control-input.is-valid:checked~.custom-control-label::before,
 .was-validated .custom-control-input:valid:checked~.custom-control-label::before {
     background-color: #2a71a5;
 }
 
-.custom-control-input.is-valid~.custom-control-label, 
+.custom-control-input.is-valid~.custom-control-label,
 .was-validated .custom-control-input:valid~.custom-control-label {
     color: #444;
 }
