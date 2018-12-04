@@ -1,5 +1,8 @@
+const path = require('path');
+const fs = require('fs-extra');
+const { difference, isArray, isArrayLike, isEmpty, isEqual, isNil, intersection, mapValues, map } = require('lodash');
+const uuid4 = require('uuid/v4');
 const connection = require('./connection');
-const { difference, isArrayLike, isEmpty, isEqual, isNil, intersection, mapValues, map } = require('lodash');
 
 module.exports = {
     getLookupTables,
@@ -28,6 +31,7 @@ function getApplicants(query) {
 }
 
 async function validateApplicant({body, files}) {
+    console.log(body);
     const errors = {};
 
     // use ids for lookup values
@@ -35,8 +39,6 @@ async function validateApplicant({body, files}) {
         await getLookupTables(),
         v => v.map(e => String(e.id))
     );
-
-    console.log(lookup);
 
     // define validator functions (return true if valid)
     const required = e => !['', [], {}, undefined, null].some(v => isEqual(v, e));
@@ -55,7 +57,7 @@ async function validateApplicant({body, files}) {
         email: [required, pattern(/a/)],
         address_1: [required],
         city: [required],
-        state: [inArray(lookup.state)],
+        state: [],
         home_phone: [required],
         citizenship_id: [required, inArray(lookup.citizenship)],
         undergraduate_gpa: [range(0, 4)],
@@ -75,40 +77,36 @@ async function validateApplicant({body, files}) {
         }
     }
 
+    if (!files.resume_file)
+        errors.resume_file = true;
+
     return errors;
 }
 
 async function addApplicant(ctx) {
-    const validationErrors = await validateApplicant(ctx);
-    if (Object.keys(validationErrors).length)
-        return validationErrors;
-
-    const { uploadsFolder } = ctx;
+    const validationErrors = await validateApplicant(ctx.request);
     const { body, files } = ctx.request;
 
-    if (files)
-        console.log(files);
+    if (!isEmpty(validationErrors))
+        return validationErrors;
 
+    // move file to uploads folder
+    const filepath = path.join(ctx.uploadsFolder, uuid4() + '.pdf');
+    fs.renameSync(files.resume_file.path, filepath);
+
+    // create parameters for stored procedure
+    const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
     const parameters = {
         ...body,
         status: 'PENDING',
-        is_foreign: false,
-        education_level: '1,2',
-        scientific_focus: '1,2',
-        availability_date: '2000-01-01',
-        resume_filepath: 'temp/path'
+        is_foreign: body.state === '',
+        education_level: join(Number, body.education_level || []),
+        scientific_focus: join(Number, body.scientific_focus || []),
+        resume_filepath: filepath
     };
 
-    Object.prototype.replaceValues = function(value, newValue) {
-        for (let key in this)
-            if (this[key] === value)
-               this[key] = newValue;
-    }
-
-    parameters.replaceValues('', null);
-
     for (let key in parameters) {
-        if (parameters[key] === '')
+        if (parameters[key].length === 0)
             parameters[key] = null;
     }
 
