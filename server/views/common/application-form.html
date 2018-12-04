@@ -1,16 +1,25 @@
+<div id="alerts">
+    <% if (method == 'POST') { %>
+        <% if (_.isEmpty(errors)) { %>
+        <div class="alert alert-success" data-dismissible="true">
+            Your application has been submitted.
+        </div>
+        <% } else { %>
+        <div class="alert alert-danger" data-dismissible="true">
+            Please correct the errors below and resubmit your application.
+        </div>
+        <% } %>
+    <% } %>
+</div>
 
-<form method="POST" enctype="multipart/form-data" class="<%- method == 'GET' ? 'needs-validation' : 'was-validated' %>" data-turbolinks-form novalidate>
+<form method="POST" enctype="multipart/form-data" class="<%- _.isEmpty(errors) ? 'needs-validation' : 'was-validated' %>" data-turbolinks-form novalidate>
     <h2 class="h6 mb-1">Select a job category</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
         <% for (let item of fields.job_category) { %>
         <div class="custom-control custom-radio">
-            <input
-                type="radio"
-                class="custom-control-input"
-                id="job-category-<%- item.id %>"
-                value="<%- item.id %>"
-                <%- formValues.job_category_id == item.id && 'checked' %>
-                name="job_category_id">
+            <input type="radio" class="custom-control-input" id="job-category-<%- item.id %>" value="<%- item.id %>" <%- values.job_category_id==item.id && 'checked' %>
+            name="job_category_id"
+            >
             <label class="custom-control-label" for="job-category-<%- item.id %>">
                 <%- item.name %>
             </label>
@@ -25,13 +34,8 @@
             <% for (let item of fields.scientific_focus) { %>
             <div class="col-lg-6">
                 <div class="custom-control custom-checkbox">
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="scientific-focus-<%- item.id %>"
-                        name="scientific_focus"
-                        <%- (formValues.scientific_focus || []).map(Number).includes(item.id) && 'checked' %>
-                        value="<%- item.id %>">
+                    <input type="checkbox" class="custom-control-input" id="scientific-focus-<%- item.id %>" name="scientific_focus" <%- (_.isArray(values.scientific_focus) ? values.scientific_focus :[values.scientific_focus]).map(Number).includes(item.id) && 'checked' %>
+                    value="<%- item.id %>">
                     <label class="custom-control-label" for="scientific-focus-<%- item.id %>">
                         <%- item.name %>
                     </label>
@@ -47,35 +51,18 @@
         <div class="row">
             <div class="col-md-4  mb-3">
                 <label for="first_name">First Name</label>
-                <input
-                    id="first_name"
-                    name="first_name"
-                    class="form-control"
-                    placeholder="Jane"
-                    value="<%- formValues.first_name %>"
-                    required>
+                <input id="first_name" name="first_name" class="form-control" placeholder="Jane" value="<%- values.first_name %>" required>
                 <div class="invalid-feedback">
                     Please provide your first name
                 </div>
             </div>
             <div class="col-md-4  mb-3">
-                <label>Middle Initial</label>
-                <input
-                    id="middle_initial"
-                    class="form-control"
-                    placeholder="M.I."
-                    value="<%- formValues.middle_initial %>"
-                    name="middle_initial">
+                <label for="middle_initial">Middle Initial</label>
+                <input id="middle_initial" class="form-control" placeholder="M.I." value="<%- values.middle_initial %>" name="middle_initial">
             </div>
             <div class="col-md-4 mb-3">
                 <label for="last_name">Last Name</label>
-                <input
-                    id="last_name"
-                    class="form-control"
-                    placeholder="Doe"
-                    value="<%- formValues.last_name %>"
-                    name="last_name"
-                    required>
+                <input id="last_name" class="form-control" placeholder="Doe" value="<%- values.last_name %>" name="last_name" required>
                 <div class="invalid-feedback">
                     Please provide your last name
                 </div>
@@ -84,14 +71,8 @@
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label>Email Address</label>
-                <input
-                    type="email"
-                    class="form-control"
-                    placeholder="jane.doe@example.com"
-                    name="email"
-                    value="<%- formValues.email %>"
-                    required>
+                <label for="email">Email Address</label>
+                <input id="email" type="email" class="form-control" placeholder="jane.doe@example.com" name="email" value="<%- values.email %>" required>
                 <div class="invalid-feedback">
                     Please provide a valid email address
                 </div>
@@ -100,106 +81,75 @@
 
         <div class="row">
             <div class="col-md-8  mb-3">
-                <label>Address 1</label>
-                <input
-                    id="address_1"
-                    class="form-control"
-                    placeholder="1 First St."
-                    name="address_1"
-                    value="<%- formValues.address_1 %>"
-                    required>
-                    <div class="invalid-feedback">
-                        Please provide an address
-                    </div>
+                <label for="address_1">Address 1</label>
+                <input id="address_1" class="form-control" placeholder="1 First St." name="address_1" value="<%- values.address_1 %>" required>
+                <div class="invalid-feedback">
+                    Please provide an address
                 </div>
+            </div>
         </div>
 
         <div class="row">
             <div class="col-md-8  mb-3">
-                <label>Address 2</label>
-                <input
-                    class="form-control"
-                    placeholder="Apt #1"
-                    value="<%- formValues.address_2 %>"
-                    name="address_2">
+                <label for="address_2">Address 2</label>
+                <input id="address_2" class="form-control" placeholder="Apt #1" value="<%- values.address_2 %>" name="address_2">
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4  mb-3">
                 <label for="city">City</label>
-                <input
-                    id="city"
-                    class="form-control"
-                    placeholder="Washington"
-                    name="city"
-                    value="<%- formValues.city %>"
-                    required>
-                    <div class="invalid-feedback">
-                        Please provide a city
-                    </div>
+                <input id="city" class="form-control" placeholder="Washington" name="city" value="<%- values.city %>" required>
+                <div class="invalid-feedback">
+                    Please provide a city
+                </div>
             </div>
             <div class="col-md-4  mb-3">
-                <label>State</label>
-                <select class="form-control" name="state">
+                <label for="state">State</label>
+                <select class="form-control" name="state" id="state">
                     <option value="">None</option>
                     <% for (let state of fields.state) { %>
-                    <option
-                        value="<%- state.name %>"
-                        <%= formValues.state == state.id && 'selected' %>>
+                    <option value="<%- state.name %>" <%=values.state==state.id && 'selected' %>>
                         <%- state.name %>
                     </option>
                     <% } %>
                 </select>
             </div>
             <div class="col-md-4  mb-3">
-                <label>Zip</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="20001"
-                    value="<%- formValues.zip %>"
-                    name="zip">
+                <label for="zip">Zip</label>
+                <input id="zip" type="text" class="form-control" placeholder="20001" value="<%- values.zip %>" name="zip">
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4  mb-3">
-                <label>Home Phone</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder=""
-                    value="<%- formValues.home_phone %>"
-                    name="home_phone"
-                    required>
-                    <div class="invalid-feedback">
-                        Please provide a phone number
-                    </div>
+                <label for="home_phone">Home Phone</label>
+                <input id="home_phone" type="text" class="form-control" placeholder="" value="<%- values.home_phone %>" name="home_phone" required>
+                <div class="invalid-feedback">
+                    Please provide a phone number
+                </div>
             </div>
             <div class="col-md-4  mb-3">
-                <label>Work Phone</label>
-                <input type="text" class="form-control" placeholder="" name="work_phone">
+                <label for="work_phone">Work Phone</label>
+                <input id="work_phone" type="text" class="form-control" placeholder="" name="work_phone">
             </div>
             <div class="col-md-4  mb-3">
-                <label>Fax Phone</label>
-                <input type="text" class="form-control" placeholder="" name="fax_phone">
+                <label for="fax_phone">Fax Phone</label>
+                <input id="fax_phone" type="text" class="form-control" placeholder="" name="fax_phone">
             </div>
         </div>
 
 
         <div class="row">
             <div class="col-md-4  mb-3">
-                <label>Citizenship</label>
-                <select class="form-control" name="citizenship_id" required>
+                <label for="citizenship_id" >Citizenship</label>
+                <select class="form-control" name="citizenship_id" id="citizenship_id" required>
                     <option value="" hidden>Select a value</option>
                     <% for (let item of fields.citizenship) { %>
-                        <option
-                            value="<%- item.id %>"
-                            <%= formValues.citizenship_id == item.id && 'selected' %>
+                    <option value="<%- item.id %>" <%=values.citizenship_id==item.id && 'selected' %>
                         >
-                            <%- item.name %>
-                        </option>
+                        <%- item.name %>
+                    </option>
                     <% } %>
                 </select>
                 <div class="invalid-feedback">
@@ -207,8 +157,8 @@
                 </div>
             </div>
             <div class="col-md-4  mb-3">
-                <label>Undergraduate Degree GPA</label>
-                <input type="number" class="form-control" name="undergraduate_gpa">
+                <label for="undergraduate_gpa">Undergraduate Degree GPA</label>
+                <input type="number" class="form-control" id="undergraduate_gpa" name="undergraduate_gpa">
             </div>
         </div>
     </div>
@@ -216,52 +166,54 @@
 
     <h2 class="h6 mb-1">Select completed education levels</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
-        <div class="row">
+        <fieldset class="row">
             <% for (let item of fields.education_level) { %>
-                <div class="col-xl-1 col-lg-2 col-sm-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="education-level-<%- item.id %>" name="education_level">
-                        <label class="custom-control-label" for="education-level-<%- item.id %>">
-                            <%- item.name %>
-                        </label>
-                    </div>
+            <div class="col-xl-1 col-lg-2 col-sm-3">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="education-level-<%- item.id %>" name="education_level" value="<%- item.id %>" <%- (_.isArray(values.education_level) ? values.education_level : [values.education_level]).map(Number).includes(item.id) && 'checked' %>>
+                    <label class="custom-control-label" for="education-level-<%- item.id %>">
+                        <%- item.name %>
+                    </label>
                 </div>
+            </div>
             <% } %>
-        </div>
+        </fieldset>
     </div>
 
     <h2 class="h6 mb-1">Please answer the following questions</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
         <ol>
             <li class="form-group">
-                <label>Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI</label>
-                <textarea class="form-control" name="research_interests" required><%= formValues.research_interests %></textarea>
+                <label for="research_interests">Please give a brief statement of your research interests and reason for seeking a postdoctoral
+                    fellowship at the NCI</label>
+                <textarea class="form-control" id="research_interests" name="research_interests" required><%= values.research_interests %></textarea>
                 <div class="invalid-feedback">
                     Please provide a valid answer for this question (2000 characters maximum).
                 </div>
             </li>
 
             <li class="form-group">
-                <label>Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed.</label>
-                <textarea class="form-control" name="postdoc_experience" required><%= formValues.postdoc_experience %></textarea>
+                <label for="postdoc_experience">Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed.</label>
+                <textarea class="form-control" id="postdoc_experience" name="postdoc_experience" required><%= values.postdoc_experience %></textarea>
                 <div class="invalid-feedback">
                     Please provide a valid answer for this question (2000 characters maximum).
                 </div>
             </li>
 
             <li class="form-group">
-                <label>Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.)</label>
-                <textarea class="form-control" name="referral_source" required><%= formValues.referral_source %></textarea>
+                <label for="referral_source" >Please tell us how you heard about this opportunity (name of school, title of event or
+                    conference, advertisement/journal, etc.)</label>
+                <textarea class="form-control" id="referral_source" name="referral_source" required><%= values.referral_source %></textarea>
                 <div class="invalid-feedback">
                     Please provide a valid answer for this question (2000 characters maximum).
                 </div>
             </li>
 
             <li class="form-group">
-                <label>Please let us know your date of availability</label>
-                <textarea class="form-control" name="availability_date" required><%= formValues.availability_date %></textarea>
+                <label for="availability_date">Please let us know your date of availability</label>
+                <input type="date" class="form-control" id="availability_date" name="availability_date" pattern="^\d{1,4}-\d{2}-\d{2}$" value="<%= values.availability_date %>" min="<%= (_d = new Date(), [_d.getFullYear(), _d.getMonth() + 1, _d.getDay()].join('-')) %>" required>
                 <div class="invalid-feedback">
-                    Please provide a valid date (YYY-MM-DD).
+                    Please provide a valid date.
                 </div>
             </li>
         </ol>
@@ -272,10 +224,10 @@
         <div class="custom-file">
             <input type="file" class="custom-file-input" id="resume_file" name="resume_file" accept="application/pdf" aria-describedby="resume-help" required data-custom-file-input>
             <label class="custom-file-label" for="resume_file">
-                <%= formValues.resume_filename
-                        ? (formValues.resume_filename.length > 20
-                            ? formValues.resume_filename.substr(20) + '...'
-                            : formValues.resume_filename)
+                <%= values.resume_filename
+                        ? (values.resume_filename.length > 20
+                            ? values.resume_filename.substr(20) + '...'
+                            : values.resume_filename)
                         : 'Choose file' %>
             </label>
             <div class="invalid-feedback">
@@ -283,16 +235,17 @@
             </div>
         </div>
         <small id="resume-help" class="form-text">
-            Note: Attached resumes must be in .pdf format. See <a href="https://www.acrobat.com/createpdf/en/home.html">https://www.acrobat.com/createpdf/en/home.html</a> for a free .pdf conversion tool.
+            Note: Attached resumes must be in .pdf format. See <a href="https://www.acrobat.com/createpdf/en/home.html">https://www.acrobat.com/createpdf/en/home.html</a>
+            for a free .pdf conversion tool.
         </small>
 
     </div>
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">
+            Submit
+        </button>
         <a href="<%- route %>" class="btn btn-outline-secondary">Reset</a>
     </div>
-
-    <pre><%- JSON.stringify(formValues, null, 2) %></pre>
 
 </form>
