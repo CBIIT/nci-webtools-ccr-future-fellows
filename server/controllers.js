@@ -92,7 +92,7 @@ async function addApplicant(ctx) {
 
     // move file to uploads folder
     const filepath = path.join(ctx.uploadsFolder, uuid4() + '.pdf');
-    fs.renameSync(files.resume_file.path, filepath);
+    fs.moveSync(files.resume_file.path, filepath);
 
     // create parameters for stored procedure
     const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
