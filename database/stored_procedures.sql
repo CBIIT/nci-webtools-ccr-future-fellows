@@ -1,10 +1,12 @@
+delimiter //
+
 create procedure execute_sql(IN input text)
 begin
  set @sql = input;
  prepare stmt from @sql;
  execute stmt;
  deallocate prepare stmt;
-end;
+end; //
 
 create procedure insert_delimited_values(
   IN strlist text,
@@ -15,7 +17,7 @@ begin
   call execute_sql(concat(
     'insert into ', table_name, ' select ',
     replace(strlist, delimiter, ' union select ')));
-end;
+end; //
 
 create procedure add_applicant(
   IN job_category_id int,
@@ -123,4 +125,6 @@ begin
 
   commit;
 
-end;
+end; //
+
+delimiter ;
