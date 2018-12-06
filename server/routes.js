@@ -1,9 +1,8 @@
 const Router = require('koa-router');
 const Body = require('koa-body');
 const lodash = require('lodash');
-const {
-    addApplicant
-} = require('./controllers');
+const { addApplicant } = require('./controllers');
+const { UPLOADS_FOLDER } = process.env;
 
 const router = new Router();
 
@@ -16,7 +15,10 @@ router.use((ctx, next) => {
 });
 
 // use multipart/form-data for the following routes
-router.use(['/apply'], Body({multipart: true}))
+router.use(['/apply'], Body({
+    multipart: true,
+    uploadDir: UPLOADS_FOLDER,
+}))
 
 // register routes for each page
 router.get('/', ctx => ctx.render('pages/index'));
