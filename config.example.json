@@ -1,0 +1,19 @@
+{
+    "port": 3000,
+    "production": false,
+    "keys": ["development_key"],
+    "folders": {
+        "uploads": "uploads",
+        "export": "export"
+    },
+    "email": {
+        "host": "mail.host",
+        "admin": "mail.admin"
+    },
+    "database": {
+        "host": "localhost",
+        "user": "user",
+        "password": "password",
+        "name": "future_fellows"
+    }
+}
