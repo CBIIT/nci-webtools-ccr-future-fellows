@@ -2,16 +2,9 @@ const path = require('path');
 const fs = require('fs-extra');
 const { difference, isArray, isArrayLike, isEmpty, isEqual, mapValues } = require('lodash');
 const uuid4 = require('uuid/v4');
+const isFuture = require('date-fns/is_future')
 const connection = require('../components/connection');
-
-module.exports = {
-    getLookupTables,
-    searchApplicants,
-    addApplicant,
-    getApplicant,
-    updateApplicant,
-    getUsers,
-}
+module.exports = { add, get, search, update };
 
 /**
  * Retrieves lookup tables for applicants. These tables are used to
@@ -27,7 +20,7 @@ async function getLookupTables() {
     };
 }
 
-async function searchApplicants({body}) {
+async function search({body}) {
     const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
 
     const parameters = {
@@ -51,12 +44,12 @@ async function searchApplicants({body}) {
 }
 
 
-function getApplicant(query) {
+function get(query) {
 
     return {};
 }
 
-async function validateApplicant({body, files}) {
+async function validate({body, files}) {
     console.log(body);
     const errors = {};
 
@@ -70,27 +63,28 @@ async function validateApplicant({body, files}) {
     const required = e => !['', [], {}, undefined, null].some(v => isEqual(v, e));
 
     // validators below are nullable (eg: return true if a value is not provided)
-    const pattern = p => e => !required(e) || p.test(e);
-    const range = (min, max) => e => !required(e) || e >= min && e <= max;
-    const inArray = arr => e => !required(e) || arr.includes(e);
-    const intersectsArray = arr => e => !required(e) || isEmpty(difference(e, arr));
-    const limitLength = len => e => !required(e) || (isArrayLike(e) && e.length <= len);
+    const nullable = f => e => !required(e) || f(e);
+    const pattern = nullable(e => p.test(e));
+    const range = nullable((min, max) => e => e >= min && e <= max);
+    const inArray = nullable(arr => e => arr.includes(e));
+    const intersectsArray = nullable(arr => e => isEmpty(difference(e, arr)));
+    const limitLength = nullable(len => e => isArrayLike(e) && e.length <= len);
 
     const rules = {
         job_category_id: [required, inArray(lookup.job_category)],
         first_name: [required],
         last_name: [required],
-        email: [required, pattern(/a/)],
+        email: [required],
         address_1: [required],
         city: [required],
-        state: [],
+        state_id: [inArray(lookup.state)],
         home_phone: [required],
         citizenship_id: [required, inArray(lookup.citizenship)],
         undergraduate_gpa: [range(0, 4)],
         research_interests: [required],
         postdoc_experience: [required],
         referral_source: [required],
-        availability_date: [required, pattern(/^\d{1,4}-\d{2}-\d{2}$/)],
+        availability_date: [required, isFuture],
         education_level: [intersectsArray(lookup.education_level)],
         scientific_focus: [intersectsArray(lookup.scientific_focus), limitLength(5)],
     };
@@ -109,7 +103,7 @@ async function validateApplicant({body, files}) {
     return errors;
 }
 
-async function addApplicant({config, request}) {
+async function add({config, request}) {
     const validationErrors = await validateApplicant(request);
     const { body, files } = request;
 
@@ -172,11 +166,12 @@ async function addApplicant({config, request}) {
  *
  * @param {koa.Request} request
  */
-function updateApplicant(request) {
+function update(request) {
 
 }
 
 
 function getUsers() {
-    return [];
+    const query = async sql => (await connection.query(sql))[0];
+    return query('select * from user_track');
 }
