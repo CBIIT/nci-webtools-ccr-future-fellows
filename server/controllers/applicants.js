@@ -1,14 +1,16 @@
 const path = require('path');
 const fs = require('fs-extra');
-const { difference, isArray, isArrayLike, isEmpty, isEqual, isNil, intersection, mapValues, map } = require('lodash');
+const { difference, isArray, isArrayLike, isEmpty, isEqual, mapValues } = require('lodash');
 const uuid4 = require('uuid/v4');
-const connection = require('./connection');
+const connection = require('../components/connection');
 
 module.exports = {
     getLookupTables,
-    getApplicants,
+    searchApplicants,
     addApplicant,
+    getApplicant,
     updateApplicant,
+    getUsers,
 }
 
 /**
@@ -25,9 +27,33 @@ async function getLookupTables() {
     };
 }
 
-function getApplicants(query) {
+async function searchApplicants({body}) {
+    const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
+
+    const parameters = {
+        job_category: null,
+        state: null,
+        is_foreign: true,
+        education_level: null,
+        scientific_focus: null
+    }
+
+    const [results] = await connection.execute(`
+        call search_applicants(
+            :job_category,
+            :state,
+            :is_foreign,
+            :education_level,
+            :scientific_focus
+        )`, parameters);
+
+    return results[0];
+}
 
 
+function getApplicant(query) {
+
+    return {};
 }
 
 async function validateApplicant({body, files}) {
@@ -40,7 +66,7 @@ async function validateApplicant({body, files}) {
         v => v.map(e => String(e.id))
     );
 
-    // define validator functions (return true if valid)
+    // define validator functions (which return true if valid)
     const required = e => !['', [], {}, undefined, null].some(v => isEqual(v, e));
 
     // validators below are nullable (eg: return true if a value is not provided)
@@ -83,15 +109,16 @@ async function validateApplicant({body, files}) {
     return errors;
 }
 
-async function addApplicant(ctx) {
-    const validationErrors = await validateApplicant(ctx.request);
-    const { body, files } = ctx.request;
+async function addApplicant({config, request}) {
+    const validationErrors = await validateApplicant(request);
+    const { body, files } = request;
 
     if (!isEmpty(validationErrors))
         return validationErrors;
 
     // move file to uploads folder
-    const filepath = path.join(ctx.uploadsFolder, uuid4() + '.pdf');
+    const filepath = path.join(config.folders.uploads, uuid4() + '.pdf');
+    fs.ensureDirSync(config.folders.uploads);
     fs.moveSync(files.resume_file.path, filepath);
 
     // create parameters for stored procedure
@@ -110,7 +137,7 @@ async function addApplicant(ctx) {
             parameters[key] = null;
     }
 
-    const result = await connection.execute(`
+    await connection.execute(`
         call add_applicant(
             :job_category_id,
             :status,
@@ -147,4 +174,9 @@ async function addApplicant(ctx) {
  */
 function updateApplicant(request) {
 
+}
+
+
+function getUsers() {
+    return [];
 }
