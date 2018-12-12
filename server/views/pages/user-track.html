@@ -1,2 +1,27 @@
 <h1 class="h3">User Track</h1>
 <hr>
+
+<p>Below are the find fellows users who have logged onto the application and the number of times they've accessed the application.</p>
+
+
+
+<table class="table table-striped">
+        <thead>
+            <tr>
+                <td>NIH User Name</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Logons</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let row of users) { %>
+                <tr>
+                    <td><a href="/user/<%- row.username %>"><%- row.username %></a></td>
+                    <td><%- row.first_name %></td>
+                    <td><%- row.last_name %></td>
+                    <td><%- row.logons %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
