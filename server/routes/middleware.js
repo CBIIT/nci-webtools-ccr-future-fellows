@@ -11,5 +11,7 @@ router.use((ctx, next) => {
     return next();
 });
 
+// add heartbeat api
+router.get('/ping', ctx => ctx.body = 'true');
 
 module.exports = router.routes();

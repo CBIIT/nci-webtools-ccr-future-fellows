@@ -49,6 +49,11 @@ router.post('/applicants', async ctx => ctx.render('pages/applicants', {
     applicants: await searchApplicants(ctx)
 }));
 
+router.get('/applicants/add', async ctx => ctx.render('pages/add-applicant', {
+    fields: ctx.lookupTables, // use lookup tables for form fields
+    values: {job_category_id: '1'}, // default form values
+    errors: null, // form validation errors (null)
+}));
 
 router.get('/user-track', async ctx => ctx.render('pages/user-track', {
     users: await getUsers()
