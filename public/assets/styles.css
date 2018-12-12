@@ -35,7 +35,7 @@ textarea {
 }
 
 .bg-primary {
-    background-color: #225c86 !important;
+    background-color: #2a71a5 !important;
 }
 
 .bg-primary-dark {
@@ -70,6 +70,10 @@ textarea {
 
 .vh-100 {
     height: 100vh;
+}
+
+.w-100p {
+    width: 100px;
 }
 
 .navbar-dark {
@@ -119,4 +123,16 @@ textarea {
 .custom-control-input.is-valid~.custom-control-label,
 .was-validated .custom-control-input:valid~.custom-control-label {
     color: #444;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(0,0,0,.03);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: transparent;
+}
+
+.table td, .table th {
+    border-top: 1px solid #eee;
 }
