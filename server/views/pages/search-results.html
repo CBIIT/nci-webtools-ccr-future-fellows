@@ -1,0 +1,61 @@
+<h1 class="h3">Search Results</h1>
+<hr>
+
+<p>
+    Qualified Candidates (<%- applicants.length %>) <br>
+    To Select, Click on Candidate Name
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Resume Date</td>
+            <td>State</td>
+            <td>Job Category/Scientific Focus Area(s)</td>
+            <td>Citizenship</td>
+            <td>Degree(s)</td>
+            <td>GPA</td>
+        </tr>
+    </thead>
+    <tbody>
+        <% for (let row of applicants) { %>
+            <tr>
+                <td><a href="#<%- row.applicant_id %>"><%- row.name %></a> </td>
+                <td><%- row.created_date.toLocaleString() %></td>
+                <td><%- row.state || 'N/P' %></td>
+                <td><%- row.job_category %>
+                    <% if (row.scientific_focus) { %>
+                        <ul>
+                            <% for (let item of row.scientific_focus.split(',')) { %>
+                                <li><%- item %></li>
+                            <% } %>
+                        </ul>
+                        <% } else { %>
+                        N/P
+                        <% } %>
+                </td>
+                <td><%- row.citizenship || 'N/P'  %></td>
+                <td>
+                    <% if (row.education_level) { %>
+                    <ul>
+                        <% for (let item of row.education_level.split(',')) { %>
+                            <li><%- item %></li>
+                        <% } %>
+                    </ul>
+                    <% } else { %>
+                    N/P
+                    <% } %>
+                </td>
+                <td><%- row.undergraduate_gpa || 'N/P'  %></td>
+            </tr>
+        <% } %>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7">
+                N/P = not provided
+            </td>
+        </tr>
+    </tfoot>
+</table>
