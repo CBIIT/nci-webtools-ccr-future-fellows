@@ -39,7 +39,7 @@ create table applicant
     address_1 varchar(200) not null,
     address_2 varchar(200),
     city varchar(200) not null,
-    state nchar(2),
+    state_id nchar(2),
     zip varchar(20),
     home_phone varchar(20) not null,
     work_phone varchar(20),
@@ -51,7 +51,7 @@ create table applicant
     referral_source varchar(2000) not null,
     availability_date date not null,
     resume_filepath varchar(2000) not null,
-    status enum('PENDING', 'APPROVED'),
+    status enum('PENDING', 'APPROVED', 'REMOVED'),
     is_foreign boolean,
     created_date datetime default NOW(),
     updated_date datetime default NOW(),
@@ -63,22 +63,22 @@ create table applicant
 
 create table education_level
 (
-    education_level_id integer primary key auto_increment,
     applicant_id integer not null,
     lu_education_level_id integer not null,
     created_date datetime default NOW(),
     updated_date datetime default NOW(),
+    primary key (applicant_id, lu_education_level_id),
     foreign key (applicant_id) references applicant(applicant_id),
     foreign key (lu_education_level_id) references lu_education_level(lu_education_level_id)
 );
 
 create table scientific_focus
 (
-    scientific_focus_id integer primary key auto_increment,
     applicant_id integer not null,
     lu_scientific_focus_id integer not null,
     created_date datetime default NOW(),
     updated_date datetime default NOW(),
+    primary key (applicant_id, lu_scientific_focus_id),
     foreign key (applicant_id) references applicant(applicant_id),
     foreign key (lu_scientific_focus_id) references lu_scientific_focus(lu_scientific_focus_id)
 );
@@ -89,7 +89,7 @@ create table user_track
     username varchar(200) not null,
     first_name varchar(200),
     last_name varchar(200),
-    login_date datetime not null,
+    action enum ('Logged In', 'Viewed Details', 'Viewed Resume', 'Zip File', 'Emailed Files', 'Applicant Removed', 'Applicant Approved', 'Applicant Search'),
     created_date datetime default NOW(),
-    updated_date datetime default NOW()
+    updated_date datetime default NOW(),
 );
