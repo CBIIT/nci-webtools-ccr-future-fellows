@@ -3,3 +3,4 @@ uploads
 config.json
 test/*.xml
 .vscode
+.env
