@@ -1,36 +1,29 @@
-// require environmental variables
-require('dotenv').config();
 const path = require('path');
-const fs = require('fs-extra');
-
-const Koa = require('koa');
+const koa = require('koa');
 const ejs = require('koa-ejs');
 const static = require('koa-static');
+const session = require('koa-session');
 const routes = require('./routes');
-const { getLookupTables } = require('./controllers');
-const { PORT, PRODUCTION, UPLOADS_FOLDER } = process.env;
+const config = require('../config.json');
+const { getLookupTables } = require('./controllers/applicants');
 
-// async/await wrapper
 (async function() {
-    const app = new Koa();
+    const app = new koa();
 
-    // ensure uploads folder exists
-    let uploadsFolder = UPLOADS_FOLDER || 'uploads'
-    await fs.ensureDir(uploadsFolder)
+    app.keys = config.keys;
+    app.context.config = config;
+    app.context.lookupTables = await getLookupTables();
+
+    app.use(static('public'));
+    app.use(session(app));
+    app.use(routes);
 
     // use ejs templates (default layout: views/layout.html)
     ejs(app, {
         root: path.join(__dirname, 'views'),
-        // debug: !PRODUCTION, // turn off debug mode in production
-        cache: PRODUCTION,  // turn on cache in production
+        debug: !config.production, // turn on debug mode during development
+        cache: config.production,  // turn on cache in production
     });
 
-    // assign variables to context (available globally)
-    app.context.lookupTables = await getLookupTables();
-    app.context.uploadsFolder = uploadsFolder;
-
-    // use middleware
-    app.use(static('public'));
-    app.use(routes);
-    app.listen(PORT || 3000);
+    app.listen(config.port || 3000);
 })();
