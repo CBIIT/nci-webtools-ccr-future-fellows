@@ -56,6 +56,9 @@ textarea {
     border-color: #20557c;
 }
 
+.custom-control-label {
+    cursor: pointer;
+}
 
 .flex-none-auto {
     flex: 0 0 auto;
