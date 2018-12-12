@@ -29,7 +29,7 @@ $(document).on('turbolinks:load', function () {
         // avoid using jquery ajax b/c we need to set processData to false, etc
         var request = new XMLHttpRequest();
         request.addEventListener('load', function () {
-            var referrer = window.location.href;
+            var referrer = form.action || window.location.href;
             var snapshot = Turbolinks.Snapshot.wrap(this.responseText);
             Turbolinks.controller.cache.put(referrer, snapshot)
             Turbolinks.visit(referrer, { action: 'restore' });
