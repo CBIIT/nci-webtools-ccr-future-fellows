@@ -1,40 +1,57 @@
 delimiter //
 
+-- executes a string as a prepared statement
+-- eg: call execute_sql('select * from applicant')
+drop procedure if exists execute_sql;
 create procedure execute_sql(IN input text)
 begin
- set @sql = input;
- prepare stmt from @sql;
- execute stmt;
- deallocate prepare stmt;
+  set @sql = input;
+  prepare stmt from @sql;
+  execute stmt;
+  deallocate prepare stmt;
 end; //
 
+-- inserts delimited values into a table
+-- eg: call insert_delimited_values('1,2,3', ',', 'temporary_table')
+drop procedure if exists insert_delimited_values;
 create procedure insert_delimited_values(
   IN strlist text,
   IN delimiter text,
   IN table_name text
 )
-  begin
+begin
   call execute_sql(concat(
-    'insert into ', table_name, ' select ',
-    '''', replace(strlist, delimiter, ''' union select '''), ''''));
+    'insert into ', table_name, ' select "',
+    replace(strlist, delimiter, '" union select "'),
+    '"'));
 end; //
 
+drop procedure create_int_table;
+create procedure int_table(IN table_name text, IN list text)
+begin
+  call execute_sql(concat('drop temporary table if exists ', table_name));
+  call execute_sql(concat('create temporary table ', table_name, ' (item int)'));
+  call insert_delimited_values(list, ',', table_name);
+end;
+
+-- adds an applicant
+drop procedure if exists add_applicant;
 create procedure add_applicant(
   IN job_category_id int,
-  IN status enum ('PENDING', 'APPROVED', 'ON_HOLD'),
+  IN status enum ('PENDING', 'APPROVED'),
   IN first_name varchar(200),
-  IN middle_initial char,
+  IN middle_initial varchar(200),
   IN last_name varchar(200),
   IN email varchar(200),
   IN address_1 varchar(200),
   IN address_2 varchar(200),
   IN city varchar(200),
-  IN state char(2),
+  IN state_id int,
   IN zip varchar(20),
   IN home_phone varchar(20),
   IN work_phone varchar(20),
   IN fax_phone varchar(20),
-  IN is_foreign tinyint(1),
+  IN is_foreign boolean,
   IN citizenship_id int,
   IN undergraduate_gpa decimal(2, 1),
   IN research_interests varchar(2000),
@@ -64,7 +81,7 @@ begin
     address_1,
     address_2,
     city,
-    state,
+    state_id,
     zip,
     home_phone,
     work_phone,
@@ -87,7 +104,7 @@ begin
     address_1,
     address_2,
     city,
-    state,
+    state_id,
     zip,
     home_phone,
     work_phone,
@@ -106,19 +123,92 @@ begin
   set @applicant_id = (select last_insert_id());
 
   -- save scientific focus
-  if (scientific_focus is not null) then
-    drop temporary table if exists scientific_focus_list;
-    create temporary table scientific_focus_list(item int);
-    call insert_delimited_values(scientific_focus, ',', 'scientific_focus_list');
+  if (nullif(scientific_focus, '') is not null) then
+    call create_int_table('scientific_focus_list', scientific_focus);
     insert into scientific_focus(applicant_id, lu_scientific_focus_id) select @applicant_id, item from scientific_focus_list;
     drop temporary table scientific_focus_list;
   end if;
 
   -- save education levels
-  if (education_level is not null) then
+  if (nullif(education_level, '') is not null) then
+    call create_int_table('education_level_list', education_level);
+    insert into education_level(applicant_id, lu_education_level_id) select @applicant_id, item from education_level_list;
+    drop temporary table education_level_list;
+  end if;
+
+  commit;
+
+end; //
+
+
+create procedure update_applicant(
+  IN applicant_id int,
+  IN job_category_id int,
+  IN status enum ('PENDING', 'APPROVED', 'ON_HOLD'),
+  IN first_name varchar(200),
+  IN middle_initial char,
+  IN last_name varchar(200),
+  IN email varchar(200),
+  IN address_1 varchar(200),
+  IN address_2 varchar(200),
+  IN city varchar(200),
+  IN state char(2),
+  IN zip varchar(20),
+  IN home_phone varchar(20),
+  IN work_phone varchar(20),
+  IN fax_phone varchar(20),
+  IN is_foreign tinyint(1),
+  IN citizenship_id int,
+  IN undergraduate_gpa decimal(2, 1),
+  IN education_level varchar(2000),
+  IN scientific_focus varchar(2000)
+)
+begin
+
+  declare exit handler for sqlexception, sqlwarning
+  begin
+    rollback;
+  end;
+
+  start transaction;
+
+  update applicant a set
+    a.job_category_id = job_category_id,
+    a.status = status,
+    a.first_name = first_name,
+    a.middle_initial = middle_initial,
+    a.last_name = last_name,
+    a.email = email,
+    a.address_1 = address_1,
+    a.address_2 = address_2,
+    a.city = city,
+    a.state = state,
+    a.zip = zip,
+    a.home_phone = home_phone,
+    a.work_phone = work_phone,
+    a.fax_phone = fax_phone,
+    a.is_foreign = is_foreign,
+    a.citizenship_id = citizenship_id,
+    a.undergraduate_gpa = undergraduate_gpa
+  where a.applicant_id = applicant_id
+
+  -- save scientific focus
+  if nullif(scientific_focus, '') is not null then
+    drop temporary table if exists scientific_focus_list;
+    create temporary table scientific_focus_list(item int);
+
+    call insert_delimited_values(scientific_focus, ',', 'scientific_focus_list');
+    delete from scientific_focus s where s.applicant_id in applicant_id;
+    insert into scientific_focus(applicant_id, lu_scientific_focus_id) select @applicant_id, item from scientific_focus_list;
+    drop temporary table scientific_focus_list;
+  end if;
+
+  -- save education levels
+  if nullif(education_level, '') is not null then
     drop temporary table if exists education_level_list;
     create temporary table education_level_list(item int);
     call insert_delimited_values(education_level, ',', 'education_level_list');
+    delete from education_level e where e.applicant_id = applicant_id;
     insert into education_level(applicant_id, lu_education_level_id) select @applicant_id, item from education_level_list;
     drop temporary table education_level_list;
   end if;
