@@ -1,14 +1,15 @@
 {
-    "port": 3000,
+    "port": 4000,
     "production": false,
-    "keys": ["development_key"],
+    "keys": ["temporary_key"],
     "folders": {
+        "logs": "logs",
         "uploads": "uploads",
         "export": "export"
     },
     "email": {
-        "host": "mail.host",
-        "admin": "mail.admin"
+        "host": "host",
+        "admin": "admin@host"
     },
     "database": {
         "host": "localhost",
