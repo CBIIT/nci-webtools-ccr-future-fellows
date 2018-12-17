@@ -1,4 +1,5 @@
 const connection = require('../components/connection');
+module.exports = { get };
 
 /**
  * Retrieves lookup tables for applicants.
