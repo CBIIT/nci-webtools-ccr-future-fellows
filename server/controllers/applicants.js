@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
-const { mapValues } = require('lodash');
+const { mapValues, isEmpty } = require('lodash');
 const uuid4 = require('uuid/v4');
 const isFuture = require('date-fns/is_future')
 const connection = require('../components/connection');
@@ -14,6 +14,7 @@ module.exports = { add, get, search, update };
 async function add(ctx) {
     const validationErrors = await validateAdd(ctx);
     const { body, files } = ctx.request;
+    const { config } = ctx;
 
     if (!isEmpty(validationErrors))
         return validationErrors;
@@ -51,7 +52,7 @@ async function add(ctx) {
             :address_1,
             :address_2,
             :city,
-            :state,
+            :state_id,
             :zip,
             :is_foreign,
             :home_phone,
