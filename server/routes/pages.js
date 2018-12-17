@@ -1,6 +1,8 @@
 const Router = require('koa-router');
 const body = require('koa-body')({multipart: true});
-const { addApplicant, searchApplicants, getUsers } = require('../controllers/applicants');
+const applicants = require('../controllers/applicants');
+const lookupTables = require('../controllers/lookup_tables');
+const users = require('../controllers/users');
 const router = new Router();
 
 // register page routes
@@ -30,7 +32,7 @@ router.get('/apply', ctx => ctx.render('pages/apply', {
 router.post('/apply', body, async ctx => ctx.render('pages/apply', {
     fields: ctx.lookupTables, // use lookup tables for form fields
     values: ctx.request.body, // use previously submitted values for form
-    errors: await addApplicant(ctx), // contains validation errors, if they exist
+    errors: await applicants.add(ctx), // contains validation errors, if they exist
 }));
 
 router.get('/search', ctx => ctx.render('pages/search', {
@@ -38,15 +40,15 @@ router.get('/search', ctx => ctx.render('pages/search', {
 }));
 
 router.post('/search', body, async ctx => ctx.render('pages/search-results', {
-    applicants: await searchApplicants(ctx.request)
+    applicants: await applicants.search(ctx.request)
 }));
 
 router.get('/applicants', async ctx => ctx.render('pages/applicants', {
-    applicants: await searchApplicants(ctx)
+    applicants: await applicants.search(ctx)
 }));
 
 router.post('/applicants', async ctx => ctx.render('pages/applicants', {
-    applicants: await searchApplicants(ctx)
+    applicants: await applicants.search(ctx)
 }));
 
 router.get('/applicants/add', async ctx => ctx.render('pages/add-applicant', {
@@ -56,7 +58,7 @@ router.get('/applicants/add', async ctx => ctx.render('pages/add-applicant', {
 }));
 
 router.get('/user-track', async ctx => ctx.render('pages/user-track', {
-    users: await getUsers()
+    users: await users.get()
 }));
 
 module.exports = router.routes();
