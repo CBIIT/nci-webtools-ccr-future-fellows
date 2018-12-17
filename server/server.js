@@ -5,14 +5,14 @@ const static = require('koa-static');
 const session = require('koa-session');
 const routes = require('./routes');
 const config = require('../config.json');
-const { getLookupTables } = require('./controllers/applicants');
+const lookupTables = require('./controllers/lookup_tables');
 
 (async function() {
     const app = new koa();
 
     app.keys = config.keys;
     app.context.config = config;
-    app.context.lookupTables = await getLookupTables();
+    app.context.lookupTables = await lookupTables.get();
 
     app.use(static('public'));
     app.use(session(app));
