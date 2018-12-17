@@ -1,18 +1,18 @@
 const path = require('path');
 const fs = require('fs-extra');
-const { difference, isArray, isArrayLike, isEmpty, isEqual, mapValues } = require('lodash');
+const { mapValues } = require('lodash');
 const uuid4 = require('uuid/v4');
 const isFuture = require('date-fns/is_future')
 const connection = require('../components/connection');
+const { validate, required, array, limit, range, within } = require('../components/validators');
 module.exports = { add, get, search, update };
-
 
 /**
  * Adds an applicant
  * @param {Koa Context} context
  */
 async function add(ctx) {
-    const validationErrors = await validateApplicant(ctx);
+    const validationErrors = await validateAdd(ctx);
     const { body, files } = ctx.request;
 
     if (!isEmpty(validationErrors))
@@ -76,17 +76,17 @@ async function search({body}) {
     const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
 
     const parameters = {
-        job_category: null,
-        state: null,
-        is_foreign: true,
-        education_level: null,
-        scientific_focus: null
+        job_category: join(Number, body.job_category),
+        state_id: join(Number, body.state_id),
+        is_foreign: body.is_foreign,
+        education_level: join(Number, body.education_level),
+        scientific_focus: join(Number, body.scientific_focus)
     }
 
     const [results] = await connection.execute(`
         call search_applicants(
             :job_category,
-            :state,
+            :state_id,
             :is_foreign,
             :education_level,
             :scientific_focus
@@ -96,32 +96,77 @@ async function search({body}) {
 }
 
 
-function get(query) {
-
-    return {};
+async function get(id) {
+   const [results] = await connection.execute(
+       `call get_applicant(:applicant_id)`,
+       {applicant_id: id}
+    );
+    return results[0];
 }
 
-async function validate(ctx) {
+
+/**
+ *
+ * @param {koa.Request} request
+ */
+async function update(request) {
+    const validationErrors = await validateUpdate(ctx);
+    const { body } = ctx.request;
+
+    if (!isEmpty(validationErrors))
+        return validationErrors;
+
+    // create parameters for stored procedure
+    const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
+    const parameters = {
+        ...body,
+        education_level: join(Number, body.education_level || []),
+        scientific_focus: join(Number, body.scientific_focus || []),
+    };
+
+    // set empty parameters to null
+    for (let key in parameters) {
+        if (parameters[key].length === 0)
+            parameters[key] = null;
+    }
+
+    await connection.execute(`
+        call update_applicant(
+            :applicant_id,
+            :job_category_id,
+            :status,
+            :first_name,
+            :middle_initial,
+            :last_name,
+            :email,
+            :address_1,
+            :address_2,
+            :city,
+            :state_id,
+            :zip,
+            :is_foreign,
+            :home_phone,
+            :work_phone,
+            :fax_phone,
+            :citizenship_id,
+            :undergraduate_gpa,
+            :education_level,
+            :scientific_focus
+        )`, parameters);
+
+}
+
+
+async function validateAdd(ctx) {
     const { body, files } = ctx.request;
     const { lookupTables } = ctx;
-    const errors = {};
 
     // use ids for lookup values
     const lookup = mapValues(lookupTables, v =>
         v.map(e => String(e.id))
     );
 
-    // define validator functions (which return true if valid)
-    const required = e => !['', [], {}, undefined, null].some(v => isEqual(v, e));
-
-    // validators below are nullable (eg: return true if a value is not provided)
-    const nullable = f => e => !required(e) || f(e);
-    const array = nullable(e => isArray(e));
-    const limit = nullable(len => e => isArrayLike(e) && e.length <= len);
-    const range = nullable((min, max) => e => e >= min && e <= max);
-    const within = nullable(arr => e => arr.includes(e) || isEmpty(difference(e, arr)));
-
-    const rules = {
+    return validate({...body, ...files}, {
         job_category_id: [required, within(lookup.job_category)],
         first_name: [required],
         last_name: [required],
@@ -139,33 +184,33 @@ async function validate(ctx) {
         availability_date: [required, isFuture],
         education_level: [array, within(lookup.education_level)],
         scientific_focus: [array, within(lookup.scientific_focus), limit(5)],
-    };
-
-    for (let key in rules) {
-        // iterate over validators for each key
-        for (let validator of rules[key]) {
-            const isValid = validator(body[key]);
-            if (!isValid) errors[key] = true;
-        }
-    }
-
-    if (!files.resume_file)
-        errors.resume_file = true;
-
-    return errors;
+        resume_file: [required],
+    });
 }
 
+async function validateUpdate(ctx) {
+    const { body } = ctx.request;
+    const { lookupTables } = ctx;
 
-/**
- *
- * @param {koa.Request} request
- */
-function update(request) {
+    // use ids for lookup values
+    const lookup = mapValues(lookupTables, v =>
+        v.map(e => String(e.id))
+    );
 
+    return validate(body, {
+        job_category_id: [required, within(lookup.job_category)],
+        first_name: [required],
+        last_name: [required],
+        email: [required],
+        address_1: [required],
+        city: [required],
+        state_id: [within(lookup.state)],
+        ip_address: [required],
+        home_phone: [required],
+        citizenship_id: [required, within(lookup.citizenship)],
+        undergraduate_gpa: [range(0, 4)],
+        education_level: [array, within(lookup.education_level)],
+        scientific_focus: [array, within(lookup.scientific_focus), limit(5)],
+    });
 }
 
-
-function getUsers() {
-    const query = async sql => (await connection.query(sql))[0];
-    return query('select * from user_track');
-}
