@@ -53,7 +53,7 @@
                 <label for="first_name">First Name</label>
                 <input id="first_name" name="first_name" class="form-control" placeholder="Jane" value="<%- values.first_name %>" required>
                 <div class="invalid-feedback">
-                    Please provide your first name
+                    Please provide your first name.
                 </div>
             </div>
             <div class="col-md-4  mb-3">
@@ -64,7 +64,7 @@
                 <label for="last_name">Last Name</label>
                 <input id="last_name" class="form-control" placeholder="Doe" value="<%- values.last_name %>" name="last_name" required>
                 <div class="invalid-feedback">
-                    Please provide your last name
+                    Please provide your last name.
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                 <label for="email">Email Address</label>
                 <input id="email" type="email" class="form-control" placeholder="jane.doe@example.com" name="email" value="<%- values.email %>" required>
                 <div class="invalid-feedback">
-                    Please provide a valid email address
+                    Please provide a valid email address.
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
                 <label for="address_1">Address 1</label>
                 <input id="address_1" class="form-control" placeholder="1 First St." name="address_1" value="<%- values.address_1 %>" required>
                 <div class="invalid-feedback">
-                    Please provide an address
+                    Please provide an address.
                 </div>
             </div>
         </div>
@@ -101,15 +101,15 @@
                 <label for="city">City</label>
                 <input id="city" class="form-control" placeholder="Washington" name="city" value="<%- values.city %>" required>
                 <div class="invalid-feedback">
-                    Please provide a city
+                    Please provide a city.
                 </div>
             </div>
             <div class="col-md-4  mb-3">
-                <label for="state">State</label>
-                <select class="form-control" name="state" id="state">
+                <label for="state_id">State</label>
+                <select class="form-control" name="state_id" id="state_id">
                     <option value="">None</option>
                     <% for (let state of fields.state) { %>
-                    <option value="<%- state.name %>" <%=values.state==state.id && 'selected' %>>
+                    <option value="<%- state.id %>" <%=values.state==state.id && 'selected' %>>
                         <%- state.name %>
                     </option>
                     <% } %>
@@ -126,7 +126,7 @@
                 <label for="home_phone">Home Phone</label>
                 <input id="home_phone" type="text" class="form-control" placeholder="" value="<%- values.home_phone %>" name="home_phone" required>
                 <div class="invalid-feedback">
-                    Please provide a phone number
+                    Please provide a phone number.
                 </div>
             </div>
             <div class="col-md-4  mb-3">
@@ -153,12 +153,15 @@
                     <% } %>
                 </select>
                 <div class="invalid-feedback">
-                    Please select your citizenship type
+                    Please select your citizenship type.
                 </div>
             </div>
             <div class="col-md-4  mb-3">
                 <label for="undergraduate_gpa">Undergraduate Degree GPA</label>
-                <input type="number" class="form-control" id="undergraduate_gpa" name="undergraduate_gpa">
+                <input type="number" class="form-control" id="undergraduate_gpa" name="undergraduate_gpa" value="<%- values.undergraduate_gpa %>" min="0" max="4">
+                <div class="invalid-feedback">
+                    Please provide a numeric value between 0 and 4.
+                </div>
             </div>
         </div>
     </div>
@@ -231,7 +234,7 @@
                         : 'Choose file' %>
             </label>
             <div class="invalid-feedback">
-                Please provide a valid resume pdf.
+                Please provide a valid .pdf file.
             </div>
         </div>
         <small id="resume-help" class="form-text">
@@ -249,3 +252,6 @@
     </div>
 
 </form>
+
+<pre><%- JSON.stringify(values, null, 2) %></pre>
+<pre><%- JSON.stringify(errors, null, 2) %></pre>
