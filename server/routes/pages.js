@@ -1,64 +1,35 @@
 const Router = require('koa-router');
-const body = require('koa-body')({multipart: true});
-const applicants = require('../controllers/applicants');
-const lookupTables = require('../controllers/lookup_tables');
-const users = require('../controllers/users');
+const config = require('../../config.json');
 const router = new Router();
 
-// register page routes
+/** Index Page */
 router.get('/', ctx => {
     if (ctx.session.authenticated)
         return ctx.redirect('/search');
     else
-        return ctx.render('pages/index')
+        return ctx.render('index');
 });
 
+/** Login Route (redirects to search) */
 router.get('/auth', ctx => {
-    ctx.session.authenticated = true;
-    ctx.redirect('/search');
+    let { session } = ctx;
+    if (!config.production) {
+        session.authenticated = true;
+        session.role = 'admin';
+        session.user_id = 'admin';
+        session.first_name = 'test';
+        session.last_name = 'admin';
+        ctx.redirect('/search');
+    }
 });
 
+/** Logout Route (redirects to index) */
 router.get('/logout', ctx => {
     ctx.session.authenticated = false;
     ctx.redirect('/');
 });
 
-router.get('/apply', ctx => ctx.render('pages/apply', {
-    fields: ctx.lookupTables, // use lookup tables for form fields
-    values: {job_category_id: '1'}, // default form values
-    errors: null, // form validation errors (null)
-}));
-
-router.post('/apply', body, async ctx => ctx.render('pages/apply', {
-    fields: ctx.lookupTables, // use lookup tables for form fields
-    values: ctx.request.body, // use previously submitted values for form
-    errors: await applicants.add(ctx), // contains validation errors, if they exist
-}));
-
-router.get('/search', ctx => ctx.render('pages/search', {
-    fields: ctx.lookupTables, // use lookup tables for form fields
-}));
-
-router.post('/search', body, async ctx => ctx.render('pages/search-results', {
-    applicants: await applicants.search(ctx.request)
-}));
-
-router.get('/applicants', async ctx => ctx.render('pages/applicants', {
-    applicants: await applicants.search(ctx)
-}));
-
-router.post('/applicants', async ctx => ctx.render('pages/applicants', {
-    applicants: await applicants.search(ctx)
-}));
-
-router.get('/applicants/add', async ctx => ctx.render('pages/add-applicant', {
-    fields: ctx.lookupTables, // use lookup tables for form fields
-    values: {job_category_id: '1'}, // default form values
-    errors: null, // form validation errors (null)
-}));
-
-router.get('/user-track', async ctx => ctx.render('pages/user-track', {
-    users: await users.get()
-}));
+/** Heartbeat api */
+router.get('/ping', ctx => ctx.body = 'true');
 
 module.exports = router.routes();
