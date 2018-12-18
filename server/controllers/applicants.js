@@ -7,42 +7,26 @@ const connection = require('../components/connection');
 const { validate, required, array, limit, range, within } = require('../components/validators');
 module.exports = { add, get, search, update };
 
+
 /**
  * Adds an applicant
  * @param {Koa Context} context
  */
 async function add(ctx) {
     const validationErrors = await validateAdd(ctx);
-    const { body, files } = ctx.request;
-    const { config } = ctx;
-
     if (!isEmpty(validationErrors))
         return validationErrors;
 
+    const { body, files } = ctx.request;
+    const { folders } = ctx.config;
+    const filepath = path.join(folders.uploads, uuid4() + '.pdf');
+
     // move resume to uploads folder
-    const filepath = path.join(config.folders.uploads, uuid4() + '.pdf');
-    fs.ensureDirSync(config.folders.uploads);
+    fs.ensureDirSync(folders.uploads);
     fs.moveSync(files.resume_file.path, filepath);
 
-    // create parameters for stored procedure
-    const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
-    const parameters = {
-        ...body,
-        status: ctx.session.authenticated ? body.status : 'PENDING',
-        education_level: join(Number, body.education_level || []),
-        scientific_focus: join(Number, body.scientific_focus || []),
-        resume_filepath: filepath,
-        ip_address: ctx.ip
-    };
-
-    // set empty parameters to null
-    for (let key in parameters) {
-        if (parameters[key].length === 0)
-            parameters[key] = null;
-    }
-
-    await connection.execute(`
-        call add_applicant(
+    await connection.execute(
+        `call add_applicant(
             :job_category_id,
             :status,
             :first_name,
@@ -68,71 +52,76 @@ async function add(ctx) {
             :resume_filepath,
             :ip_address,
             :education_level,
-            :scientific_focus
-        )`, parameters);
+            :scientific_focus)`,
+        mapEmptyToNull({
+            ...body,
+            status: ctx.session.authenticated ? body.status : 'PENDING',
+            education_level: filterJoin(Number, body.education_level || []),
+            scientific_focus: filterJoin(Number, body.scientific_focus || []),
+            resume_filepath: filepath,
+            ip_address: ctx.ip
+        })
+    );
+
+    return null;
 }
 
 
-async function search({body}) {
-    const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
+/**
+ * Retrieves an applicant given their id
+ * @param {Koa.Context} ctx
+ * @return {object} Applicant information
+ */
+async function get(ctx) {
+    const [results] = await connection.execute(
+        `call get_applicant(:applicant_id)`,
+        {applicant_id: ctx.body.id}
+     );
+     return results[0];
+ }
 
-    const parameters = {
-        job_category: join(Number, body.job_category),
-        state_id: join(Number, body.state_id),
-        is_foreign: body.is_foreign,
-        education_level: join(Number, body.education_level),
-        scientific_focus: join(Number, body.scientific_focus)
-    }
 
-    const [results] = await connection.execute(`
-        call search_applicants(
+
+/**
+ * Retrieves a list of applicants given search criteria
+ * If no criteria are provided, returns all applicants
+ * @param {Koa.Context} ctx
+ */
+async function search(ctx) {
+    const { body } = ctx;
+    const [results] = await connection.execute(
+        `call search_applicants(
             :job_category,
             :state_id,
             :is_foreign,
             :education_level,
-            :scientific_focus
-        )`, parameters);
-
-    return results[0];
-}
-
-
-async function get(id) {
-   const [results] = await connection.execute(
-       `call get_applicant(:applicant_id)`,
-       {applicant_id: id}
+            :scientific_focus)`,
+        mapEmptyToNull({
+            job_category: filterJoin(Number, body.job_category || []),
+            state_id: filterJoin(Number, body.state_id || []),
+            is_foreign: body.is_foreign,
+            education_level: filterJoin(Number, body.education_level || []),
+            scientific_focus: filterJoin(Number, body.scientific_focus || [])
+        })
     );
+
     return results[0];
 }
 
 
 /**
- *
- * @param {koa.Request} request
+ * Updates an applicant
+ * @param {Koa.Context} ctx
+ * @return {object | null}
  */
-async function update(request) {
+async function update(ctx) {
     const validationErrors = await validateUpdate(ctx);
-    const { body } = ctx.request;
-
     if (!isEmpty(validationErrors))
         return validationErrors;
 
-    // create parameters for stored procedure
-    const join = (c, e) => isArray(e) ? e.filter(c).join() : c(e);
-    const parameters = {
-        ...body,
-        education_level: join(Number, body.education_level || []),
-        scientific_focus: join(Number, body.scientific_focus || []),
-    };
-
-    // set empty parameters to null
-    for (let key in parameters) {
-        if (parameters[key].length === 0)
-            parameters[key] = null;
-    }
-
-    await connection.execute(`
-        call update_applicant(
+    const { body } = ctx.request;
+    await connection.execute(
+        `call update_applicant(
             :applicant_id,
             :job_category_id,
             :status,
@@ -152,12 +141,22 @@ async function update(request) {
             :citizenship_id,
             :undergraduate_gpa,
             :education_level,
-            :scientific_focus
-        )`, parameters);
-
+            :scientific_focus)`,
+        mapEmptyToNull({
+            ...body,
+            education_level: filterJoin(Number, body.education_level || []),
+            scientific_focus: filterJoin(Number, body.scientific_focus || []),
+        })
+    );
+    return null;
 }
 
 
+/**
+ * Validates parameters for adding applicants
+ * @param {Koa.Context} ctx
+ * @return {object} An object containing validation errors for the body
+ */
 async function validateAdd(ctx) {
     const { body, files } = ctx.request;
     const { lookupTables } = ctx;
@@ -189,6 +188,12 @@ async function validateAdd(ctx) {
     });
 }
 
+
+/**
+ * Validates parameters for updating applicants
+ * @param {Koa.Context} ctx
+ * @return {object} An object containing validation errors for the body
+ */
 async function validateUpdate(ctx) {
     const { body } = ctx.request;
     const { lookupTables } = ctx;
@@ -215,3 +220,29 @@ async function validateUpdate(ctx) {
     });
 }
 
+
+/**
+ * Filters an array, and then joins the results
+ * @example filterJoin(Number, [1, 'a', 2, 'b', '3'])
+ * @param {function} filterFn
+ * @param {array} array
+ */
+function filterJoin(filterFn, array) {
+    return isArray(array)
+        ? array.filter(filterFn).join()
+        : filterFn(e)
+}
+
+
+/**
+ * Maps empty object values (eg: empty strings or arrays) to null
+ * @param {object} obj The object to map
+ * @return {object} A reference to the updated object
+ */
+function mapEmptyToNull(obj) {
+    for (let key in obj) {
+        if (obj[key].length === 0)
+            obj[key] = null;
+    }
+    return obj;
+}
