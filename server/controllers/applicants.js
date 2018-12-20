@@ -1,12 +1,11 @@
 const path = require('path');
 const fs = require('fs-extra');
-const { mapValues, isEmpty } = require('lodash');
+const { mapValues, isEmpty, isArray } = require('lodash');
 const uuid4 = require('uuid/v4');
 const isFuture = require('date-fns/is_future')
 const connection = require('../components/connection');
 const { validate, required, array, limit, range, within } = require('../components/validators');
-module.exports = { add, get, search, update };
-
+module.exports = { add, get, search, update, approve, remove };
 
 /**
  * Adds an applicant
@@ -42,25 +41,25 @@ async function add(ctx) {
             :home_phone,
             :work_phone,
             :fax_phone,
-            :is_foreign,
             :citizenship_id,
             :undergraduate_gpa,
             :research_interests,
             :postdoc_experience,
             :referral_source,
             :availability_date,
-            :resume_filepath,
+            :resume_file,
             :ip_address,
             :education_level,
             :scientific_focus)`,
-        mapEmptyToNull({
-            ...body,
-            status: ctx.session.authenticated ? body.status : 'PENDING',
-            education_level: filterJoin(Number, body.education_level || []),
-            scientific_focus: filterJoin(Number, body.scientific_focus || []),
-            resume_filepath: filepath,
-            ip_address: ctx.ip
-        })
+            mapEmptyToNull({
+                ...body,
+                status: ctx.session.authenticated ? body.status : 'pending',
+                is_foreign: false,
+                education_level: filterJoin(Number, body.education_level || []),
+                scientific_focus: filterJoin(Number, body.scientific_focus || []),
+                resume_file: filepath,
+                ip_address: ctx.ip
+            })
     );
 
     return null;
@@ -72,14 +71,44 @@ async function add(ctx) {
  * @param {Koa.Context} ctx
  * @return {object} Applicant information
  */
-async function get(ctx) {
-    const [results] = await connection.execute(
-        `call get_applicant(:applicant_id)`,
-        {applicant_id: ctx.body.id}
-     );
-     return results[0];
- }
+async function get(id) {
+    const [applicant] = (await connection.execute(
+        `call get_applicant(:id)`,
+        {id: id}
+    ))[0][0];
 
+    return {
+        ...applicant,
+        scientific_focus: (applicant.scientific_focus_id || '').split(','),
+        education_level: (applicant.education_level_id || '').split(','),
+    };
+}
+
+
+/**
+ * Approves an applicant (ie: sets their status to "approved")
+ * @param {Koa.Context} ctx
+ */
+async function approve(id) {
+    await connection.execute(
+        `update applicant set status = 'approved' where applicant_id = :id`,
+        {id: id}
+     );
+     return true;
+}
+
+
+/**
+ * Approves an applicant (ie: sets their status to "approved")
+ * @param {Koa.Context} ctx
+ */
+async function remove(id) {
+    await connection.execute(
+        `update applicant set status = 'removed' where applicant_id = :id`,
+        {id: id}
+    );
+    return true;
+}
 
 
 /**
@@ -88,7 +117,8 @@ async function get(ctx) {
  * @param {Koa.Context} ctx
  */
 async function search(ctx) {
-    const { body } = ctx;
+    const body = ctx.body || {};
+    console.log(body);
     const [results] = await connection.execute(
         `call search_applicants(
             :job_category,
@@ -97,14 +127,13 @@ async function search(ctx) {
             :education_level,
             :scientific_focus)`,
         mapEmptyToNull({
-            job_category: filterJoin(Number, body.job_category || []),
+            job_category: filterJoin(Number, body.job_category_id || []),
             state_id: filterJoin(Number, body.state_id || []),
-            is_foreign: body.is_foreign,
+            is_foreign: body.is_foreign === 'true', // all form values are strings
             education_level: filterJoin(Number, body.education_level || []),
             scientific_focus: filterJoin(Number, body.scientific_focus || [])
         })
     );
-
     return results[0];
 }
 
@@ -142,11 +171,13 @@ async function update(ctx) {
             :undergraduate_gpa,
             :education_level,
             :scientific_focus)`,
-        mapEmptyToNull({
-            ...body,
-            education_level: filterJoin(Number, body.education_level || []),
-            scientific_focus: filterJoin(Number, body.scientific_focus || []),
-        })
+            mapEmptyToNull({
+                ...body,
+                applicant_id: ctx.params.id,
+                is_foreign: false,
+                education_level: filterJoin(Number, body.education_level || []),
+                scientific_focus: filterJoin(Number, body.scientific_focus || []),
+            })
     );
     return null;
 }
@@ -182,8 +213,8 @@ async function validateAdd(ctx) {
         postdoc_experience: [required],
         referral_source: [required],
         availability_date: [required, isFuture],
-        education_level: [array, within(lookup.education_level)],
-        scientific_focus: [array, within(lookup.scientific_focus), limit(5)],
+        education_level: [within(lookup.education_level)],
+        scientific_focus: [within(lookup.scientific_focus), limit(5)],
         resume_file: [required],
     });
 }
@@ -211,12 +242,11 @@ async function validateUpdate(ctx) {
         address_1: [required],
         city: [required],
         state_id: [within(lookup.state)],
-        ip_address: [required],
         home_phone: [required],
         citizenship_id: [required, within(lookup.citizenship)],
         undergraduate_gpa: [range(0, 4)],
-        education_level: [array, within(lookup.education_level)],
-        scientific_focus: [array, within(lookup.scientific_focus), limit(5)],
+        education_level: [within(lookup.education_level)],
+        scientific_focus: [within(lookup.scientific_focus), limit(5)],
     });
 }
 
@@ -230,7 +260,7 @@ async function validateUpdate(ctx) {
 function filterJoin(filterFn, array) {
     return isArray(array)
         ? array.filter(filterFn).join()
-        : filterFn(e)
+        : filterFn(array)
 }
 
 
