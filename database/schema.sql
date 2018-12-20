@@ -41,7 +41,7 @@ create table lu_state
 create table applicant
 (
     applicant_id integer primary key auto_increment,
-    status enum('PENDING', 'APPROVED', 'REMOVED'),
+    status enum('pending', 'approved', 'removed'),
     job_category_id integer not null,
     first_name varchar(200) not null,
     middle_initial varchar(200),
@@ -62,7 +62,7 @@ create table applicant
     postdoc_experience varchar(2000) not null,
     referral_source varchar(2000) not null,
     availability_date date not null,
-    resume_filepath varchar(2000) not null,
+    resume_file varchar(2000) not null,
     ip_address varchar(40) not null,
     created_date datetime default now(),
     updated_date datetime default now(),
