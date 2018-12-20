@@ -1,7 +1,7 @@
 const connection = require('../components/connection');
-module.exports = { get };
+module.exports = { list };
 
-async function get() {
+async function list() {
     const query = async sql => (await connection.query(sql))[0];
     return await query('select * from user_track');
 }
