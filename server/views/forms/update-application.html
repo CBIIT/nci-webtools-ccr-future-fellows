@@ -2,11 +2,11 @@
     <% if (method == 'POST') { %>
         <% if (_.isEmpty(errors)) { %>
         <div class="alert alert-success" data-dismissible="true">
-            Your application has been submitted.
+            The application has been updated.
         </div>
         <% } else { %>
         <div class="alert alert-danger" data-dismissible="true">
-            Please correct the errors below and resubmit your application.
+            Please correct the errors below and resubmit the application.
         </div>
         <% } %>
     <% } %>
@@ -15,10 +15,9 @@
 <form method="POST" enctype="multipart/form-data" class="<%- _.isEmpty(errors) ? 'needs-validation' : 'was-validated' %>" data-turbolinks-form novalidate>
 
 
-    <% if (session.authenticated) { %>
     <h2 class="h6 mb-1">Application Status</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
-        <% for (let item of ['pending', 'approved']) { %>
+        <% for (let item of ['pending', 'approved', 'removed']) { %>
         <div class="custom-control custom-radio">
             <input type="radio" class="custom-control-input" id="status-<%- item %>" value="<%- item %>" <%- values.status==item && 'checked' %>
             name="status"
@@ -29,7 +28,7 @@
         </div>
         <% } %>
     </div>
-    <% } %>
+
 
     <h2 class="h6 mb-1">Select a job category</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
@@ -71,7 +70,7 @@
                 <label for="first_name">First Name</label> *
                 <input id="first_name" name="first_name" class="form-control" placeholder="Jane" value="<%- values.first_name %>" required>
                 <div class="invalid-feedback">
-                    Please provide a first name.
+                    Please provide your first name.
                 </div>
             </div>
             <div class="col-md-4  mb-3">
@@ -82,7 +81,7 @@
                 <label for="last_name">Last Name</label> *
                 <input id="last_name" class="form-control" placeholder="Doe" value="<%- values.last_name %>" name="last_name" required>
                 <div class="invalid-feedback">
-                    Please provide a last name.
+                    Please provide your last name.
                 </div>
             </div>
         </div>
@@ -127,7 +126,7 @@
                 <select class="form-control" name="state_id" id="state_id">
                     <option value="">None</option>
                     <% for (let state of fields.state) { %>
-                    <option value="<%- state.id %>" <%= values.state_id==state.id && 'selected' %>>
+                    <option value="<%- state.id %>" <%=values.state_id==state.id && 'selected' %>>
                         <%- state.name %>
                     </option>
                     <% } %>
@@ -149,11 +148,11 @@
             </div>
             <div class="col-md-4  mb-3">
                 <label for="work_phone">Work Phone</label>
-                <input id="work_phone" type="text" class="form-control" placeholder="" name="work_phone">
+                <input id="work_phone" type="text" class="form-control" placeholder="" value="<%- values.work_phone %>"  name="work_phone" >
             </div>
             <div class="col-md-4  mb-3">
                 <label for="fax_phone">Fax Phone</label>
-                <input id="fax_phone" type="text" class="form-control" placeholder="" name="fax_phone">
+                <input id="fax_phone" type="text" class="form-control" placeholder=""  value="<%- values.fax_phone %>" name="fax_phone">
             </div>
         </div>
 
@@ -176,7 +175,7 @@
             </div>
             <div class="col-md-4  mb-3">
                 <label for="undergraduate_gpa">Undergraduate Degree GPA</label>
-                <input type="number" class="form-control" id="undergraduate_gpa" name="undergraduate_gpa" value="<%- values.undergraduate_gpa %>" min="0" max="4" step="0.1">
+                <input type="number" class="form-control" id="undergraduate_gpa" name="undergraduate_gpa" value="<%- values.undergraduate_gpa %>" min="0" max="4" step="0.5">
                 <div class="invalid-feedback">
                     Please provide a numeric value between 0.0 and 4.0.
                 </div>
@@ -201,65 +200,31 @@
         </div>
     </div>
 
-    <h2 class="h6 mb-1">Please answer the following questions</h2>
+
+    <h2 class="h6 mb-1">Questions and Answers</h2>
     <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
         <ol>
             <li class="form-group">
-                <label for="research_interests">Please give a brief statement of your research interests and reason for seeking a postdoctoral
-                    fellowship at the NCI</label> *
-                <textarea class="form-control" id="research_interests" name="research_interests" required><%= values.research_interests %></textarea>
-                <div class="invalid-feedback">
-                    Please provide a valid answer for this question (2000 characters maximum).
-                </div>
+                <label for="research_interests">Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI</label>
+                <textarea class="form-control" id="research_interests" name="research_interests" readonly><%= values.research_interests %></textarea>
             </li>
 
             <li class="form-group">
-                <label for="postdoc_experience">Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed.</label> *
-                <textarea class="form-control" id="postdoc_experience" name="postdoc_experience" required><%= values.postdoc_experience %></textarea>
-                <div class="invalid-feedback">
-                    Please provide a valid answer for this question (2000 characters maximum).
-                </div>
+                <label for="postdoc_experience">Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed.</label>
+                <textarea class="form-control" id="postdoc_experience" name="postdoc_experience" readonly><%= values.postdoc_experience %></textarea>
             </li>
 
             <li class="form-group">
                 <label for="referral_source" >Please tell us how you heard about this opportunity (name of school, title of event or
-                    conference, advertisement/journal, etc.)</label> *
-                <textarea class="form-control" id="referral_source" name="referral_source" required><%= values.referral_source %></textarea>
-                <div class="invalid-feedback">
-                    Please provide a valid answer for this question (2000 characters maximum).
-                </div>
+                    conference, advertisement/journal, etc.)</label>
+                <textarea class="form-control" id="referral_source" name="referral_source" readonly><%= values.referral_source %></textarea>
             </li>
 
             <li class="form-group">
-                <label for="availability_date">Please let us know your date of availability</label> *
-                <input type="date" style="max-width: 400px;" class="form-control" id="availability_date" name="availability_date" placeholder="yyyy-mm-dd" pattern="^\d{1,4}-\d{2}-\d{2}$" value="<%= values.availability_date %>" min="<%= (_d = new Date(), _d.setDate(_d.getDate() + 1), [_d.getFullYear(), _d.getMonth() + 1, _d.getDate()].join('-')) %>" required>
-                <div class="invalid-feedback">
-                    Please provide a valid future date.
-                </div>
+                <label for="availability_date">Please let us know your date of availability</label>
+                <input style="max-width: 400px;" class="form-control" id="availability_date" name="availability_date" value="<%= values.availability_date.constructor === Date ? values.availability_date.toDateString() : values.availability_date  %>" readonly>
             </li>
         </ol>
-    </div>
-
-    <h2 class="h6 mb-1">Choose your .pdf resume to upload *</h2>
-    <div class="form-group bg-light px-2 py-2 rounded shadow-sm">
-        <div class="custom-file" style="max-width: 300px;">
-            <input type="file" class="custom-file-input" id="resume_file" name="resume_file" accept="application/pdf" aria-describedby="resume-help" required data-custom-file-input>
-            <label class="custom-file-label" for="resume_file" data-length="24">
-                <%= values.resume_filename
-                        ? (values.resume_filename.length > 24
-                            ? values.resume_filename.substr(24) + '...'
-                            : values.resume_filename)
-                        : 'Choose file' %>
-            </label>
-            <div class="invalid-feedback">
-                Please provide a valid .pdf file.
-            </div>
-        </div>
-        <small id="resume-help" class="form-text">
-            Note: Attached resumes must be in .pdf format. See <a href="https://www.acrobat.com/createpdf/en/home.html">https://www.acrobat.com/createpdf/en/home.html</a>
-            for a free .pdf conversion tool.
-        </small>
-
     </div>
 
     <div class="form-group text-center">
