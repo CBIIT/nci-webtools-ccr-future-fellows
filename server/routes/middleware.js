@@ -5,6 +5,7 @@ const router = new Router();
 // add template variables/libraries (ctx.state)
 router.use((ctx, next) => {
     ctx.state._ = lodash;
+    ctx.state.router = ctx.router;
     ctx.state.session = ctx.session;
     ctx.state.route = ctx._matchedRoute;
     ctx.state.method = ctx.request.method;

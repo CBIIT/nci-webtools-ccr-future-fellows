@@ -11,7 +11,7 @@ router.get('/', ctx => {
 });
 
 /** Login Route (redirects to search) */
-router.get('/auth', ctx => {
+router.get('/login', ctx => {
     let { session } = ctx;
     if (!config.production) {
         session.authenticated = true;
@@ -20,6 +20,8 @@ router.get('/auth', ctx => {
         session.first_name = 'test';
         session.last_name = 'admin';
         ctx.redirect('/search');
+    } else {
+        ctx.redirect('/');
     }
 });
 
