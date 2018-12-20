@@ -1,0 +1,13 @@
+<h1 class="h3">
+    Update Applicant:
+    <%- [values.last_name, values.first_name].filter(String).join(', ') %>
+</h1>
+<hr>
+
+<%- include ../forms/update-application %>
+
+
+<!--
+<pre><%- JSON.stringify(values, null, 2) %></pre>
+<pre><%- JSON.stringify(errors, null, 2) %></pre>
+-->
