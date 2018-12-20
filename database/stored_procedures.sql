@@ -30,7 +30,7 @@ end; //
 drop procedure if exists add_applicant;
 create procedure add_applicant(
   IN job_category_id int,
-  IN status enum ('PENDING', 'APPROVED'),
+  IN status enum ('pending', 'approved'),
   IN first_name varchar(200),
   IN middle_initial varchar(200),
   IN last_name varchar(200),
@@ -50,7 +50,7 @@ create procedure add_applicant(
   IN postdoc_experience varchar(2000),
   IN referral_source varchar(2000),
   IN availability_date date,
-  IN resume_filepath varchar(2000),
+  IN resume_file varchar(2000),
   IN ip_address varchar(40),
   IN education_level_list varchar(2000),
   IN scientific_focus_list varchar(2000)
@@ -87,7 +87,7 @@ begin
     postdoc_experience,
     referral_source,
     availability_date,
-    resume_filepath,
+    resume_file,
     ip_address
   ) values (
     job_category_id,
@@ -111,7 +111,7 @@ begin
     postdoc_experience,
     referral_source,
     availability_date,
-    resume_filepath,
+    resume_file,
     ip_address
   );
 
@@ -164,12 +164,14 @@ begin
     a.postdoc_experience,
     a.referral_source,
     a.availability_date,
-    a.resume_filepath,
+    a.resume_file,
     a.ip_address,
-    a.created_date,
-    a.updated_date,
+    group_concat(distinct lsf.lu_scientific_focus_id separator ',') as scientific_focus_id,
     group_concat(distinct lsf.name separator ',') as scientific_focus,
-    group_concat(distinct lel.name separator ',') as education_level
+    group_concat(distinct lel.lu_education_level_id separator ',') as education_level_id,
+    group_concat(distinct lel.name separator ',') as education_level,
+    a.created_date,
+    a.updated_date
   from applicant a
     left join lu_state ls on a.state_id = ls.lu_state_id
     left join lu_citizenship lc on a.citizenship_id = lc.lu_citizenship_id
@@ -189,7 +191,7 @@ drop procedure if exists update_applicant;
 create procedure update_applicant(
   IN applicant_id int,
   IN job_category_id int,
-  IN status enum ('PENDING', 'APPROVED', 'ON_HOLD'),
+  IN status enum ('pending', 'approved', 'removed'),
   IN first_name varchar(200),
   IN middle_initial varchar(200),
   IN last_name varchar(200),
@@ -218,6 +220,7 @@ begin
 
   start transaction;
 
+  set @applicant_id = applicant_id;
   set @job_category_id = nullif(job_category_id, '');
   set @status = nullif(status, '');
   set @first_name = nullif(first_name, '');
@@ -255,18 +258,18 @@ begin
     a.citizenship_id = @citizenship_id,
     a.undergraduate_gpa = @undergraduate_gpa,
     a.updated_date = now()
-  where a.applicant_id = applicant_id;
+  where a.applicant_id = @applicant_id;
 
   -- save scientific focus areas
   call create_int_table('scientific_focus_list', scientific_focus_list);
-  delete s from scientific_focus s where s.applicant_id = applicant_id;
+  delete s from scientific_focus s where s.applicant_id = @applicant_id;
   insert into scientific_focus(applicant_id, lu_scientific_focus_id)
     select @applicant_id, item from scientific_focus_list;
   drop temporary table scientific_focus_list;
 
   -- save education levels
   call create_int_table('education_level_list', education_level_list);
-  delete e from education_level e where e.applicant_id = applicant_id;
+  delete e from education_level e where e.applicant_id = @applicant_id;
   insert into education_level(applicant_id, lu_education_level_id)
     select @applicant_id, item from education_level_list;
   drop temporary table education_level_list;
@@ -332,8 +335,10 @@ create procedure search_applicants (
     a.postdoc_experience,
     a.referral_source,
     a.availability_date,
-    a.resume_filepath,
+    a.resume_file,
     a.ip_address,
+    group_concat(distinct lsf2.name separator ',') as scientific_focus,
+    group_concat(distinct lel2.name separator ',') as education_level,
     a.created_date,
     a.updated_date
   from applicant a
@@ -344,10 +349,17 @@ create procedure search_applicants (
     left join scientific_focus sf on a.applicant_id = sf.applicant_id
     left join lu_education_level lel on el.lu_education_level_id = lel.lu_education_level_id
     left join lu_scientific_focus lsf on sf.lu_scientific_focus_id = lsf.lu_scientific_focus_id
+    -- right join to retrieve all records for an applicant not included in the search criteria
+    right join scientific_focus sf2 on sf2.applicant_id = a.applicant_id
+    right join education_level el2 on el2.applicant_id = a.applicant_id
+    right join lu_scientific_focus lsf2 on lsf2.lu_scientific_focus_id = sf2.lu_scientific_focus_id
+    right join lu_education_level lel2 on lel2.lu_education_level_id = el2.lu_education_level_id
   where
     (a.job_category_id in (select item from job_category_list) or @job_category_list is null) and
     (sf.lu_scientific_focus_id in (select item from scientific_focus_list) or @scientific_focus_list is null) and
+    (sf2.applicant_id = a.applicant_id) and
     (el.lu_education_level_id in (select item from education_level_list) or @education_level_list is null) and
+    (el2.applicant_id = a.applicant_id) and
     (a.state_id in (select item from state_list) or @state_list is null) and
     (a.is_foreign = @is_foreign or @is_foreign is null)
   group by a.applicant_id;
