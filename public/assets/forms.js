@@ -3,12 +3,27 @@
  * Note: this overrides the form's submission behavior
  */
 
-$(document).on('turbolinks:load', function () {
+$(document).on('turbolinks:load', function() {
 
     // limit scientific focus areas
     $('[name="scientific_focus"]').change(function (e) {
         if ($('[name="scientific_focus"]:checked').length > 5)
             this.checked = false;
+    });
+
+
+    $('[data-custom-file-input]').change(function (e) {
+        var label = $('label[for="' + this.id + '"]')
+            .text('Choose File');
+        var maxLength = label.attr('data-length') || 20;
+
+        if (!label.length || !this.files || !this.files.length) return;
+
+        var filename = this.files[0].name;
+        label.text(filename.length < maxLength
+            ? filename
+            : filename.substr(0, maxLength) + '...'
+        );
     });
 
     $('[data-turbolinks-form]').submit(function (e) {
@@ -40,20 +55,4 @@ $(document).on('turbolinks:load', function () {
         return false;
     });
 
-    $('[data-custom-file-input]').change(function (e) {
-        console.log('label[for="' + this.id + '"]');
-        var label = $('label[for="' + this.id + '"]')
-            .text('Choose File');
-
-        if (!label.length || !this.files || !this.files.length) return;
-
-        var filename = this.files[0].name;
-        console.log('changed', this.files)
-
-
-        label.text(filename.length < 20
-            ? filename
-            : filename.substr(0, 20) + '...'
-        );
-    })
 })
