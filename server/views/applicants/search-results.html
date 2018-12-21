@@ -1,11 +1,16 @@
 <h1 class="h3">
-    <%- applicants.length %>
-    <%- applicants.length === 1
-        ? 'Search Result'
-        : 'Search Results'
-    %>
+    Search Results
 </h1>
 <hr>
+
+<p>
+    <strong><%- applicants.length %></strong>
+    <%- applicants.length === 1
+        ? 'candidate was'
+        : 'candidates were'
+    %>
+    found. To update a candidate's information, select their name.
+</p>
 
 <table class="table table-striped table-hover border">
     <thead class="bg-primary-dark text-white">
@@ -55,10 +60,18 @@
                 <td><%- row.undergraduate_gpa || 'N/P'  %></td>
             </tr>
         <% } %>
+
+        <% if (applicants.length === 0) { %>
+        <tr>
+            <td colspan="7">
+                No candidates were found
+            </td>
+        </tr>
+        <% } %>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="7" class="bg-light">
+            <td colspan="7">
                 N/P = not provided
             </td>
         </tr>
