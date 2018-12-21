@@ -8,8 +8,12 @@
 </div>
 
 <p>
-    <strong>Candidates Awaiting Approval (<%- applicants.length %>)</strong> <br>
-    Click the candidates name to view the candidates application details or click <strong>approve</strong> to approve the candidate or <strong>remove</strong> to remove the candidate.
+<strong><%- applicants.length %></strong>
+<%- applicants.length === 1
+    ? 'candidate is'
+    : 'candidates are'
+%>
+awaiting approval. To view or update each candidate's application, select their name.
 </p>
 
 <table class="table table-striped table-hover border">
@@ -67,10 +71,19 @@
                 </td>
             </tr>
         <% } %>
+
+        <% if (applicants.length === 0) { %>
+        <tr>
+            <td colspan="9">
+                No candidates were found
+            </td>
+        </tr>
+        <% } %>
+
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="9" class="bg-light">
+            <td colspan="9">
                 N/P = not provided
             </td>
         </tr>
