@@ -1,10 +1,48 @@
 <h1 class="h3">
-    Update Applicant:
+    Applicant:
     <%- [values.last_name, values.first_name].filter(String).join(', ') %>
 </h1>
 <hr>
 
+<h2 class="h6 mb-1">Applicant Files</h2>
+<div class="form-group bg-light px-2 py-2 rounded shadow-sm">
+
+
+    <div>
+        <a
+            href="<%- `/applicants/resume/${params.id}` %>"
+            data-turbolinks="false"
+            target="_blank"
+            rel="noopener noreferrer">
+            View Resume
+        </a>
+
+    </div>
+
+    <div>
+        <a
+            href="<%- `/applicants/export/${params.id}` %>"
+            data-turbolinks="false"
+            target="_blank"
+            rel="noopener noreferrer"
+            download>
+            Download Applicant
+        </a>
+    </div>
+
+    <div>
+        <a
+            href="<%- url %>#"
+            data-turbolinks="false">
+            Email Applicant (not implemented yet)
+        </a>
+    </div>
+</div>
+
+
 <%- include ../forms/update-application %>
+
+
 
 
 <!--
