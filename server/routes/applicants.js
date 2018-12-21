@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const applicants = require('../controllers/applicants');
 const body = require('koa-body')({multipart: true});
+const send = require('koa-send');
 const router = new Router();
 const useRole = role => (ctx, next) => next();
 
@@ -64,6 +65,18 @@ router.get('/applicants/remove/:id', useRole('admin'), async ctx => {
     await applicants.remove(ctx.params.id);
     ctx.redirect('/applicants');
     ctx.session.message = 'Applicant Removed';
+});
+
+router.get('/applicants/resume/:id', useRole('user'), async ctx => {
+    const { resume_file } = await applicants.get(ctx.params.id);
+    // ctx.attachment(`${last_name}_${first_name}_Resume.pdf`);
+    await send(ctx, resume_file);
+});
+
+router.get('/applicants/export/:id', useRole('user'), async ctx => {
+    const { first_name, last_name } = await applicants.get(ctx.params.id);
+    ctx.attachment(`${last_name}_${first_name}.zip`);
+    ctx.body = await applicants.generateExport(ctx);
 });
 
 /** Search Pages */
