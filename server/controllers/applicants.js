@@ -1,20 +1,21 @@
 const path = require('path');
 const fs = require('fs-extra');
-const { mapValues, isEmpty, isArray } = require('lodash');
+const zip = require('jszip');
 const uuid4 = require('uuid/v4');
 const isFuture = require('date-fns/is_future')
+const { mapValues, isEmpty } = require('lodash');
+const { validate, required, limit, range, within } = require('../components/validators');
 const connection = require('../components/connection');
-const { validate, required, array, limit, range, within } = require('../components/validators');
-module.exports = { add, get, search, update, approve, remove };
+const pdf = require('../components/pdf');
+module.exports = { add, get, search, update, approve, remove, generateExport };
 
 /**
  * Adds an applicant
  * @param {Koa Context} context
  */
 async function add(ctx) {
-    const validationErrors = await validateAdd(ctx);
-    if (!isEmpty(validationErrors))
-        return validationErrors;
+    const errors = validateAdd(ctx);
+    if (!isEmpty(errors)) return errors;
 
     const { body, files } = ctx.request;
     const { folders } = ctx.config;
@@ -54,9 +55,9 @@ async function add(ctx) {
             mapEmptyToNull({
                 ...body,
                 status: ctx.session.authenticated ? body.status : 'pending',
-                is_foreign: false,
                 education_level: filterJoin(Number, body.education_level || []),
                 scientific_focus: filterJoin(Number, body.scientific_focus || []),
+                is_foreign: body.is_foreign === 'true', // all form values are strings
                 resume_file: filepath,
                 ip_address: ctx.ip
             })
@@ -79,8 +80,10 @@ async function get(id) {
 
     return {
         ...applicant,
-        scientific_focus: (applicant.scientific_focus_id || '').split(','),
-        education_level: (applicant.education_level_id || '').split(','),
+        scientific_focus: (applicant.scientific_focus_id || '').split(',').filter(String),
+        education_level: (applicant.education_level_id || '').split(',').filter(String),
+        scientific_focus_names: (applicant.scientific_focus || '').split(',').filter(String),
+        education_level_names: (applicant.education_level || '').split(',').filter(String),
     };
 }
 
@@ -144,9 +147,8 @@ async function search(ctx) {
  * @return {object | null}
  */
 async function update(ctx) {
-    const validationErrors = await validateUpdate(ctx);
-    if (!isEmpty(validationErrors))
-        return validationErrors;
+    const errors = validateUpdate(ctx);
+    if (!isEmpty(errors)) return errors;
 
     const { body } = ctx.request;
     await connection.execute(
@@ -174,12 +176,172 @@ async function update(ctx) {
             mapEmptyToNull({
                 ...body,
                 applicant_id: ctx.params.id,
-                is_foreign: false,
                 education_level: filterJoin(Number, body.education_level || []),
                 scientific_focus: filterJoin(Number, body.scientific_focus || []),
+                is_foreign: body.is_foreign === 'true', // all form values are strings
             })
     );
     return null;
+}
+
+
+async function generateExport(ctx) {
+    const applicant = await get(ctx.params.id);
+    const archive = new zip();
+
+    // add resume to archive
+    archive.file(
+        `${applicant.last_name}_${applicant.first_name}_Resume.pdf`,
+        fs.readFileSync(applicant.resume_file)
+    );
+
+    // add applicant info to archive
+    archive.file(
+        `${applicant.last_name}_${applicant.first_name}_Application.pdf`,
+        pdf({
+            content: [
+                {
+                    text: `${applicant.last_name}, ${applicant.first_name}\n\n`.toUpperCase(),
+                    style: 'header',
+                },
+                {
+                    text: 'Application Details\n\n',
+                    style: 'subheader'
+                },
+                {
+                    text: [
+                        {text: 'Application Date: ', style: 'bold'},
+                        applicant.created_date.toLocaleString()
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Email Address: ', style: 'bold'},
+                        applicant.email,
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Job Category: ', style: 'bold'},
+                        applicant.job_category,
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Citizenship: ', style: 'bold'},
+                        applicant.citizenship,
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Address: ', style: 'bold'},
+                        [applicant.address_1, applicant.address_2].join('\n'),
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'City: ', style: 'bold'},
+                        applicant.city
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'State: ', style: 'bold'},
+                        applicant.state || 'Not Provided'
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Zip: ', style: 'bold'},
+                        applicant.zip || 'Not Provided'
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Home Phone: ', style: 'bold'},
+                        applicant.home_phone || 'Not Provided'
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Work Phone: ', style: 'bold'},
+                        applicant.work_phone || 'Not Provided'
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'Fax Phone: ', style: 'bold'},
+                        applicant.fax_phone || 'Not Provided'
+                    ],
+                },
+
+                {
+                    text: [
+                        {text: 'GPA: ', style: 'bold'},
+                        applicant.undergraduate_gpa || 'Not Provided'
+                    ],
+                },
+
+                {text: 'Scientific Focus Areas: ', style: 'bold'},
+                {
+                    ul: isEmpty(applicant.scientific_focus_names)
+                        ? ['Not Provided']
+                        : applicant.scientific_focus_names
+                },
+
+                {text: 'Degrees: ', style: 'bold'},
+                {
+                    ul: isEmpty(applicant.education_level_names)
+                        ? ['Not Provided']
+                        : applicant.education_level_names
+                },
+
+                {text: '\n\nQuestions and Answers\n', style: 'subheader'},
+
+                {text: '\n1. Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI', style: 'bold'},
+                {text: applicant.research_interests},
+
+                {text: '\n2. Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed.', style: 'bold'},
+                {text: applicant.postdoc_experience},
+
+                {text: '\n3. Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.).', style: 'bold'},
+                {text: applicant.referral_source},
+
+                {text: '\n4. Please let us know your date of availability', style: 'bold'},
+                {text: applicant.availability_date.toLocaleString()},
+
+            ],
+            defaultStyle: {
+                font: 'SourceSansPro'
+            },
+            styles: {
+                header: {
+                    fontSize: 16,
+                    bold: true,
+                },
+                subheader: {
+                    fontSize: 14,
+                    bold: true,
+                },
+                bold: {
+                    bold: true,
+                }
+            }
+        })
+    );
+
+    // return zip contents as buffer
+    return await archive.generateAsync({type: 'nodebuffer'});
 }
 
 
@@ -188,7 +350,7 @@ async function update(ctx) {
  * @param {Koa.Context} ctx
  * @return {object} An object containing validation errors for the body
  */
-async function validateAdd(ctx) {
+function validateAdd(ctx) {
     const { body, files } = ctx.request;
     const { lookupTables } = ctx;
 
@@ -225,7 +387,7 @@ async function validateAdd(ctx) {
  * @param {Koa.Context} ctx
  * @return {object} An object containing validation errors for the body
  */
-async function validateUpdate(ctx) {
+function validateUpdate(ctx) {
     const { body } = ctx.request;
     const { lookupTables } = ctx;
 
@@ -257,10 +419,10 @@ async function validateUpdate(ctx) {
  * @param {function} filterFn
  * @param {array} array
  */
-function filterJoin(filterFn, array) {
-    return isArray(array)
-        ? array.filter(filterFn).join()
-        : filterFn(array)
+function filterJoin(filterFn, values) {
+    return Array.isArray(values)
+        ? values.filter(filterFn).join()
+        : filterFn(values)
 }
 
 
