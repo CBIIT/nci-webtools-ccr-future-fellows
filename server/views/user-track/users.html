@@ -3,8 +3,8 @@
 
 <p>Below are the find fellows users who have logged onto the application and the number of times they've accessed the application.</p>
 
-<table class="table table-striped">
-        <thead>
+<table class="table table-striped table-hover border">
+    <thead class="bg-primary-dark text-white">
             <tr>
                 <td>NIH User Name</td>
                 <td>First Name</td>
@@ -21,5 +21,12 @@
                     <td><%- row.logons %></td>
                 </tr>
             <% } %>
+
+            <% if (users.length === 0) { %>
+                <tr>
+                    <td colspan="4" class="text-center">No users were found</td>
+                </tr>
+            <% } %>
+
         </tbody>
     </table>
