@@ -32,17 +32,16 @@
 
     <div>
         <a
-            href="<%- url %>#"
-            data-turbolinks="false">
-            Email Applicant (not implemented yet)
+            href="<%- `/applicants/email/${params.id}` %>"
+            data-turbolinks="false"
+            target="_blank"
+            rel="noopener noreferrer">
+            Email Applicant
         </a>
     </div>
 </div>
 
-
 <%- include ../forms/update-application %>
-
-
 
 
 <!--
