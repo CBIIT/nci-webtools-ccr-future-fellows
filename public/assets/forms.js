@@ -3,7 +3,7 @@
  * Note: this overrides the form's submission behavior
  */
 
-$(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function () {
 
     // limit scientific focus areas
     $('[name="scientific_focus"]').change(function (e) {
@@ -24,6 +24,28 @@ $(document).on('turbolinks:load', function() {
             ? filename
             : filename.substr(0, maxLength) + '...'
         );
+    });
+
+    // use custom date inputs, if available
+    $('input[type="date"]').each(function () {
+        $(this)
+            .attr('type', 'text')
+            // .attr('readonly', true)
+            .addClass('c-pointer bg-white');
+
+        $(this).daterangepicker({
+            startDate: $(this).val() || undefined,
+            autoUpdateInput: false,
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        }).on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD'));
+        }).on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
     });
 
     $('[data-turbolinks-form]').submit(function (e) {
