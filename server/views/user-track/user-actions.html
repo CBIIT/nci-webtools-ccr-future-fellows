@@ -1,0 +1,40 @@
+<h1 class="h3">
+    User Track:
+    <%- username %>
+</h1>
+<hr>
+
+<p>Below are dates for which the selected user's actions have been tracked.</p>
+
+<table class="table table-striped table-hover border">
+    <thead class="bg-primary-dark text-white">
+        <tr>
+            <td>Date</td>
+            <td>Action</td>
+            <td>Applicant</td>
+        </tr>
+    </thead>
+    <tbody>
+        <% for (let row of actions) { %>
+        <tr>
+            <td>
+                <%- row.date.toLocaleString() %>
+            </td>
+            <td>
+                <%- row.action %>
+            </td>
+            <td>
+                <%- row.target %>
+            </td>
+        </tr>
+        <% } %>
+
+        <% if (actions.length === 0) { %>
+        <tr>
+            <td colspan="3" class="text-center font-italic">
+                No actions were found
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
