@@ -232,7 +232,7 @@
 
             <li class="form-group">
                 <label for="availability_date">Please let us know your date of availability</label> *
-                <input type="date" style="max-width: 400px;" class="form-control" id="availability_date" name="availability_date" placeholder="yyyy-mm-dd" pattern="^\d{1,4}-\d{2}-\d{2}$" value="<%= values.availability_date %>" min="<%= (_d = new Date(), _d.setDate(_d.getDate() + 1), [_d.getFullYear(), _d.getMonth() + 1, _d.getDate()].join('-')) %>" required>
+                <input type="date" style="max-width: 300px;" class="form-control" id="availability_date" name="availability_date" placeholder="yyyy-mm-dd" pattern="^\d{1,4}-\d{2}-\d{2}$" value="<%= values.availability_date || '' %>" required>
                 <div class="invalid-feedback">
                     Please provide a valid future date.
                 </div>
