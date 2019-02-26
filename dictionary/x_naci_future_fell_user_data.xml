@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="User Data" max_length="40" name="x_naci_future_fell_user_data" type="collection"/>
+</database>
