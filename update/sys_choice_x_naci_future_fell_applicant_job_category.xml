@@ -60,7 +60,7 @@
             <element>job_category</element>
             <hint/>
             <inactive>false</inactive>
-            <label>Postbaccalaureate (Master or Post-Undegrad) Fellowship</label>
+            <label>Postbaccalaureate (Master or Post-Undergrad) Fellowship</label>
             <language>en</language>
             <name>x_naci_future_fell_applicant</name>
             <sequence/>
@@ -68,9 +68,9 @@
             <sys_created_on>2019-02-08 20:03:54</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_id>cf6533b4dbe3e700b86770c08c9619b9</sys_id>
-            <sys_mod_count>1</sys_mod_count>
+            <sys_mod_count>2</sys_mod_count>
             <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:03:59</sys_updated_on>
+            <sys_updated_on>2019-02-26 19:57:54</sys_updated_on>
             <value>4</value>
         </sys_choice>
         <sys_choice_set action="INSERT_OR_UPDATE">

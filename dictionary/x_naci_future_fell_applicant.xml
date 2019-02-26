@@ -270,7 +270,7 @@
         <element choice="3" default="1" label="Job Category" max_length="255" name="job_category" type="choice">
             <choice>
                 <element label="Doctoral Fellowship" value="3"/>
-                <element label="Postbaccalaureate (Master or Post-Undegrad) Fellowship" value="4"/>
+                <element label="Postbaccalaureate (Master or Post-Undergrad) Fellowship" value="4"/>
                 <element label="Postdoctoral Fellowship" value="1"/>
                 <element label="Postdoctoral Fellowship (Foreign Visiting Fellow)" value="2"/>
             </choice>

@@ -65,7 +65,7 @@
 			},
 
 			{
-				title: 'New Applicants',
+				title: 'New Applicant',
 				id: 'future_fellows_new_applicant'
 			},
 
@@ -103,15 +103,15 @@
         <sys_created_on>2019-02-06 17:15:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>a6dbb81cdba32700b86770c08c96193b</sys_id>
-        <sys_mod_count>122</sys_mod_count>
+        <sys_mod_count>123</sys_mod_count>
         <sys_name>Future Fellows Navigation</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_a6dbb81cdba32700b86770c08c96193b</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-02-26 18:02:42</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-26 19:59:38</sys_updated_on>
         <template><![CDATA[<div style="position: fixed; top: 0; left: 0; width: 100%; opacity: 0.1;" 
      ng-if="c.loading">
   <md-progress-linear md-mode="indeterminate"></md-progress-linear>
