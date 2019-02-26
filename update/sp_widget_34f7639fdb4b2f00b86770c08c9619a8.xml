@@ -19,14 +19,13 @@
   box-shadow: 0 .5rem 1rem rgba(black, .15);
 }
 
-.light-blue {
-  color: #00bde3;
-}
-
-
 .custom-card:hover {
   background-color: white;
   box-shadow: 0 1rem 2rem rgba(black, .175);
+}
+
+.light-blue {
+  color: #00bde3;
 }
 
 .cover-image {
@@ -165,7 +164,7 @@
         <sys_created_on>2019-01-22 16:58:11</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>34f7639fdb4b2f00b86770c08c9619a8</sys_id>
-        <sys_mod_count>270</sys_mod_count>
+        <sys_mod_count>279</sys_mod_count>
         <sys_name>Future Fellows Home</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -173,7 +172,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_34f7639fdb4b2f00b86770c08c9619a8</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-22 07:05:55</sys_updated_on>
+        <sys_updated_on>2019-02-26 19:31:13</sys_updated_on>
         <template><![CDATA[
 <!-- pi index -->
 <div class="container" ng-if="c.data.isLoggedIn">
@@ -188,21 +187,27 @@
     To begin, select an option below:
   </p>
 
-  <div layout="row" layout-wrap class="mb-5">
-    <a ng-repeat="card in c.data.links"
-       class="custom-card p-4 m-4"
-       flex="30"
-       ng-href="{{ card.link }}">
-      <div class="text-center">
-        <i ng-class="[ card.icon ]"
-           aria-hidden="true"
-           class="card-icon"></i>
-        
-        <div class="mt-2">
-          {{ card.title }}
+  <div layout="row"
+       layout-wrap
+       class="mb-5">
+    <div ng-repeat="card in c.data.links"
+         flex-xs="100"
+         flex-gt-xs="50"
+         flex-gt-sm="33"
+         flex-gt-md="25">
+      <a ng-href="{{ card.link }}"
+         class="p-4 m-4 custom-card">
+        <div class="text-center">
+          <i ng-class="[ card.icon ]"
+             aria-hidden="true"
+             class="card-icon"></i>
+
+          <div class="mt-2">
+            {{ card.title }}
+          </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -252,7 +257,7 @@
       </p>
 
       <div uib-alert type="danger">
-      	Applications are kept for six months after the submission date. After six months, your application will be removed from the system.
+        Applications are kept for six months after the submission date. After six months, your application will be removed from the system.
       </div>
 
     </div>
