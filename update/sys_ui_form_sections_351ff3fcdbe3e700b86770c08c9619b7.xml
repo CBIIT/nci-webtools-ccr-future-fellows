@@ -53,6 +53,32 @@
             <sys_updated_by>parkbw@nih.gov</sys_updated_by>
             <sys_updated_on>2019-02-08 20:47:06</sys_updated_on>
         </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>4</position>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2019-02-26 19:41:50</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>db0dd4b6dbb7a700b86770c08c961989</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_naci_future_fell_applicant" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">351ff3fcdbe3e700b86770c08c9619b7</sys_ui_form>
+            <sys_ui_section caption="New Section" display_value="New Section" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">6e1eb7bcdbe3e700b86770c08c9619fc</sys_ui_section>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2019-02-26 19:41:50</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>5</position>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2019-02-26 19:41:50</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>9f0dd4b6dbb7a700b86770c08c96199b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_naci_future_fell_applicant" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">351ff3fcdbe3e700b86770c08c9619b7</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">efbd73bcdbe3e700b86770c08c961945</sys_ui_section>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2019-02-26 19:41:50</sys_updated_on>
+        </sys_ui_form_section>
         <sys_ui_form action="INSERT_OR_UPDATE">
             <name>x_naci_future_fell_applicant</name>
             <roles/>

@@ -5,24 +5,24 @@
         <license_condition/>
         <license_model>none</license_model>
         <license_roles/>
-        <name>x_naci_future_fell_education</name>
+        <name>x_naci_future_fell_applicant</name>
         <op_delete>true</op_delete>
         <op_insert>true</op_insert>
         <op_update>true</op_update>
         <owner_condition/>
         <sys_class_name>ua_table_licensing_config</sys_class_name>
         <sys_created_by>parkbw@nih.gov</sys_created_by>
-        <sys_created_on>2019-02-08 19:41:20</sys_created_on>
+        <sys_created_on>2019-02-08 19:50:44</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
-        <sys_id>6c507b70dbe3e700b86770c08c96193c</sys_id>
+        <sys_id>bafc10b6dbb7a700b86770c08c961915</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>x_naci_future_fell_education</sys_name>
+        <sys_name>x_naci_future_fell_applicant</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
-        <sys_update_name>ua_table_licensing_config_6c507b70dbe3e700b86770c08c96193c</sys_update_name>
+        <sys_update_name>ua_table_licensing_config_bafc10b6dbb7a700b86770c08c961915</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-08 19:41:20</sys_updated_on>
+        <sys_updated_on>2019-02-08 19:50:44</sys_updated_on>
     </ua_table_licensing_config>
 </record_update>

@@ -13,7 +13,7 @@
 
 function getRole() {
 	var user = gs.getUser();
-	if (user.hasRole('x_naci_future_fell.admin'))
+	if (user.hasRole('x_naci_future_fell.admin') || user.hasRole('admin'))
 		return 'admin';
 	
 	else if (user.hasRole('x_naci_future_fell.user'))
@@ -30,7 +30,7 @@ function getRole() {
         <sys_created_on>2019-02-22 06:35:48</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>b452cd15db73a300b86770c08c961975</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_name>ClientUtils</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy>read</sys_policy>
@@ -38,6 +38,6 @@ function getRole() {
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_script_include_b452cd15db73a300b86770c08c961975</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-22 06:35:48</sys_updated_on>
+        <sys_updated_on>2019-02-26 19:51:50</sys_updated_on>
     </sys_script_include>
 </record_update>
