@@ -1,6 +1,0 @@
-node_modules
-uploads
-config.json
-test/*.xml
-.vscode
-.env
