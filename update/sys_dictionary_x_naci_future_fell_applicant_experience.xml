@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_dictionary action="INSERT_OR_UPDATE" element="postdoctoral_experience" table="x_naci_future_fell_applicant">
+    <sys_dictionary action="INSERT_OR_UPDATE" element="experience" table="x_naci_future_fell_applicant">
         <active>true</active>
         <array>false</array>
         <array_denormalized>false</array_denormalized>
         <attributes/>
         <audit>false</audit>
-        <calculation>(function calculatedFieldValue(current) {
-
-	// Add your code here
-	return '';  // return the calculated value
-
+        <calculation>(function calculatedFieldValue(current) {&#13;
+&#13;
+	// Add your code here&#13;
+	return '';  // return the calculated value&#13;
+&#13;
 })(current);</calculation>
         <choice/>
         <choice_field/>
         <choice_table/>
-        <column_label>Postdoctoral Experience</column_label>
+        <column_label>Experience</column_label>
         <comments/>
         <create_roles/>
         <default_value/>
@@ -28,7 +28,7 @@
         <dynamic_creation_script/>
         <dynamic_default_value/>
         <dynamic_ref_qual/>
-        <element>postdoctoral_experience</element>
+        <element>experience</element>
         <element_reference>false</element_reference>
         <foreign_database/>
         <function_definition/>
@@ -53,18 +53,18 @@
         <staged>false</staged>
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>parkbw@nih.gov</sys_created_by>
-        <sys_created_on>2019-02-08 20:14:57</sys_created_on>
+        <sys_created_on>2019-02-26 20:01:37</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
-        <sys_id>72fc10b6dbb7a700b86770c08c961907</sys_id>
+        <sys_id>2e612cbedbb7a700b86770c08c961940</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>Postdoctoral Experience</sys_name>
+        <sys_name>Experience</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
-        <sys_update_name>sys_dictionary_x_naci_future_fell_applicant_postdoctoral_experience</sys_update_name>
-        <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2019-02-26 19:41:36</sys_updated_on>
+        <sys_update_name>sys_dictionary_x_naci_future_fell_applicant_experience</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-26 20:01:37</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <u_model_id/>

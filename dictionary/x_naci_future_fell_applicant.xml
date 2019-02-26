@@ -264,6 +264,7 @@
         </element>
         <element label="Email" max_length="255" name="email" type="string"/>
         <element label="Email 2" max_length="40" name="email_2" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;// Add your code here&#13;&#10;&#9;return '';  // return the calculated value&#13;&#10;&#13;&#10;})(current);" label="Experience" max_length="2000" name="experience" type="string"/>
         <element label="Fax Phone" max_length="40" name="fax_phone" type="phone_number_e164"/>
         <element label="First Name" max_length="255" name="first_name" type="string"/>
         <element label="Home Phone" max_length="40" name="home_phone" type="phone_number_e164"/>
@@ -277,7 +278,6 @@
         </element>
         <element label="Last Name" max_length="255" name="last_name" type="string"/>
         <element label="Middle Initial" max_length="255" name="middle_initial" type="string"/>
-        <element label="Postdoctoral Experience" max_length="2000" name="postdoctoral_experience" type="string"/>
         <element label="Referral Source" max_length="2000" name="referral_source" type="string"/>
         <element label="Research Interests" max_length="2000" name="research_interests" type="string"/>
         <element label="Scientific Focus" max_length="255" name="scientific_focus" type="glide_list"/>

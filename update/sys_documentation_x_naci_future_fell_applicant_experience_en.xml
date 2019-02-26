@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_documentation element="postdoctoral_experience" label="Postdoctoral Experience" language="en" table="x_naci_future_fell_applicant">
+    <sys_documentation element="experience" label="Experience" language="en" table="x_naci_future_fell_applicant">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>postdoctoral_experience</element>
+            <element>experience</element>
             <help/>
             <hint/>
-            <label>Postdoctoral Experience</label>
+            <label>Experience</label>
             <language>en</language>
             <name>x_naci_future_fell_applicant</name>
-            <plural>Postdoctoral Experiences</plural>
+            <plural>Experiences</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>parkbw@nih.gov</sys_created_by>
-            <sys_created_on>2019-02-08 20:14:57</sys_created_on>
+            <sys_created_on>2019-02-26 20:01:37</sys_created_on>
             <sys_customer_update>false</sys_customer_update>
-            <sys_id>81083f78dbe3e700b86770c08c9619bd</sys_id>
+            <sys_id>c591a0fedbb7a700b86770c08c961934</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name>Postdoctoral Experience</sys_name>
+            <sys_name>Experience</sys_name>
             <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
             <sys_policy/>
             <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
-            <sys_update_name>sys_documentation_x_naci_future_fell_applicant_postdoctoral_experience_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_naci_future_fell_applicant_experience_en</sys_update_name>
             <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:14:57</sys_updated_on>
+            <sys_updated_on>2019-02-26 20:01:37</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>
