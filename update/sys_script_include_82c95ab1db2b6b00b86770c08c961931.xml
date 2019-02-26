@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_naci_future_fell.ValidationUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Contains functions for validating objects</description>
+        <name>ValidationUtils</name>
+        <script><![CDATA[/** Import modules */
+var _ = Lodash._;
+
+/** Export ValidationUtils */
+var ValidationUtils = {
+	validate: validate,
+	required: required,
+	maxLength: maxLength,
+	withinRange: withinRange,
+	withinValues: withinValues,
+};
+
+/**
+ * Runs validation rules against an object and returns true if the
+ * object passes all rules, or false if the object fails validation
+ */
+function validate(object, validationRules) {
+	for (var key in validationRules) {
+		var rules = validationRules[key];
+		var value = object[key];
+		
+		// iterate through each validation rule
+		for (var i = 0; i < rules.length; i ++) {
+			// if a rule fails validation, return false
+			var isValid = rules[i](value);
+			if (!isValid) return false;
+		}
+	}
+	return true;
+}
+
+/**
+ * Returns true if the value is not:
+ *  - undefined or null
+ *  - an empty string, array, or object
+ */
+function required(value) {
+	return !['', [], {}, undefined, null].some(function(v) {
+		_.isEqual(value, v);
+	});
+}
+
+/**
+ * Returns a function which evaluates to true if
+ * the value matches the pattern (Regex) provided.
+ *
+ * This function is nullable (returns true when value is null)
+ */
+function pattern(regex) {
+	return function(value) {
+		if (!required(value)) return true;
+		return regex.test(value);
+	};
+}
+
+
+/**
+ * Returns a function which evaluates to true if
+ * the value is an arraylike value with a length 
+ * less than or equal to the specified length
+ * 
+ * This function is nullable (returns true when value is null)
+ */
+function maxLength(max) {
+	return function(value) {
+		if (!required(value)) return true;
+		return _.isArrayLike(value) && value.length <= max;
+	};
+}
+
+/**
+ * Returns a function which evaluates to true if 
+ * the argument is a comparable value between min 
+ * and max (inclusive)
+ *
+ * This function is nullable (returns true when value is null)
+ */
+function withinRange(min, max) {
+	return function(value) {
+		if (!required(value)) return true;
+		return value >= min && value <= max;
+	};
+}
+
+/**
+ * Returns a function which will evaluate to true if 
+ * the argument (either a scalar or an array) is 
+ * contained within the provided values
+ *
+ * This function is nullable (returns true when value is null)
+ */
+function withinValues(values) {
+	return function(value) {
+		if (!required(value)) return true;
+		return _.includes(values, value) ||
+			_.isEmpty(_.difference(value, values));
+	};
+}
+
+
+
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-11 16:23:45</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>82c95ab1db2b6b00b86770c08c961931</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>ValidationUtils</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_script_include_82c95ab1db2b6b00b86770c08c961931</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-12 16:12:56</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {  /* widget controller */  var c = this;}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>future_fellows_application_status</id>
+        <internal>false</internal>
+        <link/>
+        <name>Future Fellows Application Status</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {  /* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-22 06:38:52</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>0373cd15db73a300b86770c08c96197d</sys_id>
+        <sys_mod_count>17</sys_mod_count>
+        <sys_name>Future Fellows Application Status</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_widget_0373cd15db73a300b86770c08c96197d</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-22 06:49:16</sys_updated_on>
+        <template><![CDATA[<h1>
+  My Application Status
+</h1>
+
+<hr>
+
+
+<div>
+  <p>
+    Your application is currently <b>under review</b>. You will be notified by email if your application's status changes, or if further information is requested. 
+  </p>
+  
+  <p>
+    Your application is nearing the expiration deadline and will be removed from the system in <b>2 weeks</b>. To extend your deadline by another six months, please use the following link.
+  </p>
+  
+  <md-button class="md-raised md-primary m-0 px-4">Extend My Deadline</md-button>
+</div>]]></template>
+    </sp_widget>
+</record_update>

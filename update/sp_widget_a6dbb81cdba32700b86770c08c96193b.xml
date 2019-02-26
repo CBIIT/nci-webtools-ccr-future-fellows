@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($scope, $timeout, $location, spUtil) {
+  var c = this;
+
+	$scope.$on('$locationChangeStart', function(e) {
+		c.loading = true;
+	});
+	
+	/* Updates scope.page.id when location changes */
+	$scope.$on('$locationChangeSuccess', function(e) {
+		c.loading = false;
+		$scope.$applyAsync(updatePageID);
+	});
+	
+	/* Updates scope.page.id based on url */
+	function updatePageID($scope) {
+			var search = $location.search();
+			if (search && search.id) 
+				$scope.page.id = search.id;
+	}
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>future_fellows_navigation</id>
+        <internal>false</internal>
+        <link/>
+        <name>Future Fellows Navigation</name>
+        <option_schema/>
+        <public>true</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	var user = gs.getUser();
+
+	data.defaultIDP = gs.getProperty('glide.authenticate.sso.redirect.idp', '14a8eb8cdb5b320054d8ff621f9619d3');
+	data.isLoggedIn = gs.getSession().isLoggedIn();
+	data.userName = user.getDisplayName();
+	data.userRole = ClientUtils.getRole();
+
+	// initialize navbar links
+	if (!data.isLoggedIn) {
+		// links for unauthenticated users
+		data.pageLinks = [
+			{title: 'Home', id: 'future_fellows_home'},
+			{title: 'Apply', id: 'future_fellows_application'}
+		];
+	} else {
+		// default links for regular users
+		data.pageLinks = [
+			{
+				title: 'Home',
+				id: 'future_fellows_home'
+			},
+			{
+				title: 'Search Applicants',
+				id: 'future_fellows_search'
+			},
+
+			{
+				title: 'New Applicants',
+				id: 'future_fellows_new_applicant'
+			},
+
+			{
+				title: 'Saved Applicants',
+				id: 'future_fellows_saved_applicants'
+			},
+
+			{
+				title: 'Update Preferences',
+				id: 'future_fellows_preferences'
+			}
+		];
+
+		// links for administrators
+		if (data.userRole === 'admin') {
+			data.pageLinks.push({
+				title: 'Track Users',
+				id: 'future_fellows_users'
+			});
+
+		// links for applicants
+		} else if (data.userRole === 'applicant') {
+			data.pageLinks = [
+				{title: 'Home', id: 'future_fellows_home'},
+				{title: 'Update Application', id: 'future_fellows_applicant'},
+				{title: 'Application Status', id: 'future_fellows_application_status'}
+			];
+		}
+	}
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-06 17:15:53</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>a6dbb81cdba32700b86770c08c96193b</sys_id>
+        <sys_mod_count>122</sys_mod_count>
+        <sys_name>Future Fellows Navigation</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_widget_a6dbb81cdba32700b86770c08c96193b</sys_update_name>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-02-26 18:02:42</sys_updated_on>
+        <template><![CDATA[<div style="position: fixed; top: 0; left: 0; width: 100%; opacity: 0.1;" 
+     ng-if="c.loading">
+  <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+</div>
+
+<nav class="navbar navbar-default shadow-sm">
+  <!-- Mobile menu -->
+  <div class="d-flex align-items-center justify-content-between visible-xs bg-primary-dark text-light px-3">
+
+    <a class="visible-xs h4" 
+       ng-href="/{{ portal.url_suffix }}?id={{ portal.homepage_dv }}">
+      <img ng-src="{{portal.logo}}" 
+           alt="Future Fellows"
+           height="40"
+           role="presentation" />
+    </a>
+    <md-button class="visible-xs md-raised md-primary"
+               data-toggle="collapse" 
+               data-target="#main-navbar" 
+               aria-expanded="false">
+      Menu
+    </md-button>    
+  </div>
+
+  <div class="container">
+    <!-- Nav Links -->
+    <div class="collapse navbar-collapse px-sm-0" id="main-navbar">
+      <ul class="nav navbar-nav">
+        <li ng-repeat="link in c.data.pageLinks"
+            ng-class="{active: page.id == link.id}">
+          <a ng-hide="link.id != 'future_fellows_home' && (page.id == 'future_fellows_home' && c.data.isLoggedIn)" 
+             ng-href="?id={{link.id}}" 
+             class="nav-link">
+            <span class="sr-only" 
+                  ng-if="page.id == link.id">
+              (current)
+            </span>
+            {{ link.title }}
+          </a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+
+         <li class="dropdown" ng-if="!c.data.isLoggedIn">
+          <a href="#" 
+             class="dropdown-toggle" 
+             data-toggle="dropdown" 
+             role="button" 
+             aria-haspopup="true" 
+             aria-expanded="false">
+            Log In
+            <span class="caret"></span>
+          </a>
+           
+          <ul class="dropdown-menu px-3">
+            <li>
+              <a ng-if="!c.data.isLoggedIn"
+                 href="?id=future_fellows_external_login"
+                 class="nav-link">
+                For Applicants
+              </a>
+            </li>
+            <li>
+              <a ng-if="!c.data.isLoggedIn"
+                 ng-href="/nav_to.do?uri=/{{ portal.url_suffix }}&glide_sso_id={{c.data.defaultIDP}}"
+                 class="nav-link">
+                For PIs
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li ng-if="c.data.isLoggedIn">
+          <a ng-href="{{ portal.logoutUrl }}"
+             class="nav-link">
+            Log Out
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+]]></template>
+    </sp_widget>
+</record_update>

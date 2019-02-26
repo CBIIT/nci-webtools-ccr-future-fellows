@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Applicant" max_length="40" name="x_naci_future_fell_applicant" type="collection">
+        <element label="Address" max_length="255" name="address" type="string"/>
+        <element label="Address 2" max_length="255" name="address_2" type="string"/>
+        <element label="Availability Date" max_length="40" name="availability_date" type="glide_date"/>
+        <element choice="1" label="Citizenship" max_length="255" name="citizenship" type="choice">
+            <choice>
+                <element label="Canadian" value="3"/>
+                <element label="F-1 Visa" value="5"/>
+                <element label="Foreign National" value="4"/>
+                <element label="J-1 Visa" value="6"/>
+                <element label="U.S. Permanent Resident" value="2"/>
+                <element label="United States" value="1"/>
+            </choice>
+        </element>
+        <element label="City" max_length="255" name="city" type="string"/>
+        <element choice="1" label="Country" max_length="40" name="country" type="choice">
+            <choice>
+                <element label="Afghanistan" value="AF"/>
+                <element label="Åland Islands" value="AX"/>
+                <element label="Albania" value="AL"/>
+                <element label="Algeria" value="DZ"/>
+                <element label="American Samoa" value="AS"/>
+                <element label="AndorrA" value="AD"/>
+                <element label="Angola" value="AO"/>
+                <element label="Anguilla" value="AI"/>
+                <element label="Antarctica" value="AQ"/>
+                <element label="Antigua and Barbuda" value="AG"/>
+                <element label="Argentina" value="AR"/>
+                <element label="Armenia" value="AM"/>
+                <element label="Aruba" value="AW"/>
+                <element label="Australia" value="AU"/>
+                <element label="Austria" value="AT"/>
+                <element label="Azerbaijan" value="AZ"/>
+                <element label="Bahamas" value="BS"/>
+                <element label="Bahrain" value="BH"/>
+                <element label="Bangladesh" value="BD"/>
+                <element label="Barbados" value="BB"/>
+                <element label="Belarus" value="BY"/>
+                <element label="Belgium" value="BE"/>
+                <element label="Belize" value="BZ"/>
+                <element label="Benin" value="BJ"/>
+                <element label="Bermuda" value="BM"/>
+                <element label="Bhutan" value="BT"/>
+                <element label="Bolivia" value="BO"/>
+                <element label="Bosnia and Herzegovina" value="BA"/>
+                <element label="Botswana" value="BW"/>
+                <element label="Bouvet Island" value="BV"/>
+                <element label="Brazil" value="BR"/>
+                <element label="British Indian Ocean Territory" value="IO"/>
+                <element label="Brunei Darussalam" value="BN"/>
+                <element label="Bulgaria" value="BG"/>
+                <element label="Burkina Faso" value="BF"/>
+                <element label="Burundi" value="BI"/>
+                <element label="Cambodia" value="KH"/>
+                <element label="Cameroon" value="CM"/>
+                <element label="Canada" value="CA"/>
+                <element label="Cape Verde" value="CV"/>
+                <element label="Cayman Islands" value="KY"/>
+                <element label="Central African Republic" value="CF"/>
+                <element label="Chad" value="TD"/>
+                <element label="Chile" value="CL"/>
+                <element label="China" value="CN"/>
+                <element label="Christmas Island" value="CX"/>
+                <element label="Cocos (Keeling) Islands" value="CC"/>
+                <element label="Colombia" value="CO"/>
+                <element label="Comoros" value="KM"/>
+                <element label="Congo" value="CG"/>
+                <element label="Congo, The Democratic Republic of the" value="CD"/>
+                <element label="Cook Islands" value="CK"/>
+                <element label="Costa Rica" value="CR"/>
+                <element label="Cote D'Ivoire" value="CI"/>
+                <element label="Croatia" value="HR"/>
+                <element label="Cuba" value="CU"/>
+                <element label="Cyprus" value="CY"/>
+                <element label="Czech Republic" value="CZ"/>
+                <element label="Denmark" value="DK"/>
+                <element label="Djibouti" value="DJ"/>
+                <element label="Dominica" value="DM"/>
+                <element label="Dominican Republic" value="DO"/>
+                <element label="Ecuador" value="EC"/>
+                <element label="Egypt" value="EG"/>
+                <element label="El Salvador" value="SV"/>
+                <element label="Equatorial Guinea" value="GQ"/>
+                <element label="Eritrea" value="ER"/>
+                <element label="Estonia" value="EE"/>
+                <element label="Ethiopia" value="ET"/>
+                <element label="Falkland Islands (Malvinas)" value="FK"/>
+                <element label="Faroe Islands" value="FO"/>
+                <element label="Fiji" value="FJ"/>
+                <element label="Finland" value="FI"/>
+                <element label="France" value="FR"/>
+                <element label="French Guiana" value="GF"/>
+                <element label="French Polynesia" value="PF"/>
+                <element label="French Southern Territories" value="TF"/>
+                <element label="Gabon" value="GA"/>
+                <element label="Gambia" value="GM"/>
+                <element label="Georgia" value="GE"/>
+                <element label="Germany" value="DE"/>
+                <element label="Ghana" value="GH"/>
+                <element label="Gibraltar" value="GI"/>
+                <element label="Greece" value="GR"/>
+                <element label="Greenland" value="GL"/>
+                <element label="Grenada" value="GD"/>
+                <element label="Guadeloupe" value="GP"/>
+                <element label="Guam" value="GU"/>
+                <element label="Guatemala" value="GT"/>
+                <element label="Guernsey" value="GG"/>
+                <element label="Guinea" value="GN"/>
+                <element label="Guinea-Bissau" value="GW"/>
+                <element label="Guyana" value="GY"/>
+                <element label="Haiti" value="HT"/>
+                <element label="Heard Island and Mcdonald Islands" value="HM"/>
+                <element label="Holy See (Vatican City State)" value="VA"/>
+                <element label="Honduras" value="HN"/>
+                <element label="Hong Kong" value="HK"/>
+                <element label="Hungary" value="HU"/>
+                <element label="Iceland" value="IS"/>
+                <element label="India" value="IN"/>
+                <element label="Indonesia" value="ID"/>
+                <element label="Iran, Islamic Republic Of" value="IR"/>
+                <element label="Iraq" value="IQ"/>
+                <element label="Ireland" value="IE"/>
+                <element label="Isle of Man" value="IM"/>
+                <element label="Israel" value="IL"/>
+                <element label="Italy" value="IT"/>
+                <element label="Jamaica" value="JM"/>
+                <element label="Japan" value="JP"/>
+                <element label="Jersey" value="JE"/>
+                <element label="Jordan" value="JO"/>
+                <element label="Kazakhstan" value="KZ"/>
+                <element label="Kenya" value="KE"/>
+                <element label="Kiribati" value="KI"/>
+                <element label="Korea, Democratic People's Republic of" value="KP"/>
+                <element label="Korea, Republic of" value="KR"/>
+                <element label="Kuwait" value="KW"/>
+                <element label="Kyrgyzstan" value="KG"/>
+                <element label="Lao People's Democratic Republic" value="LA"/>
+                <element label="Latvia" value="LV"/>
+                <element label="Lebanon" value="LB"/>
+                <element label="Lesotho" value="LS"/>
+                <element label="Liberia" value="LR"/>
+                <element label="Libyan Arab Jamahiriya" value="LY"/>
+                <element label="Liechtenstein" value="LI"/>
+                <element label="Lithuania" value="LT"/>
+                <element label="Luxembourg" value="LU"/>
+                <element label="Macao" value="MO"/>
+                <element label="Macedonia, The Former Yugoslav Republic of" value="MK"/>
+                <element label="Madagascar" value="MG"/>
+                <element label="Malawi" value="MW"/>
+                <element label="Malaysia" value="MY"/>
+                <element label="Maldives" value="MV"/>
+                <element label="Mali" value="ML"/>
+                <element label="Malta" value="MT"/>
+                <element label="Marshall Islands" value="MH"/>
+                <element label="Martinique" value="MQ"/>
+                <element label="Mauritania" value="MR"/>
+                <element label="Mauritius" value="MU"/>
+                <element label="Mayotte" value="YT"/>
+                <element label="Mexico" value="MX"/>
+                <element label="Micronesia, Federated States of" value="FM"/>
+                <element label="Moldova, Republic of" value="MD"/>
+                <element label="Monaco" value="MC"/>
+                <element label="Mongolia" value="MN"/>
+                <element label="Montserrat" value="MS"/>
+                <element label="Morocco" value="MA"/>
+                <element label="Mozambique" value="MZ"/>
+                <element label="Myanmar" value="MM"/>
+                <element label="Namibia" value="NA"/>
+                <element label="Nauru" value="NR"/>
+                <element label="Nepal" value="NP"/>
+                <element label="Netherlands" value="NL"/>
+                <element label="Netherlands Antilles" value="AN"/>
+                <element label="New Caledonia" value="NC"/>
+                <element label="New Zealand" value="NZ"/>
+                <element label="Nicaragua" value="NI"/>
+                <element label="Niger" value="NE"/>
+                <element label="Nigeria" value="NG"/>
+                <element label="Niue" value="NU"/>
+                <element label="Norfolk Island" value="NF"/>
+                <element label="Northern Mariana Islands" value="MP"/>
+                <element label="Norway" value="NO"/>
+                <element label="Oman" value="OM"/>
+                <element label="Pakistan" value="PK"/>
+                <element label="Palau" value="PW"/>
+                <element label="Palestinian Territory, Occupied" value="PS"/>
+                <element label="Panama" value="PA"/>
+                <element label="Papua New Guinea" value="PG"/>
+                <element label="Paraguay" value="PY"/>
+                <element label="Peru" value="PE"/>
+                <element label="Philippines" value="PH"/>
+                <element label="Pitcairn" value="PN"/>
+                <element label="Poland" value="PL"/>
+                <element label="Portugal" value="PT"/>
+                <element label="Puerto Rico" value="PR"/>
+                <element label="Qatar" value="QA"/>
+                <element label="Reunion" value="RE"/>
+                <element label="Romania" value="RO"/>
+                <element label="Russian Federation" value="RU"/>
+                <element label="RWANDA" value="RW"/>
+                <element label="Saint Helena" value="SH"/>
+                <element label="Saint Kitts and Nevis" value="KN"/>
+                <element label="Saint Lucia" value="LC"/>
+                <element label="Saint Pierre and Miquelon" value="PM"/>
+                <element label="Saint Vincent and the Grenadines" value="VC"/>
+                <element label="Samoa" value="WS"/>
+                <element label="San Marino" value="SM"/>
+                <element label="Sao Tome and Principe" value="ST"/>
+                <element label="Saudi Arabia" value="SA"/>
+                <element label="Senegal" value="SN"/>
+                <element label="Serbia and Montenegro" value="CS"/>
+                <element label="Seychelles" value="SC"/>
+                <element label="Sierra Leone" value="SL"/>
+                <element label="Singapore" value="SG"/>
+                <element label="Slovakia" value="SK"/>
+                <element label="Slovenia" value="SI"/>
+                <element label="Solomon Islands" value="SB"/>
+                <element label="Somalia" value="SO"/>
+                <element label="South Africa" value="ZA"/>
+                <element label="South Georgia and the South Sandwich Islands" value="GS"/>
+                <element label="Spain" value="ES"/>
+                <element label="Sri Lanka" value="LK"/>
+                <element label="Sudan" value="SD"/>
+                <element label="Suriname" value="SR"/>
+                <element label="Svalbard and Jan Mayen" value="SJ"/>
+                <element label="Swaziland" value="SZ"/>
+                <element label="Sweden" value="SE"/>
+                <element label="Switzerland" value="CH"/>
+                <element label="Syrian Arab Republic" value="SY"/>
+                <element label="Taiwan, Province of China" value="TW"/>
+                <element label="Tajikistan" value="TJ"/>
+                <element label="Tanzania, United Republic of" value="TZ"/>
+                <element label="Thailand" value="TH"/>
+                <element label="Timor-Leste" value="TL"/>
+                <element label="Togo" value="TG"/>
+                <element label="Tokelau" value="TK"/>
+                <element label="Tonga" value="TO"/>
+                <element label="Trinidad and Tobago" value="TT"/>
+                <element label="Tunisia" value="TN"/>
+                <element label="Turkey" value="TR"/>
+                <element label="Turkmenistan" value="TM"/>
+                <element label="Turks and Caicos Islands" value="TC"/>
+                <element label="Tuvalu" value="TV"/>
+                <element label="Uganda" value="UG"/>
+                <element label="Ukraine" value="UA"/>
+                <element label="United Arab Emirates" value="AE"/>
+                <element label="United Kingdom" value="GB"/>
+                <element label="United States" value="US"/>
+                <element label="United States Minor Outlying Islands" value="UM"/>
+                <element label="Uruguay" value="UY"/>
+                <element label="Uzbekistan" value="UZ"/>
+                <element label="Vanuatu" value="VU"/>
+                <element label="Venezuela" value="VE"/>
+                <element label="Viet Nam" value="VN"/>
+                <element label="Virgin Islands, British" value="VG"/>
+                <element label="Virgin Islands, U.S." value="VI"/>
+                <element label="Wallis and Futuna" value="WF"/>
+                <element label="Western Sahara" value="EH"/>
+                <element label="Yemen" value="YE"/>
+                <element label="Zambia" value="ZM"/>
+                <element label="Zimbabwe" value="ZW"/>
+            </choice>
+        </element>
+        <element label="Email" max_length="255" name="email" type="string"/>
+        <element label="Email 2" max_length="40" name="email_2" type="string"/>
+        <element label="Fax Phone" max_length="40" name="fax_phone" type="phone_number_e164"/>
+        <element label="First Name" max_length="255" name="first_name" type="string"/>
+        <element label="Home Phone" max_length="40" name="home_phone" type="phone_number_e164"/>
+        <element choice="3" default="1" label="Job Category" max_length="255" name="job_category" type="choice">
+            <choice>
+                <element label="Doctoral Fellowship" value="3"/>
+                <element label="Postbaccalaureate (Master or Post-Undegrad) Fellowship" value="4"/>
+                <element label="Postdoctoral Fellowship" value="1"/>
+                <element label="Postdoctoral Fellowship (Foreign Visiting Fellow)" value="2"/>
+            </choice>
+        </element>
+        <element label="Last Name" max_length="255" name="last_name" type="string"/>
+        <element label="Middle Initial" max_length="255" name="middle_initial" type="string"/>
+        <element label="Postdoctoral Experience" max_length="2000" name="postdoctoral_experience" type="string"/>
+        <element label="Referral Source" max_length="2000" name="referral_source" type="string"/>
+        <element label="Research Interests" max_length="2000" name="research_interests" type="string"/>
+        <element label="Scientific Focus" max_length="255" name="scientific_focus" type="glide_list"/>
+        <element label="State" max_length="255" name="state" type="string"/>
+        <element label="Status" max_length="40" name="status" type="string"/>
+        <element label="Work Phone" max_length="255" name="work_phone" type="phone_number_e164"/>
+    </element>
+</database>

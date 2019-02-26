@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_css_include">
+    <sp_css_include action="INSERT_OR_UPDATE">
+        <name>future-fellows.css</name>
+        <source>local</source>
+        <sp_css display_value="future-fellows.css">fb00b79fdb8b2f00b86770c08c96196d</sp_css>
+        <sys_class_name>sp_css_include</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-22 17:33:57</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>f820779fdb8b2f00b86770c08c96196f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>future-fellows.css</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_css_include_f820779fdb8b2f00b86770c08c96196f</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-01-22 17:33:57</sys_updated_on>
+        <url/>
+    </sp_css_include>
+</record_update>

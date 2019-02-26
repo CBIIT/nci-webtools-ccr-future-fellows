@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {  /* widget controller */  var c = this;}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>future_fellows_applicants</id>
+        <internal>false</internal>
+        <link/>
+        <name>Future Fellows Applicants</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {  /* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-28 02:41:51</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>af7d9f81db1b634054d8ff621f9619a8</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>Future Fellows Applicants</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_widget_af7d9f81db1b634054d8ff621f9619a8</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-05 17:40:38</sys_updated_on>
+        <template><![CDATA[<h1>
+  Applicants
+</h1>
+
+<hr>
+
+<p>
+  Click on any of the following links to show only applicants which match the specified criteria:
+</p>
+
+<p>
+  Note: The following fields are from the summer 2018 applicants display form. The filters below may be removed or updated.
+  Also, the search form now has most of the criteria listed. This means the filters may be removed in their entirety.
+</p>
+
+<ul class="form-group">
+  <li><a href="#">New Applicants this week</a></li>
+</ul>
+
+<div class="row form-group">
+
+  <div class="col-sm-6">
+    <ul>
+      <li>
+        <a href="#">Doctoral Student</a>
+        <ul>
+          <li><a href="#">Biostatistics or Statistics</a></li>
+          <li><a href="#">Epidemiology</a></li>
+          <li><a href="#">Other Majors</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">MPH and MS</a>
+        <ul>
+          <li><a href="#">Biostatistics or Statistics</a></li>
+          <li><a href="#">Epidemiology</a></li>
+          <li><a href="#">Other Majors</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="col-sm-6">
+    <ul>
+      <li><a href="#">MD/Dental</a></li>
+      <li><a href="#">Undergraduate</a></li>
+      <li><a href="#">High School</a></li>
+      <li><a href="#">Other Academic Level</a></li>
+    </ul>
+  </div>
+</div>
+
+<table class="table table-striped table-hover border">
+  <thead class="bg-primary text-white">
+    <tr>
+      <td>Name</td>
+      <td>Resume Date</td>
+      <td>State</td>
+      <td>Job Category/Scientific Focus Area(s)</td>
+      <td>Citizenship</td>
+      <td>Degree(s)</td>
+      <td>GPA</td>
+      <td>Status</td>
+      <td>Actions</td>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>
+        <a href="/future-fellows?id=future_fellows_applicant&applicant=1">
+          Doe, John
+        </a>
+      </td>
+      <td>12/21/2018, 9:52:49 PM</td>
+      <td>DC</td>
+      <td>Postdoctoral Fellowship
+
+        <ul>
+
+          <li>Biomedical Engineering / Biophysics / Physics</li>
+
+          <li>Chemistry / Chemical Biology</li>
+
+          <li>Clinical Research</li>
+
+          <li>Developmental Biology</li>
+
+        </ul>
+
+      </td>
+      <td>Canadian</td>
+      <td>
+
+        <ul>
+
+          <li>DDS</li>
+
+          <li>PharmD</li>
+
+        </ul>
+
+      </td>
+      <td>4.0</td>
+      <td>Removed</td>
+      <td>
+        <md-button class="md-raised md-primary">Approve</md-button>
+        <md-button class="md-raised md-warn">Remove</md-button>
+      </td>
+    </tr>
+
+
+
+
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="9">
+        N/P = not provided
+      </td>
+    </tr>
+  </tfoot>
+</table>]]></template>
+    </sp_widget>
+</record_update>

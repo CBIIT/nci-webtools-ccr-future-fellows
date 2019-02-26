@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_naci_future_fell.ClientUtils</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ClientUtils</name>
+        <script><![CDATA[var ClientUtils = {
+	getRole: getRole,
+};
+
+function getRole() {
+	var user = gs.getUser();
+	if (user.hasRole('x_naci_future_fell.admin'))
+		return 'admin';
+	
+	else if (user.hasRole('x_naci_future_fell.user'))
+		return 'user';
+
+	else if (user.hasRole('x_naci_future_fell.applicant'))
+		return 'applicant';
+	
+	else
+		return null;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-22 06:35:48</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>b452cd15db73a300b86770c08c961975</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>ClientUtils</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_script_include_b452cd15db73a300b86770c08c961975</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-22 06:35:48</sys_updated_on>
+    </sys_script_include>
+</record_update>

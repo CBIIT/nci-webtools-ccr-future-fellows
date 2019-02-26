@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_naci_future_fell.FutureFellows</api_name>
+        <client_callable>false</client_callable>
+        <description>Contains functions for adding, searching, and updating applicants as well as retrieving form fields.</description>
+        <name>FutureFellows</name>
+        <script><![CDATA[/** Import modules/functions */
+var _ = Lodash._;
+var updateRecord = RecordUtils.updateRecord;
+var insertRecord = RecordUtils.insertRecord;
+var getRecords = RecordUtils.getRecords;
+var getChoices = RecordUtils.getChoices;
+
+/** Export FutureFellows module */
+var FutureFellows = {
+	getFields: getFields,
+	createApplicant: addApplicant,
+	getApplicant: getApplicant,
+	updateApplicant: updateApplicant,
+	searchApplicants: searchApplicants,
+	createUserHistory: addUserHistory,
+	getUserHistory: getUserHistory,
+	constants: {
+		applicantTable: 'x_naci_future_fell_applicant',
+		educationTable: 'x_naci_future_fell_education',
+		publicationTable: 'x_naci_future_fell_publication',
+		userHistoryTable: 'x_naci_future_fell_user_history',
+		applicantAttachmentFields: [
+			'resume',
+			'references'
+		],
+		applicantFields: [
+			'first_name', 
+			'middle_initial', 
+			'last_name',
+			'email',
+			'email_2',
+			'address',
+			'address_2',
+			'city',
+			'state',
+			'postal_code',
+			'country',
+			'home_phone',
+			'work_phone',
+			'fax_phone',
+			'citizenship',
+			'job_category',
+			'scientific_focus',
+			'other_scientific_focus',
+			'num_publications',
+			'num_abstracts',
+			'num_presentations',
+			'research_interests',
+			'postdoctoral_experience',
+			'referral_source',
+			'availability_date',
+		],
+		educationFields: [
+			'degree', 
+			'major', 
+			'institution', 
+			'year_completed',
+			'gpa',
+		],
+		publicationFields: [
+			'title',
+			'journal_name',
+			'year',
+		],
+		ignoredFields: [
+			
+		],
+		userActions: [
+			'ADD_APPLICANT',
+			'APPROVE_APPLICANT',
+			'REMOVE_APPLICANT',
+			'UPDATE_APPLICANT_DETAILS',
+			'EMAIL_APPLICANT_DETAILS',
+			'DOWNLOAD_APPLICANT_DETAILS',
+			'LOG_IN'
+		]
+	}
+};
+
+function validateApplicant(params) {
+	var validate = ValidationUtils.validate;
+	var required = ValidationUtils.required;
+	var pattern = ValidationUtils.pattern;
+	var maxLength = ValidationUtils.maxLength;
+	
+	return validate(params, {
+		first_name: [required, maxLength(255)],
+		middle_initial: [maxLength(255)],
+		last_name: [required, maxLength(255)],
+		email: [required, pattern(/\@/)],
+	
+	});
+}
+
+function addApplicant(params) {
+	if (!validateApplicant(params)) return false;
+	var constants = FutureFellows.constants;
+
+	var applicantTable = constants.applicantTable;
+	var applicantFields = constants.applicantFields;
+	var applicantAttachmentFields = constants.applicantAttachmentFields;
+	
+	var educationTable = constants.educationTable;
+	var educationFields = constants.educationFields;
+	
+	var publicationTable = constants.publicationTable;
+	var publicationFields = constants.publicationFields;
+
+	// insert applicant record
+	var grApplicant = RecordUtils.insertRecord(applicantTable, grApplicant);
+	var applicantId = grApplicant.getUniqueValue();
+	
+	// insert education records
+	params.education.forEach(function(educationItem) {
+		educationItem.applicant = grApplicant;
+		insertRecord(educationTable, educationItem);
+	});
+	
+	// insert publication records
+	params.publication.forEach(function(publicationItem) {
+		publicationItem.applicant = grApplicant;
+		insertRecord(publicationTable, publicationItem);
+	});
+
+	// add attachments to the applicant record
+	applicantAttachmentFields.forEach(function(fieldName) {
+		var attachment = new GlideSysAttachment();
+		var filename = fieldName + '.pdf';
+		var parts = params[fieldName].split(',');
+		var mimetype = parts[0].replace(/(^data:)|(;base64$)/g, '');
+		var content = parts[1];
+		attachment.writeBase64(grApplicant, filename,  mimetype, content);
+	});
+
+	return true;
+}
+
+function getApplicant(applicantId) {
+	var applicant = {};
+
+	var grUtil = new GlideRecordUtil();
+	var applicantTable = FutureFellows.constants.applicantTable;
+	var applicantFields = FutureFellows.constants.applicantFields;
+	var applicantAttachmentFields = FutureFellows.constants.applicantAttachmentFields;
+	
+	var grApplicant = grUtil.getGR(applicantTable, applicantId);
+	grUtil.populateFromGR(applicant, grApplicant);
+
+	applicant.education = RecordUtils.getRecords(educationTable, [
+		['applicant', grApplicant]
+	]);
+
+	applicant.publications = RecordUtils.getRecords(publicationTable, [
+		['applicant', grApplicant]
+	]);
+	
+	return applicant;
+}
+
+function updateApplicant(applicantId, params) {
+	if (!validateApplicant(params)) return false;
+
+	var applicantTable = FutureFellows.constants.applicantTable;
+	RecordUtils.updateRecord(applicantTable, applicantId, params);
+
+	return true;
+}
+
+function searchApplicants(params) {
+	var applicants = TableUtil.getRecords(applicantsTable, params.applicant);
+	return applicants;
+}
+
+function sendEmail(recipient, contents, attachments) {
+	var eventParams = {
+		recipient: recipient,
+		contents: contents,
+		attachments: attachments || []
+	};
+}
+
+function validateUserHistoryRecord(params) {
+	return true;
+}
+
+function addUserHistory(params) {
+	if (!validateUserHistoryRecord(params))
+		return false;
+	
+	var userHistoryTable = FutureFellows.constants.userHistoryTable;
+	return TableUtil.insertRecord(userHistoryTable, params);
+}
+
+function getUserHistory(queries) {
+	var userHistoryTable = FutureFellows.constants.userHistoryTable;
+	return TableUtil.getRecords(userHistoryTable, queries);
+}
+
+function getFields() {
+	/** Tables with field choices we need */
+	var applicantTable = FutureFellows.constants.applicantTable;
+	var educationTable = FutureFellows.constants.educationTable;
+
+	/** Fields which have choice lists */
+	var fieldLookup = [
+		{tableName: applicantTable, fieldName: 'citizenship'},
+		{tableName: applicantTable, fieldName: 'job_category'},
+		{tableName: applicantTable, fieldName: 'scientific_focus'},
+		{tableName: applicantTable, fieldName: 'state'},
+		{tableName: applicantTable, fieldName: 'country'},
+		{tableName: educationTable, fieldName: 'degree'},
+	];
+
+	/** 
+	 * Create an object where each key is the name of a field
+	 * and each value is an array of choices for that field 
+	 */
+	var fields = fieldLookup.reduce(function(obj, lookup) {
+		var fieldName = lookup.fieldName;
+		var tableName = lookup.tableName;
+		/* retrieve labels/values for all choices */
+		obj[fieldName] = getChoices(tableName, fieldName);
+		return obj;
+	}, {});
+
+	return fields;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-29 16:38:12</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>d666e765dbdbe340b86770c08c961985</sys_id>
+        <sys_mod_count>58</sys_mod_count>
+        <sys_name>FutureFellows</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_script_include_d666e765dbdbe340b86770c08c961985</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-19 20:04:02</sys_updated_on>
+    </sys_script_include>
+</record_update>

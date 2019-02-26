@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_theme">
+    <sp_theme action="INSERT_OR_UPDATE">
+        <css_variables>/** Service Portal */&#13;
+$sp-tagline-color: #717171;&#13;
+$sp-logo-margin-x: 1rem;&#13;
+$sp-homepage-bg: #fff;&#13;
+$sp-navbar-divider-color: #455464;&#13;
+$sp-logo-margin-y: .5rem;&#13;
+&#13;
+/** Media Query Breakpoints */&#13;
+$screen-xs: 480px;&#13;
+$screen-sm: 768px;&#13;
+$screen-md: 992px;&#13;
+$screen-lg: 1200px;&#13;
+&#13;
+/** Typography  */&#13;
+/** Replace native font stack with Source Sans Pro as the default */&#13;
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;&#13;
+/** Use Merriweather as the default serif font */&#13;
+$font-family-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;&#13;
+&#13;
+$font-size-base: 16px;&#13;
+$font-size-h1: floor(($font-size-base * 2));&#13;
+$font-size-h2: floor(($font-size-base * 1.75));&#13;
+$font-size-h3: floor(($font-size-base * 1.50));&#13;
+$font-size-h4: floor(($font-size-base * 1.25));&#13;
+$font-size-h5: floor(($font-size-base * 1));&#13;
+$font-size-h6: floor(($font-size-base * 0.85));&#13;
+$headings-font-weight: 600;&#13;
+&#13;
+/** Colors */&#13;
+$brand-primary: #005ea2; /* #0071bc; */&#13;
+$brand-warning: #fdb81e;&#13;
+$brand-danger: #cf000f;&#13;
+$brand-info: #205493;&#13;
+$brand-success: #2e8540;&#13;
+$body-bg: white;&#13;
+&#13;
+$btn-warning-color: darken($brand-warning, 85%);&#13;
+$link-color: darken($brand-primary, 15%);&#13;
+$link-hover-color: darken($brand-primary, 25%);&#13;
+&#13;
+$text-color: #222;&#13;
+$text-muted: #595959;&#13;
+$state-success-text: #5cb85c;&#13;
+$panel-bg: #fff;&#13;
+&#13;
+&#13;
+$navbar-default-bg: #ffffff;&#13;
+&#13;
+$navbar-inverse-bg: #3a3f51;&#13;
+$navbar-inverse-link-color: white;&#13;
+$navbar-inverse-link-hover-color: #444;&#13;
+$navbar-inverse-link-hover-bg: white;&#13;
+$navbar-inverse-link-active-bg: white;&#13;
+&#13;
+$border-radius-base: 0px;&#13;
+$border-radius-large: 0px;&#13;
+$border-radius-small: 0px;&#13;
+&#13;
+$badge-font-weight: 400;&#13;
+$badge-border-radius: $border-radius-small;&#13;
+&#13;
+.text-light { color: #fefefe !important; }&#13;
+.bg-primary-dark { background-color: #162e51; }&#13;
+.bg-white { background-color: white; }&#13;
+&#13;
+/** Shadows */&#13;
+.shadow-sm 	{ box-shadow: 0 .125rem .25rem rgba(black, .075) !important; }&#13;
+.shadow 	{ box-shadow: 0 .5rem 1rem rgba(black, .15) !important; }&#13;
+.shadow-lg 	{ box-shadow: 0 1rem 3rem rgba(black, .175) !important; }&#13;
+.shadow-none { box-shadow: none !important; }&#13;
+&#13;
+&#13;
+/** Text Utilities (Bootstrap 4) */&#13;
+.text-monospace {&#13;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;&#13;
+}&#13;
+&#13;
+.text-justify {&#13;
+  text-align: justify !important;&#13;
+}&#13;
+&#13;
+.text-wrap {&#13;
+  white-space: normal !important;&#13;
+}&#13;
+&#13;
+.text-nowrap {&#13;
+  white-space: nowrap !important;&#13;
+}&#13;
+&#13;
+.text-truncate {&#13;
+  overflow: hidden;&#13;
+  text-overflow: ellipsis;&#13;
+  white-space: nowrap;&#13;
+}&#13;
+&#13;
+.text-left {&#13;
+  text-align: left !important;&#13;
+}&#13;
+&#13;
+.text-right {&#13;
+  text-align: right !important;&#13;
+}&#13;
+&#13;
+.text-center {&#13;
+  text-align: center !important;&#13;
+}&#13;
+&#13;
+@media (min-width: 576px) {&#13;
+  .text-sm-left {&#13;
+    text-align: left !important;&#13;
+  }&#13;
+  .text-sm-right {&#13;
+    text-align: right !important;&#13;
+  }&#13;
+  .text-sm-center {&#13;
+    text-align: center !important;&#13;
+  }&#13;
+}&#13;
+&#13;
+@media (min-width: 768px) {&#13;
+  .text-md-left {&#13;
+    text-align: left !important;&#13;
+  }&#13;
+  .text-md-right {&#13;
+    text-align: right !important;&#13;
+  }&#13;
+  .text-md-center {&#13;
+    text-align: center !important;&#13;
+  }&#13;
+}&#13;
+&#13;
+@media (min-width: 992px) {&#13;
+  .text-lg-left {&#13;
+    text-align: left !important;&#13;
+  }&#13;
+  .text-lg-right {&#13;
+    text-align: right !important;&#13;
+  }&#13;
+  .text-lg-center {&#13;
+    text-align: center !important;&#13;
+  }&#13;
+}&#13;
+&#13;
+@media (min-width: 1200px) {&#13;
+  .text-xl-left {&#13;
+    text-align: left !important;&#13;
+  }&#13;
+  .text-xl-right {&#13;
+    text-align: right !important;&#13;
+  }&#13;
+  .text-xl-center {&#13;
+    text-align: center !important;&#13;
+  }&#13;
+}&#13;
+&#13;
+.text-lowercase {&#13;
+  text-transform: lowercase !important;&#13;
+}&#13;
+&#13;
+.text-uppercase {&#13;
+  text-transform: uppercase !important;&#13;
+}&#13;
+&#13;
+.text-capitalize {&#13;
+  text-transform: capitalize !important;&#13;
+}&#13;
+&#13;
+.font-weight-light {&#13;
+  font-weight: 300 !important;&#13;
+}&#13;
+&#13;
+.font-weight-lighter {&#13;
+  font-weight: lighter !important;&#13;
+}&#13;
+&#13;
+.font-weight-normal {&#13;
+  font-weight: 400 !important;&#13;
+}&#13;
+&#13;
+.font-weight-bold {&#13;
+  font-weight: 700 !important;&#13;
+}&#13;
+&#13;
+.font-weight-bolder {&#13;
+  font-weight: bolder !important;&#13;
+}&#13;
+&#13;
+.font-italic {&#13;
+  font-style: italic !important;&#13;
+}&#13;
+&#13;
+.text-white {&#13;
+  color: #fff !important;&#13;
+}&#13;
+</css_variables>
+        <footer display_value="Future Fellows Footer">fedd6b5bdb8b2f00b86770c08c96190a</footer>
+        <footer_fixed>false</footer_fixed>
+        <header display_value="Future Fellows Header">44ece3d7db8b2f00b86770c08c96198b</header>
+        <name>Future Fellows Theme</name>
+        <navbar_fixed>false</navbar_fixed>
+        <sys_class_name>sp_theme</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-22 17:26:25</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>2f4ee39bdb8b2f00b86770c08c9619f3</sys_id>
+        <sys_mod_count>105</sys_mod_count>
+        <sys_name>Future Fellows Theme</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_theme_2f4ee39bdb8b2f00b86770c08c9619f3</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-05 17:53:04</sys_updated_on>
+    </sp_theme>
+</record_update>

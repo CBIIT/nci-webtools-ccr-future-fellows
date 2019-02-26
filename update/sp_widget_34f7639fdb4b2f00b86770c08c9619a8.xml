@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+  var c = this;
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.custom-card {
+  min-height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: box-shadow 0.1s;
+  box-shadow: 0 .5rem 1rem rgba(black, .15);
+}
+
+.light-blue {
+  color: #00bde3;
+}
+
+
+.custom-card:hover {
+  background-color: white;
+  box-shadow: 0 1rem 2rem rgba(black, .175);
+}
+
+.cover-image {
+  background-color: #ddd;
+  padding: 30px;
+  background-image: url('/future-fellows-home.jpg');
+  background-size: cover;
+  background-position: 50%;
+}
+
+.front-action-button {
+  min-width: 300px;
+}
+
+.front-header {
+  font-size: 30px;
+}
+
+.front-subheader {
+  font-size: 16px;
+  margin-top: 22px;
+  margin-bottom: 24px;
+}
+</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>future_fellows_home</id>
+        <internal>false</internal>
+        <link/>
+        <name>Future Fellows Home</name>
+        <option_schema/>
+        <public>true</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	var user = gs.getUser();	
+	
+	data.isLoggedIn = gs.getSession().isLoggedIn();
+	data.userName = user.getDisplayName();
+	
+	// if a user has multiple roles, the one with
+	// the highest privilege level is chosen
+	data.userRole = null;
+	if (user.hasRole('x_naci_future_fell.admin'))
+		data.userRole = 'admin';
+	else if (user.hasRole('x_naci_future_fell.user'))
+		data.userRole = 'user';
+	else if (user.hasRole('x_naci_future_fell.applicant'))
+		data.userRole = 'applicant';
+	
+	data.links = [];
+	
+	if (data.userRole === 'admin') {
+		data.links = [
+			{
+				icon: 'fa fa-search fa-2x',
+				title: 'Search Applicants',
+				link: '?id=future_fellows_search'
+			},
+
+			{
+				icon: 'fa fa-user fa-2x',
+				title: 'New Applicant',
+				link: '?id=future_fellows_new_applicant'
+			},
+
+			{
+				icon: 'fa fa-users fa-2x',
+				title: 'Saved Applicants',
+				link: '?id=future_fellows_saved_applicants'
+			},
+
+			{
+				icon: 'fa fa-history fa-2x',
+				title: 'Track Users',
+				link: '?id=future_fellows_users'
+			},
+			
+			{
+				icon: 'fa fa-sliders fa-2x',
+				title: 'Update Preferences',
+				link: '?id=future_fellows_preferences'
+			}
+		];
+	} else if (data.userRole === 'user') {
+		data.links = [
+			{
+				icon: 'fa fa-search fa-2x',
+				title: 'Search Applicants',
+				link: '?id=future_fellows_search'
+			},
+
+			{
+				icon: 'fa fa-user fa-2x',
+				title: 'New Applicants',
+				link: '?id=future_fellows_new_applicant'
+			},
+
+			{
+				icon: 'fa fa-users fa-2x',
+				title: 'Saved Applicants',
+				link: '?id=future_fellows_saved_applicants'
+			},
+			
+			{
+				icon: 'fa fa-sliders fa-2x',
+				title: 'Update Preferences',
+				link: '?id=future_fellows_preferences'
+			}
+		];
+	} else if (data.userRole === 'applicant') {
+		data.links = [
+			{
+				icon: 'fa  fa-pencil-square-o fa-2x',
+				title: 'Update My Application',
+				link: '?id=future_fellows_applicant'
+			},
+			
+			{
+				icon: 'fa fa-list-alt fa-2x',
+				title: 'View My Application Status',
+				link: '?id=future_fellows_application_status'
+			}
+		]	
+	}
+	
+	
+//	$sp.log("Testing..." + $sp.getParameter('wow'));
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-22 16:58:11</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>34f7639fdb4b2f00b86770c08c9619a8</sys_id>
+        <sys_mod_count>270</sys_mod_count>
+        <sys_name>Future Fellows Home</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_widget_34f7639fdb4b2f00b86770c08c9619a8</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-22 07:05:55</sys_updated_on>
+        <template><![CDATA[
+<!-- pi index -->
+<div class="container" ng-if="c.data.isLoggedIn">
+
+  <h1>
+    Welcome, {{ c.data.userName }}
+  </h1>
+
+  <hr>
+
+  <p class="lead" style="font-weight: 400; font-size: 18px;">
+    To begin, select an option below:
+  </p>
+
+  <div layout="row" layout-wrap class="mb-5">
+    <a ng-repeat="card in c.data.links"
+       class="custom-card p-4 m-4"
+       flex="30"
+       ng-href="{{ card.link }}">
+      <div class="text-center">
+        <i ng-class="[ card.icon ]"
+           aria-hidden="true"
+           class="card-icon"></i>
+        
+        <div class="mt-2">
+          {{ card.title }}
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+
+<!-- public index -->
+<ng-container ng-if="!c.data.isLoggedIn || c.data.userRole == null">
+  <div class="row cover-image">
+    <div class="container">
+      <div class="col-md-6 col-lg-4 px-5 py-3 bg-primary-dark text-light">
+        <h1 class="front-header serif">
+          <span class="light-blue">Become a </span><br>
+          Future Fellow <br>
+          <span class="light-blue">of the National Cancer Institute</span>
+        </h1>
+        <p class="front-subheader text-light">
+          Contribute to research in cancer biology, causation, prevention, detection, treatment and survivorship.
+        </p>
+        <p>
+          <md-button href="?id=future_fellows_application" class="md-raised md-primary m-0 px-4">
+            Apply for a Fellowship
+            <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+          </md-button>
+        </p>
+      </div>
+    </div>
+  </div>  
+
+  <div class="container mb-5 py-4">
+    <div class="col-md-6 col-lg-4">
+      <h1 class="front-header serif mt-0">
+        Welcome to the National Cancer Institute
+      </h1>
+
+    </div>
+
+    <div class="col-md-8">
+      <p>
+        The National Cancer Institute is the Nation's primary agency leading the fight against cancer by supporting and conducting ground-breaking research in cancer biology, causation, prevention, detection, treatment and survivorship. 
+      </p>
+      <p>
+        NCI's goal is to stimulate and support scientific discovery and its application to achieve a future when all cancers are uncommon and easily treatable. The NCI works toward this goal by providing vision to the Nation and leadership for thousands of NCI funded researchers across the United States and around the world, and working to assure that the results of research are translated into reducing the burden of all cancers for all people.        
+      </p>
+
+      <p>
+        The National Cancer Institute maintains a CV/resume databank of interested candidates to be considered for postdoctoral, doctoral, and postbaccalaureate (master-level and post-college) fellowships. 
+        <a href="?id=future_fellows_application">Candidates are encouraged to post their CVs/resumes.</a>
+      </p>
+
+      <div uib-alert type="danger">
+      	Applications are kept for six months after the submission date. After six months, your application will be removed from the system.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="row bg-primary-dark text-light py-5">
+    <div class="container py-5">
+      <div class="col-md-4">
+        <h1 class="front-header serif mt-0">
+          Further Opportunities
+        </h1>
+      </div>
+
+      <div class="col-md-8">
+        <p>
+          After posting your resume here, you can also view and apply for current fellowship and intern opportunities offered in our intramural and extramural divisions:
+        </p>
+
+
+        <h2 class="h4 serif light-blue">
+          <a class="light-blue" href="https://ccr.cancer.gov/training" target="_blank">
+            Center for Cancer Research
+          </a>
+        </h2>
+
+
+        <h2 class="h4 serif light-blue">
+          <a class="light-blue" href="https://dceg.cancer.gov/fellowship-training" target="_blank">
+            Division of Cancer Epidemiology and Genetics
+          </a>
+        </h2>
+
+        <h2 class="h4 serif">
+          <a class="light-blue" href="https://cpfp.cancer.gov/fellowship-program" target="_blank">
+            Division of Cancer Prevention
+          </a>
+        </h2>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+]]></template>
+    </sp_widget>
+</record_update>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_container">
+    <sp_container action="INSERT_OR_UPDATE">
+        <background_color/>
+        <background_image/>
+        <background_style>default</background_style>
+        <bootstrap_alt>false</bootstrap_alt>
+        <class_name/>
+        <container_class_name/>
+        <name>Future Fellows Application Status - Container 1</name>
+        <order>1</order>
+        <sp_page display_value="future_fellows_application_status">27538555db73a300b86770c08c96193b</sp_page>
+        <subheader>false</subheader>
+        <sys_class_name>sp_container</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-22 06:38:22</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>e7538555db73a300b86770c08c96193d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Future Fellows Application Status - Container 1</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_container_e7538555db73a300b86770c08c96193d</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-22 06:38:22</sys_updated_on>
+        <title/>
+        <width>container</width>
+    </sp_container>
+</record_update>

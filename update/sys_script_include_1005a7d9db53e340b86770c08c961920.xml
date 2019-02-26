@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_naci_future_fell.RecordUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Contains utility functions for working with GlideRecord objects</description>
+        <name>RecordUtils</name>
+        <script><![CDATA[/** Export RecordUtils as a set of static functions */
+var RecordUtils = {
+	getChoices: getChoices,
+	getRecords: getRecords,
+	insertRecord: insertRecord,
+	updateRecord: updateRecord,
+};
+
+/** 
+ * Retrieve choices as an array of label-value objects for a given field
+ * @param table {String} Name of table
+ * @param field {String} Name of field
+ */
+function getChoices(table, field) {
+	var gr = new GlideRecord(table);
+	return gr
+		.getElement(field)
+		.getChoices()
+		.map(function(choice) {
+			gr.setValue(field, choice);
+			return {
+				label: gr[field].getChoiceValue(),
+				value: choice.toString()
+			};
+	});
+}
+
+/**
+ * Retrieve records from a table given an array of query parameters
+ * @param table {String} Name of table
+ * @param queries {any[][]} Queries to apply to the search
+ * @example: getRecords(
+ *	 'x_naci_applicant', 
+ *	 [
+ *		 ['active', true], 
+ *		 ['number', 'in', '1,2,3']
+ *	 ], 
+ *	 ['name', 'label', 'etc']
+ *	);
+ *
+ *	 returns:
+ *	 [
+ *	   { name: 'nameValue', 'label': 'labelValue', 'etc': '...'},
+ *	   { name: 'nameValue2', 'label': 'labelValue2', 'etc': '...'},
+ *	   { ... }
+ *	 ]
+ */
+function getRecords(table, queries) {
+	var grUtil = new GlideRecordUtil();
+	var gr = new GlideRecord(table);
+
+	// add queries to record
+	queries.forEach(function(query) {
+		gr.addQuery.apply(gr, query);
+	});
+	gr.query();
+
+	// populate results with record
+	var records = [];
+	while(gr.next()) {
+		var record = {};
+		grUtil.populateFromGR(record, gr);
+		records.push(record);
+	}
+
+	return records;
+}
+
+/**
+ * Inserts an object containing record fields/values
+ * into the specified table
+ * @param table {String} Name of table
+ * @param object {object} Object containing record fields/values
+ * @return {GlideRecord} The inserted record
+ */
+function insertRecord(table, object) {
+	var grUtil = new GlideRecordUtil();
+	var gr = new GlideRecord(table);
+	gr.initialize();
+	grUtil.mergeToGR(object, gr);
+	gr.insert();
+	return gr;
+}
+
+/**
+ * Updates a record with an object containing new values for each field
+ * @param table {String} Name of table
+ * @param recordId {String} The sys_id of the record to update
+ * @param object {object} The object containing new values for the record's fields
+ * @return {GlideRecord} The updated record
+ */
+function updateRecord(table, recordId, object) {
+	var grUtil = new GlideRecordUtil();
+	var gr = grUtil.getGR(table, recordId);
+	grUtil.mergeToGR(object, gr);
+	gr.update();
+	return gr;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-28 21:57:50</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>1005a7d9db53e340b86770c08c961920</sys_id>
+        <sys_mod_count>27</sys_mod_count>
+        <sys_name>RecordUtils</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_script_include_1005a7d9db53e340b86770c08c961920</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-12 16:00:41</sys_updated_on>
+    </sys_script_include>
+</record_update>

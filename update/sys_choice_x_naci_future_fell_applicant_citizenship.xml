@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="citizenship" table="x_naci_future_fell_applicant" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>citizenship</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>United States</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-08 20:33:53</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>27fb3fb8dbe3e700b86770c08c9619b0</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-08 20:33:56</sys_updated_on>
+            <value>1</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>citizenship</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>U.S. Permanent Resident</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-08 20:34:10</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>5e5cffb8dbe3e700b86770c08c96198e</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-08 20:34:13</sys_updated_on>
+            <value>2</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>citizenship</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Canadian</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-08 20:34:16</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>3e6c337cdbe3e700b86770c08c9619fb</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-08 20:34:18</sys_updated_on>
+            <value>3</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>citizenship</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Foreign National</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-08 20:34:32</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>cc7c3f3cdbe3e700b86770c08c961937</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-08 20:34:33</sys_updated_on>
+            <value>4</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>citizenship</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>F-1 Visa</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-08 20:34:39</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>4c8c73f8dbe3e700b86770c08c96191c</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-08 20:34:41</sys_updated_on>
+            <value>5</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>citizenship</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>J-1 Visa</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-08 20:34:46</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>358c3f3cdbe3e700b86770c08c961921</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-08 20:34:47</sys_updated_on>
+            <value>6</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>citizenship</element>
+            <name>x_naci_future_fell_applicant</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-08 20:33:53</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>565c33f8dbe3e700b86770c08c961967</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>citizenship</sys_name>
+            <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+            <sys_update_name>sys_choice_x_naci_future_fell_applicant_citizenship</sys_update_name>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-08 20:33:53</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

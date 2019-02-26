@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_header_footer">
+    <sp_header_footer action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {  /* widget controller */  var c = this;}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>future_fellows_footer</id>
+        <internal>false</internal>
+        <link/>
+        <name>Future Fellows Footer</name>
+        <option_schema/>
+        <public>true</public>
+        <roles/>
+        <script><![CDATA[(function() {  /* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_header_footer</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-22 17:24:35</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>fedd6b5bdb8b2f00b86770c08c96190a</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>Future Fellows Footer</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_header_footer_fedd6b5bdb8b2f00b86770c08c96190a</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-05 19:14:39</sys_updated_on>
+        <template><![CDATA[<div
+     class="text-left text-md-center py-4 bg-light">
+
+  <div class="container px-4">
+    <ul class="list-inline">
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://www.cancer.gov/" class="">Home</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov" class="">Support</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://www.cancer.gov/global/web/policies" class="">Policies</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://www.cancer.gov/global/web/policies/accessibility" class="">Accessibility</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://cancer.gov/global/viewing-files" class="">Viewing Files</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://www.cancer.gov/global/web/policies/foia" class="">FOIA</a>
+      </li>
+    </ul>
+
+    <ul class="list-inline">
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://www.hhs.gov/" class="">U.S. Department of Health and Human Services</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://www.nih.gov/" class="">National Institutes of Health</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://www.cancer.gov/" class="">National Cancer Institute</a>
+      </li>
+
+      <li class="d-none d-md-inline list-inline-item">|</li>
+
+      <li class="d-block d-md-inline list-inline-item">
+        <a href="https://usa.gov/" class="">USA.gov</a>
+      </li>
+    </ul>
+
+    <div>NIH ... Turning Discovery Into Health ®</div>
+  </div>
+
+</div>]]></template>
+    </sp_header_footer>
+</record_update>

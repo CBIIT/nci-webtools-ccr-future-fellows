@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_css">
+    <sp_css action="INSERT_OR_UPDATE">
+        <css>@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');&#13;
+&#13;
+@font-face {&#13;
+  font-family: 'Merriweather Web';&#13;
+  font-style: normal;&#13;
+  font-weight: 700;&#13;
+  src: url('https://v2.designsystem.digital.gov/assets/fonts/merriweather/merriweather-bold-webfont.woff2') format('woff2');&#13;
+}&#13;
+&#13;
+a {&#13;
+  font-weight: 600;&#13;
+}&#13;
+&#13;
+a:hover {&#13;
+ 	text-decoration: underline;&#13;
+}&#13;
+&#13;
+p {&#13;
+    margin: 0 0 20px;&#13;
+}&#13;
+&#13;
+.serif {&#13;
+  font-family: 'Merriweather',Cambria,Times New Roman,Times,serif;&#13;
+}&#13;
+&#13;
+&#13;
+.navbar {&#13;
+  margin-bottom: 0;&#13;
+  border: none;&#13;
+}&#13;
+&#13;
+.navbar.navbar-default {&#13;
+  min-height: 0px;&#13;
+  border-bottom: none;&#13;
+}&#13;
+&#13;
+.navbar-default .navbar-nav .nav-link,&#13;
+.navbar-default .dropdown &gt; .dropdown-toggle {&#13;
+  padding: 7px 5px;&#13;
+  margin-right: 15px;&#13;
+  border-bottom: 3px solid transparent;&#13;
+  border-top: 3px solid transparent;&#13;
+  transition: background-color .15s linear;&#13;
+  font-size: 14px;&#13;
+  font-weight: 600;&#13;
+}&#13;
+&#13;
+.navbar-default .dropdown &gt; .dropdown-toggle {&#13;
+  border-color: transparent !important;&#13;
+}&#13;
+&#13;
+.navbar-default .navbar-nav .nav-link + .nav-link {&#13;
+  margin-left: 10px;&#13;
+}&#13;
+&#13;
+.navbar-default .navbar-nav .nav-link:hover,&#13;
+.navbar-default .navbar-nav .nav-link:focus,&#13;
+.navbar-default .navbar-nav .nav-link.active,&#13;
+.navbar-default .navbar-nav &gt; .active &gt; a, &#13;
+.navbar-default .navbar-nav &gt; .active &gt; a:hover, &#13;
+.navbar-default .navbar-nav &gt; .active &gt; a:focus {&#13;
+  color: #2f2f2f !important;&#13;
+  background-color: #fff;&#13;
+}&#13;
+&#13;
+.navbar-default .navbar-nav .active &gt; .nav-link {&#13;
+  border-bottom-color: #005ea2;&#13;
+}&#13;
+&#13;
+&#13;
+.navbar-nav {&#13;
+	margin: 0;&#13;
+}&#13;
+&#13;
+.navbar-inverse {&#13;
+  min-height: 0px;&#13;
+  border: none;&#13;
+}&#13;
+&#13;
+.navbar-inverse .navbar-nav .nav-link {&#13;
+  padding: 10px 20px;&#13;
+  border-bottom: 7px solid transparent;&#13;
+  border-top: 7px solid transparent;&#13;
+  transition: background-color .15s linear;&#13;
+  text-transform: uppercase;&#13;
+  font-weight: 600;&#13;
+}&#13;
+&#13;
+.navbar-inverse .navbar-nav .nav-link:hover,&#13;
+.navbar-inverse .navbar-nav .nav-link:focus,&#13;
+.navbar-inverse .navbar-nav .nav-link.active {&#13;
+  color: #2f2f2f !important;&#13;
+  background-color: #fff;&#13;
+}&#13;
+&#13;
+.navbar-inverse .navbar-nav .active &gt; .nav-link {&#13;
+  border-bottom-color: #14819b;&#13;
+}&#13;
+&#13;
+.panel {&#13;
+  border: none;&#13;
+}&#13;
+&#13;
+&#13;
+.v-align-top {&#13;
+  vertical-align: top;&#13;
+}&#13;
+&#13;
+::placeholder,&#13;
+::-ms-input-placeholder,&#13;
+::-ms-input-placeholder {&#13;
+  color: #595959 !important;&#13;
+}&#13;
+&#13;
+/** Material input overrides */&#13;
+md-input-container textarea.md-input {&#13;
+    background-color: #fbfbfb;&#13;
+    padding: 10px;&#13;
+}&#13;
+&#13;
+md-input-container.md-default-theme .md-placeholder, &#13;
+md-input-container .md-placeholder, &#13;
+md-input-container.md-default-theme label, &#13;
+md-input-container label,&#13;
+md-select.md-default-theme .md-select-value.md-select-placeholder, &#13;
+md-select .md-select-value.md-select-placeholder {&#13;
+  color: #595959;&#13;
+}&#13;
+&#13;
+md-checkox .md-label {&#13;
+  max-height: 22px;&#13;
+}&#13;
+&#13;
+/* Fix select placement misalignment */&#13;
+md-input-container &gt; md-select {&#13;
+    display: flex;&#13;
+    margin-bottom: 26px;&#13;
+}&#13;
+&#13;
+md-select.md-default-theme .md-select-value &gt; span, &#13;
+md-select .md-select-value &gt; span {&#13;
+  margin-bottom: 5px;&#13;
+}&#13;
+&#13;
+md-select.md-default-theme .md-select-value.md-select-placeholder &gt; span, &#13;
+md-select .md-select-value.md-select-placeholder &gt; span {&#13;
+  margin-top: -10px; &#13;
+  margin-bottom: 0;&#13;
+}&#13;
+&#13;
+&#13;
+.md-label md-select.md-default-theme, &#13;
+.md-label md-select {&#13;
+  display: flex;&#13;
+  align-items: center;&#13;
+  max-height: 22px;&#13;
+}&#13;
+&#13;
+&#13;
+.md-label md-select.md-default-theme .md-select-value.md-select-placeholder &gt; span, &#13;
+.md-label md-select .md-select-value.md-select-placeholder &gt; span {&#13;
+  color: #222;&#13;
+  margin-top: 0; &#13;
+  margin-bottom: 0;&#13;
+}&#13;
+&#13;
+.md-label md-input-container input {&#13;
+  height: 22px;&#13;
+}&#13;
+&#13;
+.md-label md-input-container .md-errors-spacer {&#13;
+  min-height: 1px;&#13;
+}&#13;
+&#13;
+&#13;
+&#13;
+&#13;
+.md-datepicker-input-container &gt; .md-datepicker-input {&#13;
+    font-size: 16px;&#13;
+    padding: 0;&#13;
+  	min-width: 240px;&#13;
+}&#13;
+&#13;
+&#13;
+.ag-theme-material, .ag-header {&#13;
+  font-family: inherit !important;&#13;
+}</css>
+        <name>future-fellows.css</name>
+        <sys_class_name>sp_css</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-22 17:33:57</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>fb00b79fdb8b2f00b86770c08c96196d</sys_id>
+        <sys_mod_count>119</sys_mod_count>
+        <sys_name>future-fellows.css</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_css_fb00b79fdb8b2f00b86770c08c96196d</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-22 04:47:39</sys_updated_on>
+    </sp_css>
+</record_update>

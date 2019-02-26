@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="scientific_focus" table="x_naci_future_fell_applicant" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Bioinformatics</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>659f47f1dbab6b00b86770c08c961986</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>1</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Epidemiology / Population Sciences</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>259f0bb5dbab6b00b86770c08c961952</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>10</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Clinical epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>e59f0bb5dbab6b00b86770c08c961956</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>10.1</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Descriptive epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>2d9f0bb5dbab6b00b86770c08c96195a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>10.2</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Environmental / occupational epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>a99f0bb5dbab6b00b86770c08c96196b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>10.3</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Epidemiological Methods</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>f19f0bb5dbab6b00b86770c08c961970</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>10.4</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Genetic / genomic epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>bd9f0bb5dbab6b00b86770c08c961974</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>10.5</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Infections and Immune epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>f99f0bb5dbab6b00b86770c08c961979</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>10.6</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Nutritional epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>b99f0bb5dbab6b00b86770c08c96197e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>10.7</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Radiation epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>f99f0bb5dbab6b00b86770c08c961983</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>10.8</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Reproductive epidemiology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>bd9f0bb5dbab6b00b86770c08c961988</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>10.9</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Exposure Assessment / GIS</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>f19f0bb5dbab6b00b86770c08c96198e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>11</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Genetics / Genomics</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>b99f0bb5dbab6b00b86770c08c961993</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>12</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Health Disparities</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>f19f0bb5dbab6b00b86770c08c961999</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>13</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Immunology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>bd9f0bb5dbab6b00b86770c08c96199e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>14</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Microbiology / Infectious diseases (non-viral)</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>f99f0bb5dbab6b00b86770c08c9619a4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>15</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Molecular Biology / Biochemistry</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>b99f0bb5dbab6b00b86770c08c9619aa</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>16</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Molecular Pharmacology / Toxicology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>f99f0bb5dbab6b00b86770c08c9619b0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>17</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Neuroscience / Neurophysiology / Neurodevelopment</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>8e9f0bb5dbab6b00b86770c08c9619b6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>18</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Social and Behavioral Sciences</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>c29f0bb5dbab6b00b86770c08c9619bd</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:15</sys_updated_on>
+            <value>19</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Biomedical Engineering / Biophysics / Physics</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>ed9f47f1dbab6b00b86770c08c961988</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>2</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Stem Cells / Induced Pluripotent Stem Cells</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:16</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>8a9f0bb5dbab6b00b86770c08c9619c3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:16</sys_updated_on>
+            <value>20</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Biostatistics / Mathematics</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>a19f47f1dbab6b00b86770c08c96198c</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>3</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Cancer Biology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>2d9f0bb5dbab6b00b86770c08c96193b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>4</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Chemistry / Chemical Biology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>e19f0bb5dbab6b00b86770c08c96193f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>5</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Chromosome Biology / Epigenetics</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>2d9f0bb5dbab6b00b86770c08c961942</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>6</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Clinical Research</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>e59f0bb5dbab6b00b86770c08c961946</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>7</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Computational Biology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>259f0bb5dbab6b00b86770c08c96194a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>8</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>scientific_focus</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Developmental Biology</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>e19f0bb5dbab6b00b86770c08c96194e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+            <value>9</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>scientific_focus</element>
+            <name>x_naci_future_fell_applicant</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 19:52:14</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>a19f47f1dbab6b00b86770c08c961987</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>scientific_focus</sys_name>
+            <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+            <sys_update_name>sys_choice_x_naci_future_fell_applicant_scientific_focus</sys_update_name>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-11 19:52:14</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

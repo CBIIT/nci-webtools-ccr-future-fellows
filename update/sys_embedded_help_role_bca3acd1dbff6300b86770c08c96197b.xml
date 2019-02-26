@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_embedded_help_role">
+    <sys_embedded_help_role action="INSERT_OR_UPDATE">
+        <order>1000</order>
+        <role display_value="x_naci_future_fell.applicant" name="x_naci_future_fell.applicant">2f93ec5ddbbf6300b86770c08c961946</role>
+        <sys_class_name>sys_embedded_help_role</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-22 04:19:44</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>bca3acd1dbff6300b86770c08c96197b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>2f93ec5ddbbf6300b86770c08c961946</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_embedded_help_role_bca3acd1dbff6300b86770c08c96197b</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-22 04:19:44</sys_updated_on>
+    </sys_embedded_help_role>
+</record_update>

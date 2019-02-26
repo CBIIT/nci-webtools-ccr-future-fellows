@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="User History" max_length="40" name="x_naci_future_fell_user_history" type="collection">
+        <element choice="1" label="Action" max_length="40" name="action" type="choice">
+            <choice/>
+        </element>
+        <element label="Applicant" max_length="32" name="applicant" reference="x_naci_future_fell_applicant" type="reference"/>
+        <element label="Target" max_length="255" name="target" type="string"/>
+        <element label="User" max_length="32" name="user" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="user"/>
+        </index>
+        <index name="index2">
+            <element name="applicant"/>
+        </index>
+    </element>
+</database>

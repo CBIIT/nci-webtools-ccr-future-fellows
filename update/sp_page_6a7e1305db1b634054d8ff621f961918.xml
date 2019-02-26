@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_page">
+    <sp_page action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <css/>
+        <draft>false</draft>
+        <dynamic_title_structure/>
+        <id>future_fellows_new_applicant</id>
+        <internal>false</internal>
+        <public>false</public>
+        <roles/>
+        <short_description/>
+        <sys_class_name>sp_page</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-28 02:46:09</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>6a7e1305db1b634054d8ff621f961918</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>future_fellows_new_applicant</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_page_6a7e1305db1b634054d8ff621f961918</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-01-28 02:46:09</sys_updated_on>
+        <title>Future Fellows New Applicant Page</title>
+    </sp_page>
+</record_update>

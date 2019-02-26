@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Publication" max_length="40" name="x_naci_future_fell_publication" type="collection">
+        <element label="Applicant" max_length="32" name="applicant" reference="x_naci_future_fell_applicant" type="reference"/>
+        <element label="Journal" max_length="255" name="journal" type="string"/>
+        <element label="Title" max_length="255" name="title" text_index="true" type="string"/>
+        <element label="year" max_length="40" name="year" type="integer"/>
+        <index name="index">
+            <element name="applicant"/>
+        </index>
+    </element>
+</database>

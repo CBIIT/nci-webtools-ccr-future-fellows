@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {  /* widget controller */  var c = this;}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>future_fellows_application</id>
+        <internal>false</internal>
+        <link/>
+        <name>Future Fellows Application</name>
+        <option_schema/>
+        <public>true</public>
+        <roles/>
+        <script><![CDATA[(function() {  /* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-01-23 22:21:36</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>8c9b797fdb07af00b86770c08c9619e1</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>Future Fellows Application</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_widget_8c9b797fdb07af00b86770c08c9619e1</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-06 19:01:27</sys_updated_on>
+        <template><![CDATA[<div>
+  <h1>
+    Apply Online
+  </h1>
+  
+  <hr>
+  
+  <p>
+    The National Cancer Institute maintains a CV/resume databank of interested candidates to be considered for postdoctoral, doctoral, and postbaccalaureate (master-level and post-college) fellowships. 
+    Candidates are encouraged to post their CVs/resumes.
+  </p>
+  
+  <p>
+    The NCI Future Fellows website accepts CVs/resumes from interested applicants for fellowship positions that may have future openings, it is not intended to solicit or accept applications for official vacancy announcements. 
+    Your information will be kept on file for six months from the date you post it. Should position openings occur and if there is interest in your credentials/qualifications, you will be contacted and invited to participate in a formal interview.
+  </p>
+
+	<widget id="future_fellows_applicant_form"></widget>
+</div>]]></template>
+    </sp_widget>
+</record_update>

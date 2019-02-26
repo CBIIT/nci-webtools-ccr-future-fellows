@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($scope) {
+	/* widget controller */
+	var c = this;
+	c.people = [];
+
+
+	var columnDefs = [
+		{headerName: "Name", field: "name", pinned: 'left', sortable: true, checkboxSelection: true},
+		{headerName: "Submitted Date", field: "date", width: 200, sortable: true},
+		{headerName: "Job Category", field: "job", width: 300, sortable: true},
+		{headerName: "Scientific Focus Areas", field: "focus", width: 500, sortable: true}
+	];
+
+	$scope.gridOptions = {
+		columnDefs: columnDefs,
+		rowData: c.people,
+    rowSelection: 'multiple',
+    rowMultiSelectWithClick: true
+	};	
+
+
+	$scope.randomItem = function(array) {
+		return array[Math.floor(Math.random() * array.length)];
+	}
+
+	$scope.firstNames = ["Liam","Noah","William","James","Logan","Benjamin","Mason","Elijah","Oliver","Jacob","Emma","Olivia","Ava","Isabella","Sophia","Mia","Charlotte","Amelia","Evelyn","Abigail"]
+	$scope.lastNames = ["Smith","Johnson","Williams","Jones","Brown","Davis","Miller","Wilson","Moore","Taylor","Anderson","Thomas","Jackson","White","Harris","Martin","Thompson","Garcia","Martinez","Robinson","Clark","Rodriguez","Lewis","Lee","Walker","Hall","Allen","Young","Hernandez","King","Wright","Lopez","Hill","Scott","Green","Adams","Baker","Gonzalez","Nelson","Carter","Mitchell","Perez","Roberts","Turner","Phillips","Campbell","Parker","Evans","Edwards","Collins","Stewart","Sanchez","Morris","Rogers","Reed","Cook","Morgan","Bell","Murphy","Bailey","Rivera","Cooper","Richardson","Cox","Howard","Ward","Torres","Peterson","Gray","Ramirez","James","Watson","Brooks","Kelly","Sanders","Price","Bennett","Wood","Barnes","Ross","Henderson","Coleman","Jenkins","Perry","Powell","Long","Patterson","Hughes","Flores","Washington","Butler","Simmons","Foster","Gonzales","Bryant","Alexander","Russell","Griffin","Diaz","Hayes"]
+
+	function randomPerson() {
+		var name = $scope.randomItem($scope.firstNames) + ' ' + $scope.randomItem($scope.lastNames);
+		var focus = [];
+		for (var i = 0; i < 1 + Math.floor(Math.random() * 3); i ++) {
+			var item = $scope.randomItem(c.data.fields.scientific_focus);
+			if (item.label)
+				focus.push(item.label)
+				}
+
+		return {
+			name: name,
+			date: new Date(new Date() - Math.random() * 100000000000),
+			job: $scope.randomItem(c.data.fields.job_category).label,
+			focus: focus.join(', '),
+			saved: Math.random() > 0.8
+		}
+	}
+
+	for (var i = 0; i < 10; i ++) {
+		c.people.push(randomPerson());
+	}
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>future_fellows_saved_applicants</id>
+        <internal>false</internal>
+        <link/>
+        <name>Future Fellows Saved Applicants</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	data.fields = FutureFellows.getFields();
+	
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-22 07:06:53</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>69e989dddb73a300b86770c08c9619e3</sys_id>
+        <sys_mod_count>38</sys_mod_count>
+        <sys_name>Future Fellows Saved Applicants</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_widget_69e989dddb73a300b86770c08c9619e3</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-22 07:55:32</sys_updated_on>
+        <template><![CDATA[<h1>
+  Saved Applicants
+</h1>
+
+<hr>
+
+<p>
+  Below are applicants who have been saved for further review. Saved applicants may also be shared with other PIs within Future Fellows.
+  
+  <div>
+    <md-button class="md-raised">Share Saved Applicants</md-button>
+    <md-button class="md-raised md-accent">Remove Checked Applicants</md-button>
+	</div>
+
+
+</p>
+
+<div class="mb-5">
+  <div ag-grid="gridOptions" 
+       class="ag-theme-material" 
+       style="height: 100%; width: 100%;">
+  </div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>
