@@ -4,11 +4,6 @@
         <category>custom</category>
         <client_script><![CDATA[function() {  /* widget controller */  
 	var c = this;
-	
-	c.accordionStatus = [
-		true,
-		true
-	]
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -27,8 +22,7 @@
         <roles/>
         <script><![CDATA[(function() {
 	data.userRole = ClientUtils.getRole();
-	
-	
+	data.applicantID = null;
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
@@ -36,7 +30,7 @@
         <sys_created_on>2019-01-28 02:35:54</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>582c5b41db1b634054d8ff621f9619a6</sys_id>
-        <sys_mod_count>43</sys_mod_count>
+        <sys_mod_count>50</sys_mod_count>
         <sys_name>Future Fellows Applicant</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -44,88 +38,16 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_582c5b41db1b634054d8ff621f9619a6</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-22 07:58:07</sys_updated_on>
+        <sys_updated_on>2019-02-27 18:49:56</sys_updated_on>
         <template><![CDATA[<h1>
   Applicant: John Doe
 </h1>
 
 <hr>
 
-
-
-<uib-accordion close-others="false" 
-               ng-if="data.userRole === 'admin' || data.userRole == 'user'">
-  <div uib-accordion-group 
-       class="panel-primary shadow-lg mb-5" 
-       is-open="c.accordionStatus[1]">
-
-    <uib-accordion-heading>
-      Applicant Status
-      <i class="pull-right fa" 
-         ng-class="{'fa-chevron-down': c.accordionStatus[1], 
-                   	'fa-chevron-right': !c.accordionStatus[1]}"></i>
-    </uib-accordion-heading>    
-    
-    <md-button class="md-raised px-4">
-      <i class="fa fa-check" aria-hidden="true"></i>
-      Mark As Under Consideration
-    </md-button>
-    
-    <md-button class="md-raised md-primary px-4">
-      <i class="fa fa-check" aria-hidden="true"></i>
-      Approve Applicant
-    </md-button>
-
-    
-    <md-button class="md-raised md-warn px-4" ng-if="c.data.userRole == 'admin'">
-      <i class="fa fa-times mr-1" aria-hidden="true"></i>  
-      Remove Applicant
-    </md-button>
-
-
-  </div>
-
-  
-  
-  <div uib-accordion-group 
-       class="panel-primary shadow-lg mb-5" 
-       heading="Applicant Files" 
-       is-open="c.accordionStatus[0]">
-
-    <uib-accordion-heading>
-      Applicant Files
-      <i class="pull-right fa" 
-         ng-class="{'fa-chevron-down': c.accordionStatus[0], 
-                   	'fa-chevron-right': !c.accordionStatus[0]}"></i>
-    </uib-accordion-heading>    
-
-    <md-button class="md-raised px-4">
-      <i class="fa fa-download mr-1" aria-hidden="true"></i>  
-      Download Resume
-    </md-button>
-
-    <md-button class="md-raised px-4">
-      <i class="fa fa-download mr-1" aria-hidden="true"></i>  
-      Download References
-    </md-button>
-
-    <md-button class="md-raised px-4">
-      <i class="fa fa-download mr-1" aria-hidden="true"></i>  
-      Download Applicant Details
-    </md-button>
-
-    <md-button class="md-raised px-4">
-      <i class="fa fa-envelope mr-1" aria-hidden="true"></i>
-      Email Applicant Details
-    </md-button>
-  </div>
-
-
-
-
-</uib-accordion>
-
-<widget id="future_fellows_applicant_form">
+<widget id="future_fellows_applicant_form" 
+        options="{'type': 'update'}"
+        >
 </widget>
 ]]></template>
     </sp_widget>

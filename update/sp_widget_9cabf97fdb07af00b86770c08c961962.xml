@@ -3,145 +3,161 @@
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
         <client_script><![CDATA[function($scope, $log, $http, $window, apiRoot) {
-  /* widget controller */
-  var c = this;
-	
-	c.dev = false;
-	c.logScope = $log.info.bind($log, $scope);
-	c.logSelf = $log.info.bind($log, this);
-	c.testmodel = null;
+	/* widget controller */
+	var c = this;
+	c.fields = c.data.fields;
+	c.form = getFormValues();
+	c.ui = getUiValues();
+	c.submit = submit;
 
-	
-	console.log(apiRoot);
-	
-	c.uiState = {
-		
-	}
-	
+	// begin dev props
+	c.debug = true;
+	c.log = function(obj) { $log.info(obj) };
+	c.logScope = function() { c.log($scope) };
+	// end dev props
 
-	c.submit = function() {
-		$http.post(apiRoot + 'applicants', c.form)
-			.then(function(response) {
-				console.log(response);
-				var result = response.data.result;
-				if (!result) return;
-				console.log('success');
-			})
-			// 'catch' is a reserved keyword			
-			['catch'](function(error) {
-				$log.error(error);
-			});
-	}
-	
-	function uploadRecordAttachment(recordID, filename, content) {
-		
-	}
-	
-	c.hiddenFields = {
-		secondaryEmail: true
-	};
-	
-	c.test = null;
-	
-	c.accordionStatus = [
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	];
-
-	if ($scope.page.id == 'future_fellows_new_applicant' || $scope.page.id == 'future_fellows_application') {
-		c.accordionStatus = [
-			true,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false
-		];
-	}
-	
-	$scope.$watch(
-		function() { return c.form.state }, 
-		function(newValue, oldValue) {
-			if (newValue != null) {
-				c.form.country = 'US';
-			}
-		}
-	)
-
-	$scope.$watch(
-		function() { return c.form.country }, 
-		function(newValue, oldValue) {
-			if (newValue != 'US') {
-				c.form.state = null;
-			}
-		}
-	)
-	
-	
-	
-	c.files = {
-		resume_file: null,
-		references_file: null
-	}
-	
-	c.form = {
-		job_category: 3,
-		scientific_focus: {},
-		other_scientific_focus: null,
-		first_name: null,
-		middle_initial: null,
-		last_name: null,
-		email: null,
-		email_2: null,
-		address: null,
-		address_2: null,
-		city: null,
-		state: null,
-		postal_code: null,
-		country: null,
-		home_phone: null,
-		work_phone: null,
-		fax_phone: null,
-		citizenship: undefined,
-		num_publications: null,
-		num_abstracts: null,
-		num_presentations: null,
-		research_interests: null,
-		postdoctoral_experience: null,
-		referral_source: null,
-		availability_date: null,
-		education: [
-			{institution: null, degree: null, major: null, year: null},
-			{institution: null, degree: null, major: null, year: null},
-			{institution: null, degree: null, major: null, year: null}
-		],
-		publications: [
-			{journal: null, title: null, year: null},
-			{journal: null, title: null, year: null},
-			{journal: null, title: null, year: null}
-		],
-		resume_file: null,
-		references_file: null,
-		resume_filename: null,
-		references_filename: null
-	};
-	
-	$scope.click = function(selector) {
+	// clicks on first element which matches selector
+	$scope.click = function(selector) { 
 		document.querySelector(selector).click();
 	}
-		
+
+	// sets country to 'US' if a US state is selected
+	$scope.$watch('c.form.state', function(value, oldValue) {
+		if (value != null)
+			c.form.country = 'US';
+	});
+
+	// clears US state if US is deselected
+	$scope.$watch('c.form.country', function(value, oldValue) {
+		if (value != 'US')
+			c.form.state = null;
+	});
+
 	function submit() {
-		// etc
-		
+		var endpoint = apiRoot + 'applicants';
+		$http.post(endpoint, c.form).then(function(response) {
+			console.log(response);
+			var result = response.data.result;
+			if (!result) return;
+			console.log('success');
+		})['catch'](function(error) {
+			$log.error(error);
+		});
 	}
-	
-	
+
+	function uploadRecordAttachment(recordID, filename, content) {
+
+	}
+
+	function getFormValues() {
+		return {
+			job_category: 3,
+			scientific_focus: {},
+			other_scientific_focus: null,
+			first_name: null,
+			middle_initial: null,
+			last_name: null,
+			email: null,
+			email_2: null,
+			address: null,
+			address_2: null,
+			city: null,
+			state: null,
+			postal_code: null,
+			country: null,
+			home_phone: null,
+			work_phone: null,
+			fax_phone: null,
+			citizenship: undefined,
+			num_publications: null,
+			num_abstracts: null,
+			num_presentations: null,
+			research_interests: null,
+			experience: null,
+			referral_source: null,
+			availability_date: null,
+			education: [
+				{institution: null, degree: null, major: null, year: null},
+				{institution: null, degree: null, major: null, year: null},
+				{institution: null, degree: null, major: null, year: null}
+			],
+			publications: [
+				{journal: null, title: null, year: null},
+				{journal: null, title: null, year: null},
+				{journal: null, title: null, year: null}
+			],
+			resume_file: null,
+			references_file: null,
+			resume_filename: null,
+			references_filename: null
+		};
+	}
+
+	function getUiValues() {
+		var role = c.data.role;
+		var type = c.options.type;
+
+		var isUser = role == 'admin' || role == 'user';
+		var isApplicant = role == 'applicant' || role == null;
+
+		var ui = {
+			hidden: {
+				email_2: type == 'new'
+			},
+			panels: [
+				{
+					title: 'Applicant Status',
+					enabled: isUser && type == 'update',
+					// this should be the first panel open for new private applications
+					open: true
+				},
+				{
+					title: 'Applicant Files',
+					enabled: isUser && type == 'update',
+					open: true
+				},
+				{
+					title: 'Job Category',
+					enabled: true,
+					// this should be the first panel open for new public applications
+					open: true
+				},
+				{
+					title: 'Scientific Focus Areas',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'Personal Information',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'Education',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'Publications',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'Additional Questions',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'CV/Resume',
+					enabled: true,
+					open: true
+				}
+			]
+		};
+		
+		return ui;
+	}
+
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -155,10 +171,13 @@
         <internal>false</internal>
         <link/>
         <name>Future Fellows Applicant Form</name>
-        <option_schema/>
+        <option_schema>[{"hint":"\"new\" or \"update\"","name":"type","section":"Behavior","default_value":"new","label":"Form Type","type":"string"}]</option_schema>
         <public>true</public>
         <roles/>
         <script><![CDATA[(function() {
+	
+	data.role = ClientUtils.getRole();
+	
 	/* retrieve form fields */
 	data.fields = FutureFellows.getFields();
 	
@@ -209,7 +228,7 @@
         <sys_created_on>2019-01-23 22:21:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>9cabf97fdb07af00b86770c08c961962</sys_id>
-        <sys_mod_count>520</sys_mod_count>
+        <sys_mod_count>618</sys_mod_count>
         <sys_name>Future Fellows Applicant Form</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -217,574 +236,538 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_9cabf97fdb07af00b86770c08c961962</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-21 18:58:18</sys_updated_on>
-        <template><![CDATA[
-<form class="mb-5" name="appForm">
-	
-  
+        <sys_updated_on>2019-02-27 18:47:47</sys_updated_on>
+        <template><![CDATA[<form class="mb-5" name="appForm">
 
-  <uib-accordion close-others="page.id != 'future_fellows_applicant'">
+  <!-- Panels for each section -->
+  <div class="panel panel-primary shadow-lg"
+       ng-repeat="panel in c.ui.panels"
+       ng-if="panel.enabled"
+       ng-switch="panel.title">
 
-    <div uib-accordion-group 
-         class="panel-primary shadow-lg mb-5" 
-         is-open="c.accordionStatus[0]">
-
-      <uib-accordion-heading>
-        Job Category
-        <i class="pull-right fa" 
-           ng-class="{'fa-chevron-down': c.accordionStatus[0], 
-                     'fa-chevron-right': !c.accordionStatus[0]}"></i>
-      </uib-accordion-heading>    
-
-
-      <md-radio-group ng-model="c.form.job_category">
-        <md-radio-button ng-repeat="field in c.data.fields.job_category"
-                         ng-value="field.value">
-          {{field.label}}
-        </md-radio-button>
-      </md-radio-group>
-
+    <!-- Panel Header -->
+    <div class="panel-heading pointer relative"
+         ng-click="panel.open = !panel.open"	
+         md-ink-ripple>
+      <h2 class="h5 m-0 no-select">
+        {{ panel.title }}
+        <i class="pull-right transition-fast fa fa-chevron-down" 
+           ng-class="{'rotate-180': panel.open}"></i>
+      </h2>
     </div>
 
+    <!-- Panel Body -->
+    <div uib-collapse="!panel.open" style="transition: all 0.25s">
+      <div class="panel-body">
+        <ng-container ng-switch-when="Applicant Status">
+          <md-button class="md-raised">Mark as Under Consideration</md-button>
+          <md-button class="md-raised md-primary">Approve Applicant</md-button>
+          <md-button class="md-raised md-warn">Remove Applicant</md-button>
+        </ng-container>
 
-    <div uib-accordion-group 
-         class="panel-primary shadow-lg mb-5" 
-         is-open="c.accordionStatus[1]">
-
-      <uib-accordion-heading>
-        Scientific Focus Areas
-        <i class="pull-right fa" 
-           ng-class="{'fa-chevron-down': c.accordionStatus[1], 
-                     'fa-chevron-right': !c.accordionStatus[1]}"></i>
-      </uib-accordion-heading>    
-
-
-
-      <div layout-wrap layout-gt-sm="row">
-        <div flex-gt-sm="50"
-             ng-repeat="field in c.data.fields.scientific_focus">
-          <md-checkbox name="scientific_focus" 
-                       ng-model="c.form.scientific_focus[field.value]"
-                       aria-label="{{field.label}}">
-            <ng-container ng-if="!field.children && !field.other">
-              {{ field.label }}
-            </ng-container>
-            <md-select ng-if="field.children && !field.other"
-                       ng-model="c.form['_' + field.value]"
-                       placeholder="{{field.label}}" 
-                       class="m-0 md-no-underline"
-                       multiple>
-              <md-option ng-repeat="child in field.children"
-                         ng-value="child.value"
-                         ng-model="c.form.scientific_focus[child.value]">
-                {{ child.label }}
-              </md-option>
-            </md-select>
-            <ng-container ng-if="!field.children && field.other">
-              <md-input-container md-no-float class="md-block m-0">
-                <input name="other_scientific_focus" 
-                       placeholder="Other"
-                       ng-model="c.form.other_scientific_focus"
-                       aria-label="Other Scientific Focus">
-              </md-input-container>              
-            </ng-container>
-          </md-checkbox>
-        </div>
-      </div>
-
-    </div>
+        <ng-container ng-switch-when="Applicant Files">
+          <md-button class="md-raised">Download CV/Resume</md-button>
+          <md-button class="md-raised">Download References</md-button>
+          <md-button class="md-raised">Download Applicant Details</md-button>
+        </ng-container>
 
 
-    <div uib-accordion-group 
-         class="panel-primary shadow-lg mb-5" 
-         is-open="c.accordionStatus[2]">
+        <!-- Job Category -->
+        <ng-container ng-switch-when="Job Category">
+          <md-radio-group ng-model="c.form.job_category">
+            <md-radio-button ng-repeat="field in c.data.fields.job_category"
+                             ng-value="field.value">
+              {{field.label}}
+            </md-radio-button>
+          </md-radio-group>
+        </ng-container>
+        <!-- End Job Category -->
 
-      <uib-accordion-heading>
-        Basic Information
-        <i class="pull-right fa" 
-           ng-class="{'fa-chevron-down': c.accordionStatus[2], 
-                     'fa-chevron-right': !c.accordionStatus[2]}"></i>
-      </uib-accordion-heading>    
 
-
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>First Name</label>
-          <input ng-model="c.form.first_name" 
-                 name="first_name"
-                 required>
-          <div ng-messages="appForm.first_name.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>          
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Middle Initial</label>
-          <input ng-model="c.form.middle_initial"
-                 name="middle_initial">
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Last Name</label>
-          <input ng-model="c.form.last_name"
-                 name="last_name"
-                 required>
-          <div ng-messages="appForm.last_name.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>          
-        </md-input-container>
-      </div>
-
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Email Address</label>
-          <input type="email" 
-                 ng-model="c.form.email" 
-                 ng-pattern="/^.+@.+\..+$/"
-                 name="email"
-                 required>
-          <div ng-messages="appForm.email.$error">
-            <div ng-message-exp="['required', 'pattern']">
-              This field is required and must be a valid email address.
-            </div>            
-          </div>
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <div ng-show="c.hiddenFields.secondaryEmail" flex-gt-sm>
-          <md-button ng-click="c.hiddenFields.secondaryEmail = false" class="md-raised ml-0">
-            + Add secondary email
-          </md-button>
-        </div>
-
-        <md-input-container class="md-block" flex-gt-sm ng-hide="c.hiddenFields.secondaryEmail">
-          <label>Secondary Email Address</label>
-          <input type="email" 
-                 ng-model="c.form.email_2" 
-                 ng-pattern="/^.+@.+\..+$/"
-                 name="email_2">
-          <div ng-messages="appForm.email_2.$error">
-            <div ng-message-exp="['pattern']">
-              This field must be a valid email address.
+        <!-- Scientific Focus Areas -->
+        <ng-container ng-switch-when="Scientific Focus Areas">
+          <div layout-wrap layout-gt-sm="row">
+            <div flex-gt-sm="50"
+                 ng-repeat="field in c.data.fields.scientific_focus">
+              <md-checkbox name="scientific_focus" 
+                           ng-model="c.form.scientific_focus[field.value]"
+                           aria-label="{{field.label}}">
+                <ng-container ng-if="!field.children && !field.other">
+                  {{ field.label }}
+                </ng-container>
+                <md-select ng-if="field.children && !field.other"
+                           ng-model="c.form['_' + field.value]"
+                           placeholder="{{field.label}}" 
+                           class="m-0 md-no-underline"
+                           multiple>
+                  <md-option ng-repeat="child in field.children"
+                             ng-value="child.value"
+                             ng-model="c.form.scientific_focus[child.value]">
+                    {{ child.label }}
+                  </md-option>
+                </md-select>
+                <ng-container ng-if="!field.children && field.other">
+                  <md-input-container md-no-float class="md-block m-0">
+                    <input name="other_scientific_focus" 
+                           placeholder="Other"
+                           ng-model="c.form.other_scientific_focus"
+                           aria-label="Other Scientific Focus">
+                  </md-input-container>              
+                </ng-container>
+              </md-checkbox>
             </div>
           </div>
-        </md-input-container>
-      </div>
+        </ng-container>
+        <!-- End Scientific Focus Areas -->
 
 
-
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Address</label>
-          <input ng-model="c.form.address"
-                 name="address"
-                 required>
-          <div ng-messages="appForm.address.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Apt, Suite, Etc.</label>
-          <input ng-model="c.form.address_2">
-        </md-input-container>
-      </div>
-
-
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>City</label>
-          <input ng-model="c.form.city"
-                 name="city"
-                 required>
-          <div ng-messages="appForm.city.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>State</label>
-          <md-select ng-model="c.form.state" >
-            <md-option value="">None</md-option>
-            <md-option ng-value="field.value"
-                       ng-repeat="field in c.data.fields.state">
-              {{ field.label }}
-            </md-option>
-          </md-select>
-          <div ng-messages="appForm.state.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Postal Code</label>
-          <input ng-model="c.form.postal_code"
-                 name="postal_code">
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Country</label>
-          <md-select ng-model="c.form.country" required>
-            <md-option value="">None</md-option>
-            <md-option ng-value="field.value"
-                       ng-repeat="field in c.data.fields.country">
-              {{ field.label }}
-            </md-option>
-          </md-select>
-          <div ng-messages="appForm.country.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>
-        </md-input-container>
-      </div>  
-
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Home Phone Number</label>
-          <input ng-model="c.form.home_phone"
-                 name="home_phone"
-                 required>
-          <div ng-messages="appForm.home_phone.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Work Phone Number</label>
-          <input ng-model="c.form.work_phone">
-        </md-input-container>
-
-        <div flex="5" hide-xs hide-sm></div>
-
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Fax Phone Number</label>
-          <input ng-model="c.form.fax_phone">
-        </md-input-container>
-      </div>
-
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm="30">
-          <label>Citizenship</label>
-          <md-select ng-model="c.form.citizenship" 
+        <!-- Personal Information -->
+        <ng-container ng-switch-when="Personal Information">
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>First Name</label>
+              <input ng-model="c.form.first_name" 
+                     name="first_name"
                      required>
-            <md-option value="">None</md-option>
-            <md-option ng-value="field.value"
-                       ng-repeat="field in c.data.fields.citizenship">
-              {{ field.label }}
-            </md-option>
-          </md-select>
-          <div ng-messages="appForm.citizenship.$error">
-            <div ng-message="required">This field is required.</div>
-          </div>
-        </md-input-container>
-      </div>
-    </div>
+              <div ng-messages="appForm.first_name.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>          
+            </md-input-container>
 
-    <div uib-accordion-group 
-         class="panel-primary shadow-lg mb-5" 
-         is-open="c.accordionStatus[3]">
-      <uib-accordion-heading>
-        Education
-        <i class="pull-right fa" 
-           ng-class="{'fa-chevron-down': c.accordionStatus[3], 
-                     'fa-chevron-right': !c.accordionStatus[3]}"></i>
-      </uib-accordion-heading>    
+            <div flex="5" hide-xs hide-sm></div>
 
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Middle Initial</label>
+              <input ng-model="c.form.middle_initial"
+                     name="middle_initial">
+            </md-input-container>
 
-      <div class="pl-3">
-        <div layout-gt-sm="row" ng-repeat="item in c.form.education">
+            <div flex="5" hide-xs hide-sm></div>
 
-          <md-input-container class="md-block" flex-gt-sm="5">
-            <span hide-xs hide-sm>{{ $index + 1 }}.</span>
-            <strong hide-gt-sm>Item #{{ $index + 1 }}</strong>
-          </md-input-container>
-
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Institution</label>
-            <input ng-model="c.form.education[$index].institution">
-          </md-input-container>
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="15">
-            <label>Degree</label>
-            <md-select ng-model="c.form.education[$index].degree">
-              <md-option value="">None</md-option>
-              <md-option ng-value="field.value"
-                         ng-repeat="field in c.data.fields.degree">
-                {{ field.label }}
-              </md-option>
-            </md-select>
-          </md-input-container>
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="15">
-            <label>Major</label>
-            <input ng-model="c.form.education[$index].major">
-          </md-input-container>
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="10">
-            <label>Year</label>
-            <input type="number" ng-model="c.form.education[$index].year">
-
-          </md-input-container>
-
-        </div>
-      </div>
-    </div>    
-
-    <div uib-accordion-group 
-         class="panel-primary shadow-lg mb-5" 
-         is-open="c.accordionStatus[4]">
-
-      <uib-accordion-heading>
-        Publications
-        <i class="pull-right fa" 
-           ng-class="{'fa-chevron-down': c.accordionStatus[4], 
-                     'fa-chevron-right': !c.accordionStatus[4]}"></i>
-      </uib-accordion-heading>    
-
-
-      <div class="pl-3">
-
-        <div layout-gt-sm="row">
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="30" flex-gt-md="15">
-            <label>Total # publications</label>
-            <input ng-model="c.form.num_publications">
-          </md-input-container>
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="30" flex-gt-md="15">
-            <label>Total # abstracts</label>
-            <input ng-model="c.form.num_abstracts">
-          </md-input-container>
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="30" flex-gt-md="15">
-            <label>Total # presentations</label>
-            <input ng-model="c.form.num_presentations">
-          </md-input-container>
-        </div>
-
-
-        <div layout-gt-sm="row" ng-repeat="item in c.form.publications">
-
-          <md-input-container class="md-block" flex-gt-sm="5">
-            <span hide-xs hide-sm>{{ $index + 1 }}.</span>
-            <strong hide-gt-sm>Item #{{ $index + 1 }}</strong>
-          </md-input-container>
-
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Title/Subject</label>
-            <input ng-model="c.form.publications[$index].title">
-          </md-input-container>
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="35">
-            <label>Journal Name</label>
-            <input ng-model="c.form.publications[$index].journal">
-          </md-input-container>
-
-          <div flex="5" hide-xs hide-sm></div>
-
-          <md-input-container class="md-block" flex-gt-sm="10">
-            <label>Year</label>
-            <input ng-model="c.form.publications[$index].year">
-          </md-input-container>
-
-        </div>
-      </div>
-    </div>  
-
-    <div uib-accordion-group 
-         class="panel-primary shadow-lg mb-5" 
-         is-open="c.accordionStatus[5]">
-      <uib-accordion-heading>
-        Additional Questions
-        <i class="pull-right fa" 
-           ng-class="{'fa-chevron-down': c.accordionStatus[5], 
-                     'fa-chevron-right': !c.accordionStatus[5]}"></i>
-      </uib-accordion-heading>    
-
-
-      <ol class="pl-5">
-        <li>
-          <div class="d-inline-block v-align-top">
-            <span>Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI.</span>
-            <md-input-container md-no-float class="md-block mt-0">
-              <textarea placeholder="Enter your response"
-                        aria-label="Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI."
-                        ng-model="user.research_interests" 
-                        rows="3"
-                        md-select-on-focus>
-              </textarea>
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Last Name</label>
+              <input ng-model="c.form.last_name"
+                     name="last_name"
+                     required>
+              <div ng-messages="appForm.last_name.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>          
             </md-input-container>
           </div>
 
-        </li>
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Email Address</label>
+              <input type="email" 
+                     ng-model="c.form.email" 
+                     ng-pattern="/^.+@.+\..+$/"
+                     name="email"
+                     required>
+              <div ng-messages="appForm.email.$error">
+                <div ng-message-exp="['required', 'pattern']">
+                  This field is required and must be a valid email address.
+                </div>            
+              </div>
+            </md-input-container>
 
-        <li>
-          <div class="d-inline-block v-align-top">
-            <span>Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed.</span>
-            <md-input-container md-no-float class="md-block mt-0">
-              <textarea placeholder="Enter your response"
-                        aria-label="Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed."
-                        ng-model="user.postdoc_experience" 
-                        rows="3"
-                        md-select-on-focus>
-              </textarea>
+            <div flex="5" hide-xs hide-sm></div>
+
+            <div ng-show="c.hiddenFields.secondaryEmail" flex-gt-sm>
+              <md-button ng-click="c.hiddenFields.secondaryEmail = false" class="md-raised ml-0">
+                + Add secondary email
+              </md-button>
+            </div>
+
+            <md-input-container class="md-block" flex-gt-sm ng-hide="c.hiddenFields.secondaryEmail">
+              <label>Secondary Email Address</label>
+              <input type="email" 
+                     ng-model="c.form.email_2" 
+                     ng-pattern="/^.+@.+\..+$/"
+                     name="email_2">
+              <div ng-messages="appForm.email_2.$error">
+                <div ng-message-exp="['pattern']">
+                  This field must be a valid email address.
+                </div>
+              </div>
             </md-input-container>
           </div>
-        </li>
 
-        <li>
-          <div class="d-inline-block v-align-top">
-            <label>Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.).</span>
-            <md-input-container md-no-float class="md-block mt-0">
-              <textarea placeholder="Enter your response"
-                        aria-label="Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.)."
-                        ng-model="user.referral_source" 
-                        rows="3"
-                        md-select-on-focus>
-              </textarea>
+
+
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Address</label>
+              <input ng-model="c.form.address"
+                     name="address"
+                     required>
+              <div ng-messages="appForm.address.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>
+            </md-input-container>
+
+            <div flex="5" hide-xs hide-sm></div>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Apt, Suite, Etc.</label>
+              <input ng-model="c.form.address_2">
             </md-input-container>
           </div>
-        </li>
 
-        <li>
-          <div class="d-inline-block v-align-top">
-            <span>Please let us know your date of availability.</span>
-            <md-input-container md-no-float class="md-block mt-0">
-              <md-datepicker ng-model="c.form.availability_date" 
-                             md-open-on-focus
-                             aria-label="Please let us know your date of availability."
-                             md-placeholder="Enter date"
-                             md-hide-icons="calendar">
-              </md-datepicker>
+
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>City</label>
+              <input ng-model="c.form.city"
+                     name="city"
+                     required>
+              <div ng-messages="appForm.city.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>
+            </md-input-container>
+
+            <div flex="5" hide-xs hide-sm></div>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>State</label>
+              <md-select ng-model="c.form.state" >
+                <md-option value="">None</md-option>
+                <md-option ng-value="field.value"
+                           ng-repeat="field in c.data.fields.state">
+                  {{ field.label }}
+                </md-option>
+              </md-select>
+              <div ng-messages="appForm.state.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>
+            </md-input-container>
+
+            <div flex="5" hide-xs hide-sm></div>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Postal Code</label>
+              <input ng-model="c.form.postal_code"
+                     name="postal_code">
+            </md-input-container>
+
+            <div flex="5" hide-xs hide-sm></div>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Country</label>
+              <md-select ng-model="c.form.country" required>
+                <md-option value="">None</md-option>
+                <md-option ng-value="field.value"
+                           ng-repeat="field in c.data.fields.country">
+                  {{ field.label }}
+                </md-option>
+              </md-select>
+              <div ng-messages="appForm.country.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>
+            </md-input-container>
+          </div>  
+
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Home Phone Number</label>
+              <input ng-model="c.form.home_phone"
+                     name="home_phone"
+                     required>
+              <div ng-messages="appForm.home_phone.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>
+            </md-input-container>
+
+            <div flex="5" hide-xs hide-sm></div>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Work Phone Number</label>
+              <input ng-model="c.form.work_phone">
+            </md-input-container>
+
+            <div flex="5" hide-xs hide-sm></div>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Fax Phone Number</label>
+              <input ng-model="c.form.fax_phone">
             </md-input-container>
           </div>
-        </li>
-      </ol>
-    </div>
 
-    <div uib-accordion-group 
-         ng-if="page.id != 'future_fellows_applicant'"
-         class="panel-primary shadow-lg mb-5" 
-         is-open="c.accordionStatus[6]">
-      <uib-accordion-heading>
-        CV/Resume
-        <i class="pull-right fa" 
-           ng-class="{'fa-chevron-down': c.accordionStatus[6], 
-                     'fa-chevron-right': !c.accordionStatus[6]}"></i>
-      </uib-accordion-heading>    
-
-
-      <div layout-gt-sm="row" >
-        <div>
-          <md-button class="md-raised md-primary"
-                     ng-click="click('#resume_file_input')"
-                     style="min-width: 180px">
-            Upload Resume
-          </md-button>
-          <input class="sr-only" 
-                 type="file" 
-                 id="resume_file_input" 
-                 aria-label="resume file"
-                 accept=".pdf"
-                 file-model="c.form.resume_file">
-        </div>
-        <md-input-container class="md-block" flex-gt-sm="40">
-          <label>
-            {{ c.form.resume_file
-            ? c.form.resume_file.name
-            : 'Please upload your resume' }}
-          </label>
-          <input disabled>
-          <div>
-            <span ng-if="c.form.resume_file">
-              {{ file.name }}
-            </span>
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm="30">
+              <label>Citizenship</label>
+              <md-select ng-model="c.form.citizenship" 
+                         required>
+                <md-option value="">None</md-option>
+                <md-option ng-value="field.value"
+                           ng-repeat="field in c.data.fields.citizenship">
+                  {{ field.label }}
+                </md-option>
+              </md-select>
+              <div ng-messages="appForm.citizenship.$error">
+                <div ng-message="required">This field is required.</div>
+              </div>
+            </md-input-container>
           </div>
-          <small>Resume should be in .pdf format</small>
+        </ng-container>
+        <!-- End Personal Information -->
 
-        </md-input-container>
+        
+        <!-- Education -->
+        <ng-container ng-switch-when="Education">
+          <div class="pl-3">
+            <div layout-gt-sm="row" ng-repeat="item in c.form.education">
+
+              <md-input-container class="md-block" flex-gt-sm="5">
+                <span hide-xs hide-sm>{{ $index + 1 }}.</span>
+                <strong hide-gt-sm>Item #{{ $index + 1 }}</strong>
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Institution</label>
+                <input ng-model="c.form.education[$index].institution">
+              </md-input-container>
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="15">
+                <label>Degree</label>
+                <md-select ng-model="c.form.education[$index].degree">
+                  <md-option value="">None</md-option>
+                  <md-option ng-value="field.value"
+                             ng-repeat="field in c.data.fields.degree">
+                    {{ field.label }}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="15">
+                <label>Major</label>
+                <input ng-model="c.form.education[$index].major">
+              </md-input-container>
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="10">
+                <label>Year</label>
+                <input type="number" ng-model="c.form.education[$index].year">
+
+              </md-input-container>
+
+            </div>
+          </div>
+        </ng-container>
+        <!-- End Education -->
+        
+
+        <!-- Publications -->
+        <ng-container ng-switch-when="Publications">
+          <div class="pl-3">
+
+            <div layout-gt-sm="row">
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="30" flex-gt-md="15">
+                <label>Total # publications</label>
+                <input ng-model="c.form.num_publications">
+              </md-input-container>
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="30" flex-gt-md="15">
+                <label>Total # abstracts</label>
+                <input ng-model="c.form.num_abstracts">
+              </md-input-container>
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="30" flex-gt-md="15">
+                <label>Total # presentations</label>
+                <input ng-model="c.form.num_presentations">
+              </md-input-container>
+            </div>
+
+
+            <div layout-gt-sm="row" ng-repeat="item in c.form.publications">
+
+              <md-input-container class="md-block" flex-gt-sm="5">
+                <span hide-xs hide-sm>{{ $index + 1 }}.</span>
+                <strong hide-gt-sm>Item #{{ $index + 1 }}</strong>
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Title/Subject</label>
+                <input ng-model="c.form.publications[$index].title">
+              </md-input-container>
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="35">
+                <label>Journal Name</label>
+                <input ng-model="c.form.publications[$index].journal">
+              </md-input-container>
+
+              <div flex="5" hide-xs hide-sm></div>
+
+              <md-input-container class="md-block" flex-gt-sm="10">
+                <label>Year</label>
+                <input ng-model="c.form.publications[$index].year">
+              </md-input-container>
+
+            </div>
+          </div>
+        </ng-container>
+        <!-- End Publications -->
+        
+
+        <ng-container ng-switch-when="Additional Questions">
+          <ol class="pl-5">
+            <li>
+              <div class="d-inline-block v-align-top">
+                <span>Please give a brief statement of your research interests and reason for seeking a fellowship at the NCI.</span>
+                <md-input-container md-no-float class="md-block mt-0">
+                  <textarea placeholder="Enter your response"
+                            aria-label="Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI."
+                            ng-model="user.research_interests" 
+                            rows="3"
+                            md-select-on-focus>
+                  </textarea>
+                </md-input-container>
+              </div>
+
+            </li>
+
+            <li>
+              <div class="d-inline-block v-align-top">
+                <span>Please provide a brief overview of your experience if any. List title of positions held and length of time employed.</span>
+                <md-input-container md-no-float class="md-block mt-0">
+                  <textarea placeholder="Enter your response"
+                            aria-label="Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed."
+                            ng-model="user.postdoc_experience" 
+                            rows="3"
+                            md-select-on-focus>
+                  </textarea>
+                </md-input-container>
+              </div>
+            </li>
+
+            <li>
+              <div class="d-inline-block v-align-top">
+                <label>Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.).</span>
+                <md-input-container md-no-float class="md-block mt-0">
+                  <textarea placeholder="Enter your response"
+                            aria-label="Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.)."
+                            ng-model="user.referral_source" 
+                            rows="3"
+                            md-select-on-focus>
+                  </textarea>
+                </md-input-container>
+              </div>
+            </li>
+
+            <li>
+              <div class="d-inline-block v-align-top">
+                <span>Please let us know your date of availability.</span>
+                <md-input-container md-no-float class="md-block mt-0">
+                  <md-datepicker ng-model="c.form.availability_date" 
+                                 md-open-on-focus
+                                 aria-label="Please let us know your date of availability."
+                                 md-placeholder="Enter date"
+                                 md-hide-icons="calendar">
+                  </md-datepicker>
+                </md-input-container>
+              </div>
+            </li>
+          </ol>
+        </ng-container>
+
+
+        <ng-container ng-switch-when="CV/Resume">
+
+          <div layout-gt-sm="row" >
+            <div>
+              <md-button class="md-raised md-primary"
+                         ng-click="click('#resume_file_input')"
+                         style="min-width: 180px">
+                Upload CV/Resume
+              </md-button>
+              <input class="sr-only" 
+                     type="file" 
+                     id="resume_file_input" 
+                     aria-label="cv/resume file"
+                     accept=".pdf"
+                     file-model="c.form.resume_file">
+            </div>
+            <md-input-container class="md-block" flex-gt-sm="40">
+              <label>
+                {{ c.form.resume_file
+                ? c.form.resume_file.name
+                : 'Please upload your CV/resume' }}
+              </label>
+              <input disabled>
+              <div>
+                <span ng-if="c.form.resume_file">
+                  {{ file.name }}
+                </span>
+              </div>
+              <small>Resume should be in .pdf format</small>
+
+            </md-input-container>
+          </div>
+
+
+          <div layout-gt-sm="row" >
+            <div>
+              <md-button class="md-raised md-primary"
+                         ng-click="click('#references_file_input')"
+                         style="min-width: 180px">
+                Upload References
+              </md-button>
+              <input class="sr-only" 
+                     type="file" 
+                     id="references_file_input" 
+                     aria-label="resume file"
+                     file-model="c.form.references_file"
+                     accept=".pdf">
+            </div>
+
+            <md-input-container class="md-block" flex-gt-sm="45">
+              <label>
+                {{ c.form.references_file
+                ? c.form.references_file.name
+                : 'Please upload a list of references' }}
+              </label>
+              <input disabled>
+              <small>List of references should be in .pdf format</small>
+            </md-input-container>
+          </div>
+        </ng-container>
       </div>
-
-
-      <div layout-gt-sm="row" >
-        <div>
-          <md-button class="md-raised md-primary"
-                     ng-click="click('#references_file_input')"
-                     style="min-width: 180px">
-            Upload References
-          </md-button>
-          <input class="sr-only" 
-                 type="file" 
-                 id="references_file_input" 
-                 aria-label="resume file"
-                 file-model="c.form.references_file"
-                 accept=".pdf">
-        </div>
-
-        <md-input-container class="md-block" flex-gt-sm="45">
-          <label>
-            {{ c.form.references_file
-            ? c.form.references_file.name
-            : 'Please upload a list of references' }}
-          </label>
-          <input disabled>
-          <small>List of references should be in .pdf format</small>
-        </md-input-container>
-      </div>
-    </div>
-
-  </uib-accordion>
+    </div> <!-- End panel body -->
+  </div> <!-- End panel -->
 
   <div class="text-center">
     <md-button class="md-raised md-primary shadow-lg" style="min-width: 150px">Submit</md-button>
   </div>
-
-
 </form>
 
 
-<div ng-if="c.dev">
+<div ng-if="c.debug">
   <h5>
-    controller context
+    debug
   </h5>
-
-  <div >
-  </div>
 
   <hr>
   <md-button ng-click="c.logScope()">Log $scope</md-button>
-  <md-button ng-click="c.logSelf()">Log self (c)</md-button>
-  <md-button ng-click="c.testInput()">Test Input</md-button>
+  <md-button ng-click="c.log(c)">Log self</md-button>
   <pre>{{ c.form | json }}</pre>
+  <hr>
+  <pre>{{ appForm | json }}</pre>
+  <hr>
   <pre>{{ c.fields | json }}</pre>
+  <hr>
 </div>
 ]]></template>
     </sp_widget>
