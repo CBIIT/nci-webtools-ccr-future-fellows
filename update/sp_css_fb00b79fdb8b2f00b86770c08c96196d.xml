@@ -213,20 +213,20 @@ md-select .md-select-value.md-select-placeholder &gt; span {&#13;
 .ag-theme-material, .ag-header {&#13;
   font-family: inherit !important;&#13;
 }</css>
-        <name>future-fellows.css</name>
+        <name>[future-fellows] main.css</name>
         <sys_class_name>sp_css</sys_class_name>
         <sys_created_by>parkbw@nih.gov</sys_created_by>
         <sys_created_on>2019-01-22 17:33:57</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>fb00b79fdb8b2f00b86770c08c96196d</sys_id>
-        <sys_mod_count>120</sys_mod_count>
-        <sys_name>future-fellows.css</sys_name>
+        <sys_mod_count>121</sys_mod_count>
+        <sys_name>[future-fellows] main.css</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_css_fb00b79fdb8b2f00b86770c08c96196d</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-02-27 15:10:28</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-01 19:36:16</sys_updated_on>
     </sp_css>
 </record_update>

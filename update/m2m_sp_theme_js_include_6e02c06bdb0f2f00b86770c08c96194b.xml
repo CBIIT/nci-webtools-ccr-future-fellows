@@ -2,7 +2,7 @@
 <record_update table="m2m_sp_theme_js_include">
     <m2m_sp_theme_js_include action="INSERT_OR_UPDATE">
         <order>300</order>
-        <sp_js_include display_value="angular-messages.js">c1d7339bdbcb2f00b86770c08c9619a1</sp_js_include>
+        <sp_js_include display_value="[future-fellows] angular-messages.js">c1d7339bdbcb2f00b86770c08c9619a1</sp_js_include>
         <sp_theme display_value="Future Fellows Theme">2f4ee39bdb8b2f00b86770c08c9619f3</sp_theme>
         <sys_class_name>m2m_sp_theme_js_include</sys_class_name>
         <sys_created_by>parkbw@nih.gov</sys_created_by>

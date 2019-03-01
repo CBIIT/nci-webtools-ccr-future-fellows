@@ -2,7 +2,7 @@
 <record_update table="m2m_sp_theme_css_include">
     <m2m_sp_theme_css_include action="INSERT_OR_UPDATE">
         <order>200</order>
-        <sp_css_include display_value="angular-material.css">af68379bdbcb2f00b86770c08c961998</sp_css_include>
+        <sp_css_include display_value="[future-fellows] angular-material.css">af68379bdbcb2f00b86770c08c961998</sp_css_include>
         <sp_theme display_value="Future Fellows Theme">2f4ee39bdb8b2f00b86770c08c9619f3</sp_theme>
         <sys_class_name>m2m_sp_theme_css_include</sys_class_name>
         <sys_created_by>parkbw@nih.gov</sys_created_by>

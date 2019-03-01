@@ -35,6 +35,10 @@
 
 	function submit() {
 		var endpoint = apiRoot + 'applicants';
+		
+		
+		
+		
 		$http.post(endpoint, c.form).then(function(response) {
 			console.log(response);
 			var result = response.data.result;
@@ -228,7 +232,7 @@
         <sys_created_on>2019-01-23 22:21:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>9cabf97fdb07af00b86770c08c961962</sys_id>
-        <sys_mod_count>618</sys_mod_count>
+        <sys_mod_count>633</sys_mod_count>
         <sys_name>Future Fellows Applicant Form</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -236,7 +240,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_9cabf97fdb07af00b86770c08c961962</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-27 18:47:47</sys_updated_on>
+        <sys_updated_on>2019-02-27 23:16:58</sys_updated_on>
         <template><![CDATA[<form class="mb-5" name="appForm">
 
   <!-- Panels for each section -->
@@ -749,7 +753,11 @@
   </div> <!-- End panel -->
 
   <div class="text-center">
-    <md-button class="md-raised md-primary shadow-lg" style="min-width: 150px">Submit</md-button>
+    <md-button class="md-raised md-primary shadow-lg" 
+               ng-click="c.submit()"
+               style="min-width: 150px">
+      Submit
+    </md-button>
   </div>
 </form>
 
