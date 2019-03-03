@@ -86,31 +86,31 @@
 			{
 				icon: 'fa fa-search fa-2x',
 				title: 'Search Applicants',
-				link: '?id=future_fellows_search'
+				link: 'search'
 			},
 
 			{
 				icon: 'fa fa-user fa-2x',
 				title: 'New Applicant',
-				link: '?id=future_fellows_new_applicant'
+				link: 'new-applicant'
 			},
 
 			{
 				icon: 'fa fa-users fa-2x',
 				title: 'Saved Applicants',
-				link: '?id=future_fellows_saved_applicants'
+				link: 'saved-applicants'
 			},
 
 			{
 				icon: 'fa fa-history fa-2x',
 				title: 'Track Users',
-				link: '?id=future_fellows_users'
+				link: 'track-users'
 			},
 			
 			{
 				icon: 'fa fa-sliders fa-2x',
 				title: 'Update Preferences',
-				link: '?id=future_fellows_preferences'
+				link: 'preferences'
 			}
 		];
 	} else if (data.userRole === 'user') {
@@ -118,25 +118,25 @@
 			{
 				icon: 'fa fa-search fa-2x',
 				title: 'Search Applicants',
-				link: '?id=future_fellows_search'
+				link: 'search'
 			},
 
 			{
 				icon: 'fa fa-user fa-2x',
 				title: 'New Applicants',
-				link: '?id=future_fellows_new_applicant'
+				link: 'new-applicant'
 			},
 
 			{
 				icon: 'fa fa-users fa-2x',
 				title: 'Saved Applicants',
-				link: '?id=future_fellows_saved_applicants'
+				link: 'saved-applicants'
 			},
 			
 			{
 				icon: 'fa fa-sliders fa-2x',
 				title: 'Update Preferences',
-				link: '?id=future_fellows_preferences'
+				link: 'preferences'
 			}
 		];
 	} else if (data.userRole === 'applicant') {
@@ -144,13 +144,13 @@
 			{
 				icon: 'fa  fa-pencil-square-o fa-2x',
 				title: 'Update My Application',
-				link: '?id=future_fellows_applicant'
+				link: 'applicant'
 			},
 			
 			{
 				icon: 'fa fa-list-alt fa-2x',
 				title: 'View My Application Status',
-				link: '?id=future_fellows_application_status'
+				link: 'application-status'
 			}
 		]	
 	}
@@ -164,7 +164,7 @@
         <sys_created_on>2019-01-22 16:58:11</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>34f7639fdb4b2f00b86770c08c9619a8</sys_id>
-        <sys_mod_count>279</sys_mod_count>
+        <sys_mod_count>284</sys_mod_count>
         <sys_name>Future Fellows Home</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -172,7 +172,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_34f7639fdb4b2f00b86770c08c9619a8</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-26 19:31:13</sys_updated_on>
+        <sys_updated_on>2019-03-02 08:15:54</sys_updated_on>
         <template><![CDATA[
 <!-- pi index -->
 <div class="container" ng-if="c.data.isLoggedIn">
@@ -195,8 +195,9 @@
          flex-gt-xs="50"
          flex-gt-sm="33"
          flex-gt-md="25">
-      <a ng-href="{{ card.link }}"
-         class="p-4 m-4 custom-card">
+      <a ui-sref="{{ card.link }}"
+         class="p-4 m-4 custom-card relative"
+         md-ink-ripple>
         <div class="text-center">
           <i ng-class="[ card.icon ]"
              aria-hidden="true"

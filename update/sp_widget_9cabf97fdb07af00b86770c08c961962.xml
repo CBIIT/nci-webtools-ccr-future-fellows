@@ -11,7 +11,7 @@
 	c.submit = submit;
 
 	// begin dev props
-	c.debug = true;
+	c.debug = false;
 	c.log = function(obj) { $log.info(obj) };
 	c.logScope = function() { c.log($scope) };
 	// end dev props
@@ -57,7 +57,7 @@
 		return {
 			job_category: 3,
 			scientific_focus: {},
-			other_scientific_focus: null,
+			other_scientific_focus: [],
 			first_name: null,
 			middle_initial: null,
 			last_name: null,
@@ -232,7 +232,7 @@
         <sys_created_on>2019-01-23 22:21:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>9cabf97fdb07af00b86770c08c961962</sys_id>
-        <sys_mod_count>633</sys_mod_count>
+        <sys_mod_count>645</sys_mod_count>
         <sys_name>Future Fellows Applicant Form</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -240,7 +240,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_9cabf97fdb07af00b86770c08c961962</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-27 23:16:58</sys_updated_on>
+        <sys_updated_on>2019-03-03 02:26:16</sys_updated_on>
         <template><![CDATA[<form class="mb-5" name="appForm">
 
   <!-- Panels for each section -->
@@ -263,12 +263,14 @@
     <!-- Panel Body -->
     <div uib-collapse="!panel.open" style="transition: all 0.25s">
       <div class="panel-body">
+        <!-- Applicant Status -->
         <ng-container ng-switch-when="Applicant Status">
           <md-button class="md-raised">Mark as Under Consideration</md-button>
           <md-button class="md-raised md-primary">Approve Applicant</md-button>
           <md-button class="md-raised md-warn">Remove Applicant</md-button>
         </ng-container>
-
+				
+        <!-- Applicant Files -->
         <ng-container ng-switch-when="Applicant Files">
           <md-button class="md-raised">Download CV/Resume</md-button>
           <md-button class="md-raised">Download References</md-button>
@@ -296,17 +298,16 @@
               <md-checkbox name="scientific_focus" 
                            ng-model="c.form.scientific_focus[field.value]"
                            aria-label="{{field.label}}">
-                <ng-container ng-if="!field.children && !field.other">
+                <ng-container ng-if="!field.children">
                   {{ field.label }}
                 </ng-container>
                 <md-select ng-if="field.children && !field.other"
-                           ng-model="c.form['_' + field.value]"
+                           ng-model="c.form.other_scientific_focus"
                            placeholder="{{field.label}}" 
                            class="m-0 md-no-underline"
                            multiple>
                   <md-option ng-repeat="child in field.children"
-                             ng-value="child.value"
-                             ng-model="c.form.scientific_focus[child.value]">
+                             ng-value="child.value">
                     {{ child.label }}
                   </md-option>
                 </md-select>
@@ -319,7 +320,7 @@
                   </md-input-container>              
                 </ng-container>
               </md-checkbox>
-            </div>
+					</div>
           </div>
         </ng-container>
         <!-- End Scientific Focus Areas -->

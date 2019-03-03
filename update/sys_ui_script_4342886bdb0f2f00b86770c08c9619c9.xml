@@ -5,57 +5,176 @@
         <description/>
         <global>false</global>
         <name>x_naci_future_fell.angular_config</name>
-        <script><![CDATA[// enable angularjs mode for ag-grid
-agGrid.initialiseAgGridWithAngular1(angular);
+        <script><![CDATA[(function() {
+	// enable angularjs mode for ag-grid
+	agGrid.initialiseAgGridWithAngular1(angular);
 
-// get reference to root sp angularjs app
-var app = angular.module('sn.$sp');
+	// get reference to root sp angularjs app
+	var app = angular.module('sn.$sp');
 
-// resources include: applicants, users, users/{id}/history
-app.value('apiRoot', '/api/x_naci_future_fell/future_fellows/');
-
-// require additional dependencies
-app.requires.push('agGrid');
-app.requires.push('ngMessages');
-app.requires.push('ngMaterial');
-//app.requires.push('ngAria');
-
-/* configure $http service */
-app.config(function($httpProvider) {
-	$httpProvider.defaults.headers.common['abc'] = window.g_ck;
-});
-
-/* configure angular material */
-app.config(function($mdThemingProvider) {
-
-	var nciBlueMap = $mdThemingProvider.extendPalette('indigo', {
-		'400': '#17528c',
-		'500': '#12416f',
-		'600': '#0b2743',
-		'800': '#0b2743',
-		'900': '#091f35',
-		'contrastDefaultColor': 'light'
+	// resources include: applicants, users, users/{id}/history
+	app.value('apiRoot', '/api/x_naci_future_fell/future_fellows/');
+	
+	app.component('asyncWidget', {
+		template: '<sp-widget widget="$ctrl.widget" options="$ctrl.options"><div ng-transclude></div></sp-widget>',
+		bindings: {
+			id: '@',
+			options: '=',
+			fallback: '@',
+		},
+		transclude: true,
+		controller: ['spUtil', function(spUtil) {
+			var c = this;
+			c.widget = null;
+			c.loading = true;
+			spUtil.get(c.id).then(function(widget) {
+				c.widget = widget;
+				c.loading = false;
+			}).catch(function(err) {
+				if (!c.fallback) return;
+				spUtil.get(c.fallback).then(function(fallbackWidget) {
+					c.widget = fallbackWidget;
+					c.loading = false;
+				});
+			});
+		}],
 	});
 
-	var nciWarnMap = $mdThemingProvider.extendPalette('red', {
-		'500': '#bb0f3d',
-		'hue-1': '#0b2743'
-	//	'800': '#0b2743',
-	//	'contrastDefaultColor': 'light'
+	// require additional dependencies
+	app.requires.push('agGrid');
+	app.requires.push('ngMessages');
+	app.requires.push('ngMaterial');
+	app.requires.push('ui.router');
+	app.requires.push('ui.validate');
+	//app.requires.push('ngAria');
+
+	/* configure angular material */
+	app.config(function($mdThemingProvider) {
+
+		var nciBlueMap = $mdThemingProvider.extendPalette('indigo', {
+			'400': '#17528c',
+			'500': '#12416f',
+			'600': '#0b2743',
+			'800': '#0b2743',
+			'900': '#091f35',
+			'contrastDefaultColor': 'light'
+		});
+
+		var nciWarnMap = $mdThemingProvider.extendPalette('red', {
+			'500': '#bb0f3d',
+			'hue-1': '#0b2743'
+		//	'800': '#0b2743',
+		//	'contrastDefaultColor': 'light'
+		});
+
+		$mdThemingProvider.definePalette('nciRed', nciWarnMap);
+		$mdThemingProvider.definePalette('nciBlue', nciBlueMap);
+
+		$mdThemingProvider.theme('default')
+			.primaryPalette('nciBlue')
+			.warnPalette('nciRed')
+			.accentPalette('pink');
+	});
+	
+	app.config(function($locationProvider) {
+		$locationProvider.html5Mode(false);
+		$locationProvider.hashPrefix('!');
+	});
+	
+	// configure routes
+	app.config(function($uiRouterProvider, $stateProvider) {
+		var $urlService = $uiRouterProvider.urlService;
+		$urlService.rules.otherwise({ state: 'home' });		
+		
+		var routes = [
+			{
+				name: 'home',
+				url: '/home',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_home')
+				}
+			},
+			{
+				name: 'apply',
+				url: '/apply',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_application')
+				}
+			},
+			{
+				name: 'external-login',
+				url: '/external-login',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_external_login')
+				}
+			},
+			{
+				name: 'search',
+				url: '/search',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_search')
+				}
+			},
+			{
+				name: 'new-applicant',
+				url: '/new-applicant',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_new_applicant')
+				}
+			},
+			
+			{
+				name: 'saved-applicants',
+				url: '/saved-applicants',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_saved_applicants')
+				}
+			},
+			
+			{
+				name: 'preferences',
+				url: '/preferences',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_preferences'),
+				}
+			},
+
+			{
+				name: 'track-users',
+				url: '/track-users',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_users')
+				}
+			},
+		
+		];
+		
+		routes.forEach(function(route) {
+			$stateProvider.state(route);
+		});
+		
+		function getWidget(id, options) {
+			return ['spUtil', function(spUtil) {
+				// (id, options) argument does not work in Jakarta
+				return spUtil.get(id).then(function(w) {
+					for (var key in options) {
+						w.options[key] = options[key];
+					}
+					return w;
+				});
+			}];
+		}
 	});
 
-	$mdThemingProvider.definePalette('nciRed', nciWarnMap);
-	$mdThemingProvider.definePalette('nciBlue', nciBlueMap);
-
-	$mdThemingProvider.theme('default')
-		.primaryPalette('nciBlue')
-		.warnPalette('nciRed')
-		.accentPalette('pink');
-});
-
-app.directive('fileModel', [
-	'$parse',
-	function ($parse) {
+	app.directive('fileModel', ['$parse', function ($parse) {
 		return {
 			restrict: 'A',
 			link: function(scope, element, attrs) {
@@ -74,15 +193,17 @@ app.directive('fileModel', [
 				});
 			}
 		};
-	}
-]);]]></script>
+	}]);	
+})();
+
+]]></script>
         <script_name>angular_config</script_name>
         <sys_class_name>sys_ui_script</sys_class_name>
         <sys_created_by>parkbw@nih.gov</sys_created_by>
         <sys_created_on>2019-01-22 18:57:00</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>4342886bdb0f2f00b86770c08c9619c9</sys_id>
-        <sys_mod_count>33</sys_mod_count>
+        <sys_mod_count>68</sys_mod_count>
         <sys_name>x_naci_future_fell.angular_config</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -90,7 +211,7 @@ app.directive('fileModel', [
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_ui_script_4342886bdb0f2f00b86770c08c9619c9</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-20 20:01:18</sys_updated_on>
+        <sys_updated_on>2019-03-03 02:04:28</sys_updated_on>
         <use_scoped_format>false</use_scoped_format>
     </sys_ui_script>
 </record_update>

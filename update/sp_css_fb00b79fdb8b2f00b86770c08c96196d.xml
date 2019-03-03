@@ -3,13 +3,6 @@
     <sp_css action="INSERT_OR_UPDATE">
         <css>@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');&#13;
 &#13;
-@font-face {&#13;
-  font-family: 'Merriweather Web';&#13;
-  font-style: normal;&#13;
-  font-weight: 700;&#13;
-  src: url('https://v2.designsystem.digital.gov/assets/fonts/merriweather/merriweather-bold-webfont.woff2') format('woff2');&#13;
-}&#13;
-&#13;
 a {&#13;
   font-weight: 600;&#13;
 }&#13;
@@ -134,6 +127,19 @@ p {&#13;
   transform: rotate(-180deg);&#13;
 }&#13;
 &#13;
+.animate-opacity.ng-enter,&#13;
+.animate-opacity.ng-leave {&#13;
+  transition: opacity ease-in-out 0.5s;&#13;
+}&#13;
+.animate-opacity.ng-enter,&#13;
+.animate-opacity.ng-leave.ng-leave-active {&#13;
+  opacity: 0;&#13;
+}&#13;
+.animate-opacity.ng-leave,&#13;
+.animate-opacity.ng-enter.ng-enter-active {&#13;
+  opacity: 1;&#13;
+}&#13;
+&#13;
 ::placeholder,&#13;
 ::-ms-input-placeholder,&#13;
 ::-ms-input-placeholder {&#13;
@@ -170,6 +176,8 @@ md-select .md-select-value &gt; span {&#13;
   margin-bottom: 5px;&#13;
 }&#13;
 &#13;
+md-select.md-default-theme .md-select-value &gt; span, &#13;
+md-select .md-select-value &gt; span,&#13;
 md-select.md-default-theme .md-select-value.md-select-placeholder &gt; span, &#13;
 md-select .md-select-value.md-select-placeholder &gt; span {&#13;
   margin-top: -10px; &#13;
@@ -200,9 +208,6 @@ md-select .md-select-value.md-select-placeholder &gt; span {&#13;
   min-height: 1px;&#13;
 }&#13;
 &#13;
-&#13;
-&#13;
-&#13;
 .md-datepicker-input-container &gt; .md-datepicker-input {&#13;
     font-size: 16px;&#13;
     padding: 0;&#13;
@@ -219,7 +224,7 @@ md-select .md-select-value.md-select-placeholder &gt; span {&#13;
         <sys_created_on>2019-01-22 17:33:57</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>fb00b79fdb8b2f00b86770c08c96196d</sys_id>
-        <sys_mod_count>121</sys_mod_count>
+        <sys_mod_count>127</sys_mod_count>
         <sys_name>[future-fellows] main.css</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -227,6 +232,6 @@ md-select .md-select-value.md-select-placeholder &gt; span {&#13;
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_css_fb00b79fdb8b2f00b86770c08c96196d</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-01 19:36:16</sys_updated_on>
+        <sys_updated_on>2019-03-03 02:10:40</sys_updated_on>
     </sp_css>
 </record_update>
