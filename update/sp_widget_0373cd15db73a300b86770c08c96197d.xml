@@ -25,7 +25,7 @@
         <sys_created_on>2019-02-22 06:38:52</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>0373cd15db73a300b86770c08c96197d</sys_id>
-        <sys_mod_count>17</sys_mod_count>
+        <sys_mod_count>18</sys_mod_count>
         <sys_name>Future Fellows Application Status</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -33,24 +33,27 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_0373cd15db73a300b86770c08c96197d</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-22 06:49:16</sys_updated_on>
-        <template><![CDATA[<h1>
-  My Application Status
-</h1>
+        <sys_updated_on>2019-03-03 02:29:58</sys_updated_on>
+        <template><![CDATA[<div class="container">
+  <h1>
+    My Application Status
+  </h1>
 
-<hr>
+  <hr>
 
 
-<div>
-  <p>
-    Your application is currently <b>under review</b>. You will be notified by email if your application's status changes, or if further information is requested. 
-  </p>
-  
-  <p>
-    Your application is nearing the expiration deadline and will be removed from the system in <b>2 weeks</b>. To extend your deadline by another six months, please use the following link.
-  </p>
-  
-  <md-button class="md-raised md-primary m-0 px-4">Extend My Deadline</md-button>
-</div>]]></template>
+  <div>
+    <p>
+      Your application is currently <b>under review</b>. You will be notified by email if your application's status changes, or if further information is requested. 
+    </p>
+
+    <p>
+      Your application is nearing the expiration deadline and will be removed from the system in <b>2 weeks</b>. To extend your deadline by another six months, please use the following link.
+    </p>
+
+    <md-button class="md-raised md-primary m-0 px-4">Extend My Deadline</md-button>
+  </div>  
+</div>
+]]></template>
     </sp_widget>
 </record_update>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Contains angularjs material theme configuration</description>
+        <global>false</global>
+        <name>x_naci_future_fell.angular_theme</name>
+        <script><![CDATA[(function(angular) {
+	// get reference to root sp angularjs app
+	var app = angular.module('sn.$sp');
+
+	/* configure angular material */
+	app.config(function($mdThemingProvider) {
+
+		var nciBlueMap = $mdThemingProvider.extendPalette('indigo', {
+			'400': '#17528c',
+			'500': '#12416f',
+			'600': '#0b2743',
+			'800': '#0b2743',
+			'900': '#091f35',
+			'contrastDefaultColor': 'light'
+		});
+
+		var nciWarnMap = $mdThemingProvider.extendPalette('red', {
+			'500': '#bb0f3d',
+			'hue-1': '#0b2743'
+		//	'800': '#0b2743',
+		//	'contrastDefaultColor': 'light'
+		});
+
+		$mdThemingProvider.definePalette('nciRed', nciWarnMap);
+		$mdThemingProvider.definePalette('nciBlue', nciBlueMap);
+
+		$mdThemingProvider.theme('default')
+			.primaryPalette('nciBlue')
+			.warnPalette('nciRed')
+			.accentPalette('pink');
+	});
+	
+})(angular);
+
+]]></script>
+        <script_name>angular_theme</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-03-04 18:00:32</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>165ff6acdb887b0054d8ff621f9619ae</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_naci_future_fell.angular_theme</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_ui_script_165ff6acdb887b0054d8ff621f9619ae</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-04 18:22:27</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

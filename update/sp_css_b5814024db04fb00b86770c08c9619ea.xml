@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_css">
+    <sp_css action="INSERT_OR_UPDATE">
+        <css>.alert {&#13;
+  border-left-width: 4px;&#13;
+  background-color: white;&#13;
+}&#13;
+&#13;
+.navbar.navbar-default {&#13;
+  border: none;&#13;
+  margin-bottom: 0;&#13;
+  min-height: 0;&#13;
+  flex: 1 0 auto;&#13;
+}&#13;
+&#13;
+.nav.navbar-nav {&#13;
+  margin: 0;&#13;
+}&#13;
+&#13;
+.navbar-default .navbar-nav .nav-link,&#13;
+.navbar-default .dropdown &gt; .dropdown-toggle {&#13;
+  background-color: white;&#13;
+  padding: 7px 5px;&#13;
+  border-bottom: 3px solid transparent;&#13;
+  border-top: 3px solid transparent;&#13;
+  transition: background-color .15s linear;&#13;
+  font-size: 14px;&#13;
+  font-weight: 600;&#13;
+}&#13;
+&#13;
+.navbar-default .navbar-nav .nav-link:hover,&#13;
+.navbar-default .navbar-nav .nav-link:focus,&#13;
+.navbar-default .navbar-nav .nav-link.active,&#13;
+.navbar-default .navbar-nav &gt; .active &gt; a, &#13;
+.navbar-default .navbar-nav &gt; .active &gt; a:hover, &#13;
+.navbar-default .navbar-nav &gt; .active &gt; a:focus {&#13;
+  color: #2f2f2f !important;&#13;
+  background-color: #fff;&#13;
+}&#13;
+&#13;
+.navbar-default .navbar-nav &gt; .active &gt; a, &#13;
+.navbar-default .navbar-nav &gt; .active &gt; a:hover, &#13;
+.navbar-default .navbar-nav &gt; .active &gt; a:focus {&#13;
+  border-bottom-color: #005ea2;&#13;
+}&#13;
+&#13;
+.navbar-default .dropdown &gt; .dropdown-toggle {&#13;
+  border-color: transparent !important;&#13;
+}&#13;
+&#13;
+.navbar-nav &gt; li &gt; .dropdown-menu {&#13;
+  border: none;&#13;
+}&#13;
+&#13;
+.dropdown-menu .nav-link {&#13;
+  border: none;&#13;
+  border-left: 3px solid transparent;&#13;
+  transition: all 0.1s;&#13;
+}&#13;
+&#13;
+.dropdown-menu .nav-link:hover {&#13;
+  text-decoration: underline;&#13;
+  border-left-color: transparent;&#13;
+}&#13;
+&#13;
+.navbar-sticky {&#13;
+    position: sticky;&#13;
+    top: 0;&#13;
+    flex: 1 0 auto;&#13;
+    z-index: 9999;&#13;
+}&#13;
+&#13;
+.panel {&#13;
+  border: none;&#13;
+}</css>
+        <name>[future-fellows] bootstrap-overrides.css</name>
+        <sys_class_name>sp_css</sys_class_name>
+        <sys_created_by>ff_admin</sys_created_by>
+        <sys_created_on>2019-03-04 04:11:49</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>b5814024db04fb00b86770c08c9619ea</sys_id>
+        <sys_mod_count>38</sys_mod_count>
+        <sys_name>[future-fellows] bootstrap-overrides.css</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sp_css_b5814024db04fb00b86770c08c9619ea</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-04 21:14:42</sys_updated_on>
+    </sp_css>
+</record_update>

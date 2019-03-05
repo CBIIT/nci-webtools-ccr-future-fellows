@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Contains ui-router states for angularjs</description>
+        <global>false</global>
+        <name>x_naci_future_fell.angular_routes</name>
+        <script><![CDATA[(function(angular) {
+	// get reference to root sp angularjs app
+	// assume ui.router is already included in module
+	var app = angular.module('sn.$sp');
+
+	// use hash-based routing
+	app.config(function($locationProvider) {
+		$locationProvider.html5Mode(false);
+		$locationProvider.hashPrefix('!');
+	});
+	
+	// register routes
+	app.config(function($uiRouterProvider, $stateProvider) {
+		// default to home state
+		var $urlService = $uiRouterProvider.urlService;
+		$urlService.rules.otherwise({ state: 'home' });		
+		
+		var routes = [
+			{
+				name: 'home',
+				url: '/home',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_home')
+				},
+				data: {
+					pageTitle: 'Welcome - Future Fellows',
+				}
+			},
+			{
+				name: 'apply',
+				url: '/apply',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_application')
+				},
+				data: {
+					pageTitle: 'Apply Online - Future Fellows',
+				}
+			},
+			{
+				name: 'external-login',
+				url: '/external-login',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_external_login')
+				},
+				data: {
+					pageTitle: 'Home - Future Fellows',
+				}
+			},
+			{
+				name: 'search',
+				url: '/search',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_search')
+				},
+				data: {
+					pageTitle: 'Search Applicants - Future Fellows',
+				}
+			},
+			{
+				name: 'new-applicant',
+				url: '/new-applicant',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_new_applicant')
+				},
+				data: {
+					pageTitle: 'New Applicant - Future Fellows',
+				}
+			},
+			
+			{
+				name: 'saved-applicants',
+				url: '/saved-applicants',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_saved_applicants')
+				},
+				data: {
+					pageTitle: 'Saved Applicants - Future Fellows',
+				}
+			},
+			
+			{
+				name: 'preferences',
+				url: '/preferences',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_preferences'),
+				},
+				data: {
+					pageTitle: 'Preferences - Future Fellows',
+				}
+			},
+
+			{
+				name: 'track-users',
+				url: '/track-users',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_users')
+				},
+				data: {
+					pageTitle: 'Track Users - Future Fellows',
+				}
+			},
+		
+		];
+		
+		routes.forEach(function(route) {
+			$stateProvider.state(route);
+		});
+		
+		function getWidget(id, options) {
+			return ['spUtil', function(spUtil) {
+				// (id, options) argument does not work in Jakarta
+				return spUtil.get(id).then(function(w) {
+					for (var key in options) {
+						w.options[key] = options[key];
+					}
+					return w;
+				});
+			}];
+		}
+	});
+
+	// register transition hooks
+	// - update page title when route changes
+	app.run(function($transitions) {
+		$transitions.onSuccess({}, function(transition) {
+			var state = transition.to();
+			var pageTitle = (state.data && state.data.pageTitle) || 'Future Fellows';
+			document.title = pageTitle;
+		});
+	});
+	
+})(angular);
+
+]]></script>
+        <script_name>angular_routes</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-03-04 17:58:08</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>4bce3aa8db887b0054d8ff621f9619a9</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>x_naci_future_fell.angular_routes</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_ui_script_4bce3aa8db887b0054d8ff621f9619a9</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-04 20:19:54</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

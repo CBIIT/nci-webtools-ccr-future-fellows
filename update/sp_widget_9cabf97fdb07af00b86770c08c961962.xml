@@ -2,16 +2,18 @@
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function($scope, $log, $http, $window, apiRoot) {
+        <client_script><![CDATA[function($scope, $log, $http, $window, $q, $anchorScroll, apiRoot) {
 	/* widget controller */
 	var c = this;
 	c.fields = c.data.fields;
 	c.form = getFormValues();
 	c.ui = getUiValues();
 	c.submit = submit;
+	c.toggle = toggle;
+	c.toggleOn = toggleOn;
 
 	// begin dev props
-	c.debug = false;
+	c.debug = true;
 	c.log = function(obj) { $log.info(obj) };
 	c.logScope = function() { c.log($scope) };
 	// end dev props
@@ -23,7 +25,7 @@
 
 	// sets country to 'US' if a US state is selected
 	$scope.$watch('c.form.state', function(value, oldValue) {
-		if (value != null)
+		if (value != null && value != '')
 			c.form.country = 'US';
 	});
 
@@ -34,30 +36,112 @@
 	});
 
 	function submit() {
+		if ($scope.appForm.$invalid) {
+			$('h1')[0].scrollIntoView();
+			return false;
+		}
+		
 		var endpoint = apiRoot + 'applicants';
-		
-		
-		
-		
-		$http.post(endpoint, c.form).then(function(response) {
-			console.log(response);
-			var result = response.data.result;
-			if (!result) return;
-			console.log('success');
+		var formValues = parseForm(c.form);
+		console.log(formValues);
+
+		if (c.options.type == 'new') {
+			createApplicant(formValues);
+		}
+
+		else if (c.options.type == 'update') {
+			updateApplicant(formValues);
+		}
+	}
+
+	function createApplicant(parameters) {
+		var endpoint = apiRoot + 'applicants';
+		$http.post(endpoint, parameters).then(function(response) {
+			$log.info(response);
 		})['catch'](function(error) {
 			$log.error(error);
 		});
 	}
 
-	function uploadRecordAttachment(recordID, filename, content) {
+	function updateApplicant(parameters) {
+		var endpoint = apiRoot + 'applicants';
+		$http.put(endpoint, parameters).then(function(response) {
+			$log.info(response);
+		})['catch'](function(error) {
+			$log.error(error);
+		});
+	}
 
+	function parseForm(form) {
+		var formValues = angular.copy(form);
+
+		// delete any unused keys
+		var ignoredKeys = [
+			'scientific_focus_raw',
+			'other_scientific_focus',
+			'resume_filename',
+			'references_filename'
+		];
+
+		ignoredKeys.forEach(function(key) {
+			delete formValues[key];
+		});
+
+		// remove any entries that do not contain any values
+		formValues.education = formValues.education.filter(hasNonNullProps)
+		formValues.publications = formValues.education.filter(hasNonNullProps)
+
+		return formValues;
+	}
+	
+	function readFile(file) {
+		return $q(function(resolve, reject) {
+			var fileReader = new FileReader();
+			
+			fileReader.onload = function() {
+				resolve(fileReader.result);
+			}
+			
+			fileReader.onerror = function() {
+				fileReader.abort();
+				reject(fileReader.error);
+			}
+			
+			fileReader.readAsDataURL(file);
+		})
+	}
+
+	/**
+	 * Returns true if an object has non-null properties
+	 */
+	function hasNonNullProps(obj) {
+		for (var key in obj)
+			if (obj[key] != null && obj[key] != '')
+				return true;
+		return false;
+	}
+
+	function toggle(item, list) {
+		var idx = list.indexOf(item);
+		if (idx > -1) {
+			list.splice(idx, 1);
+		}
+		else {
+			list.push(item);
+		}
+	}
+	
+	function toggleOn(item, list) {
+		if (list.indexOf(item) == -1)
+			list.push(item);
 	}
 
 	function getFormValues() {
 		return {
 			job_category: 3,
-			scientific_focus: {},
+			scientific_focus_raw: {},
 			other_scientific_focus: [],
+			scientific_focus: [],
 			first_name: null,
 			middle_initial: null,
 			last_name: null,
@@ -92,8 +176,8 @@
 			],
 			resume_file: null,
 			references_file: null,
-			resume_filename: null,
-			references_filename: null
+			resume_file_input: null,
+			references_file_input: null
 		};
 	}
 
@@ -158,7 +242,7 @@
 				}
 			]
 		};
-		
+
 		return ui;
 	}
 
@@ -232,16 +316,26 @@
         <sys_created_on>2019-01-23 22:21:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>9cabf97fdb07af00b86770c08c961962</sys_id>
-        <sys_mod_count>645</sys_mod_count>
+        <sys_mod_count>797</sys_mod_count>
         <sys_name>Future Fellows Applicant Form</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_9cabf97fdb07af00b86770c08c961962</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-03 02:26:16</sys_updated_on>
-        <template><![CDATA[<form class="mb-5" name="appForm">
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-05 06:18:40</sys_updated_on>
+        <template><![CDATA[<div id="error-message"
+     ng-if="appForm.$submitted && appForm.$invalid"
+     class="alert alert-danger d-flex align-items-center">
+  <i class="fa fa-exclamation-circle fa-2x mr-4"></i>
+  Please correct the errors below and resubmit your application.
+</div>
+
+<form class="mb-5" 
+      name="appForm" 
+      ng-submit="c.submit()"
+      novalidate>
 
   <!-- Panels for each section -->
   <div class="panel panel-primary shadow-lg"
@@ -262,14 +356,14 @@
 
     <!-- Panel Body -->
     <div uib-collapse="!panel.open" style="transition: all 0.25s">
-      <div class="panel-body">
+      <div class="panel-body overflow-hidden">
         <!-- Applicant Status -->
         <ng-container ng-switch-when="Applicant Status">
           <md-button class="md-raised">Mark as Under Consideration</md-button>
           <md-button class="md-raised md-primary">Approve Applicant</md-button>
           <md-button class="md-raised md-warn">Remove Applicant</md-button>
         </ng-container>
-				
+
         <!-- Applicant Files -->
         <ng-container ng-switch-when="Applicant Files">
           <md-button class="md-raised">Download CV/Resume</md-button>
@@ -292,19 +386,28 @@
 
         <!-- Scientific Focus Areas -->
         <ng-container ng-switch-when="Scientific Focus Areas">
+          <p>
+            <strong>Select up to five scientific focus areas.</strong>
+          </p>
           <div layout-wrap layout-gt-sm="row">
             <div flex-gt-sm="50"
                  ng-repeat="field in c.data.fields.scientific_focus">
               <md-checkbox name="scientific_focus" 
-                           ng-model="c.form.scientific_focus[field.value]"
+                           ng-click="c.toggle(field.value, c.form.scientific_focus)"
+                           ng-checked="c.form.scientific_focus.indexOf(field.value) > -1"
+                           ng-disabled="c.form.scientific_focus.indexOf(field.value) == -1 &&
+                                        c.form.scientific_focus.length >= 5"
                            aria-label="{{field.label}}">
                 <ng-container ng-if="!field.children">
                   {{ field.label }}
                 </ng-container>
                 <md-select ng-if="field.children && !field.other"
                            ng-model="c.form.other_scientific_focus"
+                           ng-disabled="c.form.scientific_focus.indexOf(field.value) == -1 &&
+                                        c.form.scientific_focus.length >= 5"
+                           md-selected-text="field.label"
                            placeholder="{{field.label}}" 
-                           class="m-0 md-no-underline"
+                           class="my-0 md-no-underline"
                            multiple>
                   <md-option ng-repeat="child in field.children"
                              ng-value="child.value">
@@ -320,7 +423,7 @@
                   </md-input-container>              
                 </ng-container>
               </md-checkbox>
-					</div>
+            </div>
           </div>
         </ng-container>
         <!-- End Scientific Focus Areas -->
@@ -377,13 +480,13 @@
 
             <div flex="5" hide-xs hide-sm></div>
 
-            <div ng-show="c.hiddenFields.secondaryEmail" flex-gt-sm>
-              <md-button ng-click="c.hiddenFields.secondaryEmail = false" class="md-raised ml-0">
-                + Add secondary email
+            <div ng-if="c.ui.hidden.email_2" flex-gt-sm>
+              <md-button ng-click="c.ui.hidden.email_2 = false" class="md-raised ml-0">
+                + Add a secondary email
               </md-button>
             </div>
 
-            <md-input-container class="md-block" flex-gt-sm ng-hide="c.hiddenFields.secondaryEmail">
+            <md-input-container class="md-block animate-opacity" flex-gt-sm ng-if="!c.ui.hidden.email_2">
               <label>Secondary Email Address</label>
               <input type="email" 
                      ng-model="c.form.email_2" 
@@ -458,7 +561,9 @@
 
             <md-input-container class="md-block" flex-gt-sm>
               <label>Country</label>
-              <md-select ng-model="c.form.country" required>
+              <md-select ng-model="c.form.country" 
+                         name="country"
+                         required>
                 <md-option value="">None</md-option>
                 <md-option ng-value="field.value"
                            ng-repeat="field in c.data.fields.country">
@@ -501,8 +606,9 @@
             <md-input-container class="md-block" flex-gt-sm="30">
               <label>Citizenship</label>
               <md-select ng-model="c.form.citizenship" 
+                         name="citizenship"
                          required>
-                <md-option value="">None</md-option>
+                <md-option ng-value="null">None</md-option>
                 <md-option ng-value="field.value"
                            ng-repeat="field in c.data.fields.citizenship">
                   {{ field.label }}
@@ -516,10 +622,16 @@
         </ng-container>
         <!-- End Personal Information -->
 
-        
+
         <!-- Education -->
         <ng-container ng-switch-when="Education">
           <div class="pl-3">
+            <p>
+              <strong>
+                Enter your most recent educational degrees. If your degree is currently in progress, do not enter a year of graduation.
+              </strong>
+            </p>
+
             <div layout-gt-sm="row" ng-repeat="item in c.form.education">
 
               <md-input-container class="md-block" flex-gt-sm="5">
@@ -528,8 +640,15 @@
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
-                <label>Institution</label>
-                <input ng-model="c.form.education[$index].institution">
+                <label>
+                  Institution
+                </label>
+                <input ng-model="c.form.education[$index].institution"
+                       name="{{ 'institution_' + $index }}"
+                       ng-required="$index == 0">
+                <div ng-messages="appForm.institution_0.$error">
+                  <div ng-message="required">This field is required.</div>
+                </div>
               </md-input-container>
 
               <div flex="5" hide-xs hide-sm></div>
@@ -556,15 +675,20 @@
 
               <md-input-container class="md-block" flex-gt-sm="10">
                 <label>Year</label>
-                <input type="number" ng-model="c.form.education[$index].year">
-
+                <input type="number" 
+                       ng-model="c.form.education[$index].year"
+                       aria-valuenow="{{ c.form.education[$index].year }}"
+                       min="1900"
+                       max="2100"
+                       aria-valuemax="2100" 
+                       aria-valuemin="1900">
               </md-input-container>
 
             </div>
           </div>
         </ng-container>
         <!-- End Education -->
-        
+
 
         <!-- Publications -->
         <ng-container ng-switch-when="Publications">
@@ -625,32 +749,39 @@
           </div>
         </ng-container>
         <!-- End Publications -->
-        
+
 
         <ng-container ng-switch-when="Additional Questions">
           <ol class="pl-5">
             <li>
-              <div class="d-inline-block v-align-top">
-                <span>Please give a brief statement of your research interests and reason for seeking a fellowship at the NCI.</span>
+              <div class="d-inline-block v-align-top w-100">
+                <span>Please give a brief statement of your research interests and reason for seeking a fellowship at the NCI. *</span>
                 <md-input-container md-no-float class="md-block mt-0">
                   <textarea placeholder="Enter your response"
                             aria-label="Please give a brief statement of your research interests and reason for seeking a postdoctoral fellowship at the NCI."
-                            ng-model="user.research_interests" 
+                            ng-model="c.form.research_interests" 
+                            name="research_interests"
                             rows="3"
-                            md-select-on-focus>
+                            md-select-on-focus
+                            required>
                   </textarea>
+                <div ng-messages="appForm.research_interests.$error">
+                  <div ng-message="required">This field is required.</div>
+                </div>
+
+                
                 </md-input-container>
               </div>
 
             </li>
 
             <li>
-              <div class="d-inline-block v-align-top">
+              <div class="d-inline-block v-align-top w-100">
                 <span>Please provide a brief overview of your experience if any. List title of positions held and length of time employed.</span>
                 <md-input-container md-no-float class="md-block mt-0">
                   <textarea placeholder="Enter your response"
-                            aria-label="Please provide a brief overview of your postdoctoral experience if any. List title of positions held and length of time employed."
-                            ng-model="user.postdoc_experience" 
+                            aria-label="Please provide a brief overview of your experience if any. List title of positions held and length of time employed."
+                            ng-model="c.form.experience" 
                             rows="3"
                             md-select-on-focus>
                   </textarea>
@@ -659,12 +790,12 @@
             </li>
 
             <li>
-              <div class="d-inline-block v-align-top">
+              <div class="d-inline-block v-align-top w-100">
                 <label>Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.).</span>
                 <md-input-container md-no-float class="md-block mt-0">
                   <textarea placeholder="Enter your response"
                             aria-label="Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.)."
-                            ng-model="user.referral_source" 
+                            ng-model="c.form.referral_source" 
                             rows="3"
                             md-select-on-focus>
                   </textarea>
@@ -680,7 +811,8 @@
                                  md-open-on-focus
                                  aria-label="Please let us know your date of availability."
                                  md-placeholder="Enter date"
-                                 md-hide-icons="calendar">
+                                 md-hide-icons="calendar"
+                                 required>
                   </md-datepicker>
                 </md-input-container>
               </div>
@@ -701,23 +833,21 @@
               <input class="sr-only" 
                      type="file" 
                      id="resume_file_input" 
+                     name="resume_file_input"
                      aria-label="cv/resume file"
                      accept=".pdf"
-                     file-model="c.form.resume_file">
+                     file-model="c.form.resume_file_input"
+                     file-data-model="c.form.resume_file"
+                     required>
             </div>
             <md-input-container class="md-block" flex-gt-sm="40">
               <label>
-                {{ c.form.resume_file
-                ? c.form.resume_file.name
+                {{ c.form.resume_file_input
+                ? c.form.resume_file_input.name
                 : 'Please upload your CV/resume' }}
               </label>
               <input disabled>
-              <div>
-                <span ng-if="c.form.resume_file">
-                  {{ file.name }}
-                </span>
-              </div>
-              <small>Resume should be in .pdf format</small>
+              <small>File should be in .pdf format</small>
 
             </md-input-container>
           </div>
@@ -733,19 +863,22 @@
               <input class="sr-only" 
                      type="file" 
                      id="references_file_input" 
+                     name="references_file_input" 
                      aria-label="resume file"
-                     file-model="c.form.references_file"
-                     accept=".pdf">
+                     file-model="c.form.references_file_input"
+                     file-data-model="c.form.references_file"
+                     accept=".pdf"
+                     required>
             </div>
 
             <md-input-container class="md-block" flex-gt-sm="45">
               <label>
-                {{ c.form.references_file
-                ? c.form.references_file.name
+                {{ c.form.references_file_input
+                ? c.form.references_file_input.name
                 : 'Please upload a list of references' }}
               </label>
               <input disabled>
-              <small>List of references should be in .pdf format</small>
+              <small>File should be in .pdf format</small>
             </md-input-container>
           </div>
         </ng-container>
@@ -755,13 +888,12 @@
 
   <div class="text-center">
     <md-button class="md-raised md-primary shadow-lg" 
-               ng-click="c.submit()"
+               type="submit"
                style="min-width: 150px">
-      Submit
+      {{ options.type == 'new' ? 'Submit' : 'Update' }}
     </md-button>
   </div>
 </form>
-
 
 <div ng-if="c.debug">
   <h5>

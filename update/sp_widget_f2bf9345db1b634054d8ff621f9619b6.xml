@@ -29,7 +29,7 @@
         <sys_created_on>2019-01-28 02:51:38</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>f2bf9345db1b634054d8ff621f9619b6</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>Future Fellows Users</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -37,48 +37,53 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_f2bf9345db1b634054d8ff621f9619b6</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-02 06:46:10</sys_updated_on>
-        <template><![CDATA[<h1>
-  Track Users
-</h1>
+        <sys_updated_on>2019-03-03 02:34:20</sys_updated_on>
+        <template><![CDATA[<div class="container">
+  <h1>
+    Track Users
+  </h1>
 
-<hr>
+  <hr>
 
-<p>
-  Below are the Future Fellows users who have logged onto the application and the number of times they've accessed the application.
-</p>
+  <p>
+    Below are the Future Fellows users who have logged onto the application and the number of times they've accessed the application.
+  </p>
 
-<table class="table table-striped table-hover border">
-  <thead class="bg-primary-dark text-white">
-    <tr>
-      <td>NIH User Name</td>
-      <td>First Name</td>
-      <td>Last Name</td>
-      <td>Logons</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>admin</td>
-      <td>Test</td>
-      <td>Administrator</td>
-      <td>5</td>
-    </tr>
+  <table class="table table-striped table-hover border">
+    <thead class="bg-primary-dark text-white">
+      <tr>
+        <td>NIH User Name</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Logons</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>admin</td>
+        <td>Test</td>
+        <td>Administrator</td>
+        <td>5</td>
+      </tr>
 
-    <tr>
-      <td>user1</td>
-      <td>Test</td>
-      <td>User1</td>
-      <td>15</td>
-    </tr>
+      <tr>
+        <td>user1</td>
+        <td>Test</td>
+        <td>User1</td>
+        <td>15</td>
+      </tr>
 
-    <tr>
-      <td>user2</td>
-      <td>Test</td>
-      <td>User2</td>
-      <td>20</td>
-    </tr>
-  </tbody>
-</table>]]></template>
+      <tr>
+        <td>user2</td>
+        <td>Test</td>
+        <td>User2</td>
+        <td>20</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+]]></template>
     </sp_widget>
 </record_update>

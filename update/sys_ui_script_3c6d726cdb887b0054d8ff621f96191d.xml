@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Contains angularjs components and directives</description>
+        <global>false</global>
+        <name>x_naci_future_fell.angular_directives</name>
+        <script><![CDATA[(function() {
+	// get reference to root sp angularjs app
+	var app = angular.module('sn.$sp');
+	
+	// asynchronously loads a widget
+	// use as an alternative to <widget> to speed up navigation
+	app.component('asyncWidget', {
+		template: '<sp-widget widget="$ctrl.widget" options="$ctrl.options"><div ng-transclude></div></sp-widget>',
+		bindings: {
+			id: '@',
+			options: '=',
+			fallback: '@',
+		},
+		transclude: true,
+		controller: ['spUtil', function(spUtil) {
+			var c = this;
+			c.widget = null;
+			c.loading = true;
+			
+			loadWidget(c.id).then(function(widget) {
+				if (!widget.id)
+					loadWidget(c.fallback);
+			});
+			
+			function loadWidget(id) {
+				return spUtil.get(id).then(function(widget) {
+					c.widget = widget;
+					c.loading = false;
+					return widget;
+				});
+			}
+		}],
+	});
+	
+	
+	
+	app.directive('fileModel', ['$parse', '$q', function ($parse, $q) {
+		
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				var fileModel = $parse(attrs.fileModel);
+				var fileDataModel = $parse(attrs.fileDataModel);
+				if (fileDataModel == angular.noop)
+					fileDataModel = {assign: angular.noop};
+				
+				console.log(fileDataModel);
+
+				element.bind('change', function() {
+					scope.$apply(function(){
+						if (!element[0].files || !element[0].files.length) {
+							fileModel.assign(scope, null);
+							fileDataModel.assign(scope, null);
+							return;
+						}
+						
+						if (attrs.multiple) {
+							var files = element[0].files;
+							fileModel.assign(scope, files);
+							$q.all([].map.call(files, readFile)).then(function(dataUrls) {
+								fileDataModel.assign(scope, dataUrls);
+							});
+
+						} else {
+							var file = element[0].files[0];
+							fileModel.assign(scope, file);
+							readFile(file).then(function(dataUrl) {
+								fileDataModel.assign(scope, dataUrl);
+							});
+						}
+					});
+				});
+			}
+		};
+		
+
+		function readFile(file) {
+			return $q(function(resolve, reject) {
+				var fileReader = new FileReader();
+
+				fileReader.onload = function() {
+					resolve(fileReader.result);
+				};
+
+				fileReader.onerror = function() {
+					fileReader.abort();
+					reject(fileReader.error);
+				};
+
+				fileReader.readAsDataURL(file);
+			});
+		}
+
+		
+	}]);	
+	
+})();
+
+]]></script>
+        <script_name>angular_directives</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-03-04 17:52:20</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>3c6d726cdb887b0054d8ff621f96191d</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>x_naci_future_fell.angular_directives</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_ui_script_3c6d726cdb887b0054d8ff621f96191d</sys_update_name>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-05 05:43:07</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

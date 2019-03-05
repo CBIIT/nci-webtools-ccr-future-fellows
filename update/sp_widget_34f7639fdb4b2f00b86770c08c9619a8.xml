@@ -3,7 +3,7 @@
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
         <client_script><![CDATA[function() {
-  var c = this;
+  var c = this;	
 }]]></client_script>
         <controller_as>c</controller_as>
         <css>.custom-card {
@@ -15,11 +15,12 @@
   background-color: #fdfdfd;
   cursor: pointer;
   text-decoration: none !important;
-  transition: box-shadow 0.1s;
+  transition: all 0.1s;
   box-shadow: 0 .5rem 1rem rgba(black, .15);
+  font-weight: 800;
 }
 
-.custom-card:hover {
+.custom-card:hover, .custom-card:focus {
   background-color: white;
   box-shadow: 0 1rem 2rem rgba(black, .175);
 }
@@ -164,15 +165,15 @@
         <sys_created_on>2019-01-22 16:58:11</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>34f7639fdb4b2f00b86770c08c9619a8</sys_id>
-        <sys_mod_count>284</sys_mod_count>
+        <sys_mod_count>302</sys_mod_count>
         <sys_name>Future Fellows Home</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_34f7639fdb4b2f00b86770c08c9619a8</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-02 08:15:54</sys_updated_on>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-05 05:13:56</sys_updated_on>
         <template><![CDATA[
 <!-- pi index -->
 <div class="container" ng-if="c.data.isLoggedIn">
@@ -227,7 +228,7 @@
           Contribute to research in cancer biology, causation, prevention, detection, treatment and survivorship.
         </p>
         <p>
-          <md-button href="?id=future_fellows_application" class="md-raised md-primary m-0 px-4">
+          <md-button ui-sref="apply" class="md-raised md-primary m-0 px-4">
             Apply for a Fellowship
             <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
           </md-button>
@@ -244,7 +245,7 @@
 
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-6 col-lg-8">
       <p>
         The National Cancer Institute is the Nation's primary agency leading the fight against cancer by supporting and conducting ground-breaking research in cancer biology, causation, prevention, detection, treatment and survivorship. 
       </p>
@@ -254,11 +255,14 @@
 
       <p>
         The National Cancer Institute maintains a CV/resume databank of interested candidates to be considered for postdoctoral, doctoral, and postbaccalaureate (master-level and post-college) fellowships. 
-        <a href="?id=future_fellows_application">Candidates are encouraged to post their CVs/resumes.</a>
+        <a ui-sref="apply">Candidates are encouraged to post their CVs/resumes.</a>
       </p>
 
       <div uib-alert type="danger">
-        Applications are kept for six months after the submission date. After six months, your application will be removed from the system.
+        <div class="d-flex align-items-center">
+          <i class="fa fa-exclamation-circle fa-2x mr-4"></i>
+	        Applications are kept for six months after the submission date. After six months, your application will be removed from the system.
+        </div>
       </div>
 
     </div>

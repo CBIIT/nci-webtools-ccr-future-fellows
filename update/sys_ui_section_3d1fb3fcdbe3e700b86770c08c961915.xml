@@ -43,6 +43,20 @@
             <sys_user/>
             <type/>
         </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>expiration_date</element>
+            <position>3</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-03 05:58:17</sys_created_on>
+            <sys_id>d4809f0cdb84bb00b86770c08c9619f8</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-03 05:58:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
             <caption>Primary Focus</caption>
             <header>false</header>

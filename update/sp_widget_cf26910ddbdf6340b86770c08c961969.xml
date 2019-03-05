@@ -566,7 +566,7 @@
         <sys_created_on>2019-01-27 16:50:38</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>cf26910ddbdf6340b86770c08c961969</sys_id>
-        <sys_mod_count>272</sys_mod_count>
+        <sys_mod_count>273</sys_mod_count>
         <sys_name>Future Fellows Search</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -574,217 +574,224 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_cf26910ddbdf6340b86770c08c961969</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-22 07:56:28</sys_updated_on>
-        <template><![CDATA[<h1>
-  Search Applicants
-</h1>
-<hr>
+        <sys_updated_on>2019-03-03 02:33:55</sys_updated_on>
+        <template><![CDATA[<div class="container">
+  <h1>
+    Search Applicants
+  </h1>
+  <hr>
 
-<div  layout-gt-sm="row" layout-wrap>
+  <div  layout-gt-sm="row" layout-wrap>
 
-  <div flex-gt-sm="35">
+    <div flex-gt-sm="35">
 
-    <uib-accordion close-others="false">
+      <uib-accordion close-others="false">
 
-      <div uib-accordion-group 
-           class="panel-primary shadow-lg mb-5" 
-           is-open="c.accordionStatus[0]">
-        <uib-accordion-heading>
-          Submission Date
-          <i class="pull-right fa" 
-             ng-class="{'fa-chevron-down': c.accordionStatus[0], 
-                       'fa-chevron-right': !c.accordionStatus[0]}"></i>
-        </uib-accordion-heading>    
+        <div uib-accordion-group 
+             class="panel-primary shadow-lg mb-5" 
+             is-open="c.accordionStatus[0]">
+          <uib-accordion-heading>
+            Submission Date
+            <i class="pull-right fa" 
+               ng-class="{'fa-chevron-down': c.accordionStatus[0], 
+                         'fa-chevron-right': !c.accordionStatus[0]}"></i>
+          </uib-accordion-heading>    
 
-        <md-input-container class="md-block" style="width: 100%">
-          <label>Submission Date</label>
-          <md-select ng-model="c.submission_date">
-            <md-option ng-repeat="item in c.submission_dates" 
-                       ng-value="item.value">
-              {{ item.label }}
-            </md-option>
-          </md-select>
-        </md-input-container>            
+          <md-input-container class="md-block" style="width: 100%">
+            <label>Submission Date</label>
+            <md-select ng-model="c.submission_date">
+              <md-option ng-repeat="item in c.submission_dates" 
+                         ng-value="item.value">
+                {{ item.label }}
+              </md-option>
+            </md-select>
+          </md-input-container>            
 
-        <md-input-container class="md-block">
-          <label>Start Date</label>
-          <md-datepicker ng-model="c.submission_start_date" 
-                         md-open-on-focus
-                         md-hide-icons="calendar"
-                         ng-change="c.submission_date = 'custom'">
-          </md-datepicker>
-        </md-input-container>            
+          <md-input-container class="md-block">
+            <label>Start Date</label>
+            <md-datepicker ng-model="c.submission_start_date" 
+                           md-open-on-focus
+                           md-hide-icons="calendar"
+                           ng-change="c.submission_date = 'custom'">
+            </md-datepicker>
+          </md-input-container>            
 
-        <md-input-container class="md-block">
-          <label>End Date</label>
-          <md-datepicker ng-model="c.submission_end_date" 
-                         md-open-on-focus
-                         md-hide-icons="calendar"
-                         ng-change="c.submission_date = 'custom'">
-          </md-datepicker>
-        </md-input-container>            
+          <md-input-container class="md-block">
+            <label>End Date</label>
+            <md-datepicker ng-model="c.submission_end_date" 
+                           md-open-on-focus
+                           md-hide-icons="calendar"
+                           ng-change="c.submission_date = 'custom'">
+            </md-datepicker>
+          </md-input-container>            
 
-      </div>
+        </div>
 
-      <div uib-accordion-group 
-           class="panel-primary shadow-lg mb-5" 
-           is-open="c.accordionStatus[1]">
+        <div uib-accordion-group 
+             class="panel-primary shadow-lg mb-5" 
+             is-open="c.accordionStatus[1]">
 
-        <uib-accordion-heading>
-          General Filters
-          <i class="pull-right fa" 
-             ng-class="{'fa-chevron-down': c.accordionStatus[1], 
-                       'fa-chevron-right': !c.accordionStatus[1]}"></i>
-        </uib-accordion-heading>    
-        
-        
-        <md-input-container class="md-block" style="max-width: 100%">
-          <label>Job Category</label>
-          <md-select ng-model="c.job_category"
-                     multiple>
-            <md-option ng-repeat="field in c.data.fields.job_category"
-                       ng-value="field.value" >
-              {{ field.label }}
-            </md-option>
-          </md-select>
-        </md-input-container>        
+          <uib-accordion-heading>
+            General Filters
+            <i class="pull-right fa" 
+               ng-class="{'fa-chevron-down': c.accordionStatus[1], 
+                         'fa-chevron-right': !c.accordionStatus[1]}"></i>
+          </uib-accordion-heading>    
 
 
-        <md-input-container class="md-block" style="max-width: 100%">
-          <label>Scientific Focus</label>
-          <md-select ng-model="c.scientific_focus"
-                     multiple>
-
-            <ng-container ng-repeat="field in c.data.fields.scientific_focus">
-              <md-option ng-if="!field.children"
+          <md-input-container class="md-block" style="max-width: 100%">
+            <label>Job Category</label>
+            <md-select ng-model="c.job_category"
+                       multiple>
+              <md-option ng-repeat="field in c.data.fields.job_category"
                          ng-value="field.value" >
                 {{ field.label }}
               </md-option>
+            </md-select>
+          </md-input-container>        
 
-              <md-optgroup ng-if="field.children"
-                           label="{{ field.label }}">
-                <md-option style="margin-left: 20px"
-                           ng-repeat="child in field.children"
-                           ng-value="child.value">
-                  {{ child.label }}
+
+          <md-input-container class="md-block" style="max-width: 100%">
+            <label>Scientific Focus</label>
+            <md-select ng-model="c.scientific_focus"
+                       multiple>
+
+              <ng-container ng-repeat="field in c.data.fields.scientific_focus">
+                <md-option ng-if="!field.children"
+                           ng-value="field.value" >
+                  {{ field.label }}
                 </md-option>
-              </md-optgroup>
 
-            </ng-container>
-          </md-select>
-        </md-input-container>        
+                <md-optgroup ng-if="field.children"
+                             label="{{ field.label }}">
+                  <md-option style="margin-left: 20px"
+                             ng-repeat="child in field.children"
+                             ng-value="child.value">
+                    {{ child.label }}
+                  </md-option>
+                </md-optgroup>
 
-
-        <md-input-container class="md-block" style="max-width: 100%">
-          <label>Citizenship/Visa Status</label>
-          <md-select ng-model="c.citizenship"
-                     multiple>
-            <md-option ng-repeat="item in c.data.fields.citizenship"
-                       ng-value="item.value">
-              {{ item.label }}
-            </md-option>
-          </md-select>
-        </md-input-container>            
+              </ng-container>
+            </md-select>
+          </md-input-container>        
 
 
+          <md-input-container class="md-block" style="max-width: 100%">
+            <label>Citizenship/Visa Status</label>
+            <md-select ng-model="c.citizenship"
+                       multiple>
+              <md-option ng-repeat="item in c.data.fields.citizenship"
+                         ng-value="item.value">
+                {{ item.label }}
+              </md-option>
+            </md-select>
+          </md-input-container>            
 
+
+
+        </div>
+
+
+        <div uib-accordion-group 
+             class="panel-primary shadow-lg mb-5" 
+             style="overflow: hidden"
+             is-open="c.accordionStatus[2]">
+
+          <uib-accordion-heading>
+            Education
+            <i class="pull-right fa" 
+               ng-class="{'fa-chevron-down': c.accordionStatus[2], 
+                         'fa-chevron-right': !c.accordionStatus[2]}"></i>
+          </uib-accordion-heading>    
+
+
+          <md-input-container class="md-block">
+            <label>Degree</label>
+            <md-select ng-model="c.degree" multiple>
+              <md-option ng-repeat="item in c.data.fields.education_level" 
+                         ng-value="item.value">
+                {{ item.label }}
+              </md-option>
+            </md-select>
+          </md-input-container>            
+
+
+          <md-input-container class="md-block">
+            <label>Major</label>
+            <md-select ng-model="c.major" multiple>
+              <md-option ng-repeat="item in c.majors" ng-value="item.value">
+                {{ item.label }}
+              </md-option>
+            </md-select>
+          </md-input-container>            
+        </div>
+      </uib-accordion>
+
+
+
+      <div class="mb-5">
+        <md-button class="md-raised md-primary m-0 shadow-lg" style="width: 100%">Search</md-button>
       </div>
 
 
-      <div uib-accordion-group 
-           class="panel-primary shadow-lg mb-5" 
-           style="overflow: hidden"
-           is-open="c.accordionStatus[2]">
+    </div>
 
-        <uib-accordion-heading>
-          Education
-          <i class="pull-right fa" 
-             ng-class="{'fa-chevron-down': c.accordionStatus[2], 
-                       'fa-chevron-right': !c.accordionStatus[2]}"></i>
-        </uib-accordion-heading>    
-        
-        
-        <md-input-container class="md-block">
-          <label>Degree</label>
-          <md-select ng-model="c.degree" multiple>
-            <md-option ng-repeat="item in c.data.fields.education_level" 
-                       ng-value="item.value">
-              {{ item.label }}
-            </md-option>
-          </md-select>
-        </md-input-container>            
+    <div flex-gt-sm="5"></div>
 
+    <div flex-gt-sm="60" class="panel shadow-lg mb-5" style="border: none">
 
-        <md-input-container class="md-block">
-          <label>Major</label>
-          <md-select ng-model="c.major" multiple>
-            <md-option ng-repeat="item in c.majors" ng-value="item.value">
-              {{ item.label }}
-            </md-option>
-          </md-select>
-        </md-input-container>            
+      <div class="panel-heading bg-primary">
+        <h4 class="panel-title">
+          Applicants
+        </h4>
       </div>
-    </uib-accordion>
+      <div class="panel-body m-0 p-0">
+
+        <md-list flex>
+          <md-subheader class="md-no-sticky">
+            <div class="clearfix">
+              {{ c.people.length }} Applicants Found.  <br>
+              To save applicants, use the toggle switch on the right.
+
+              <div class="pull-right">
+                Sort By
+                <select class="material-select" 
+                        aria-label="sort parameters"
+                        ng-change="sortApplicants()" 
+                        ng-model="c.sortCriteria">
+                  <option>Name</option>
+                  <option>Submission Date</option>
+                  <option>Job Category</option>
+                  <option>Saved</option>
+                </select>
+              </div>
+            </div>
+          </md-subheader>
+
+          <md-list-item class="md-3-line" ng-repeat="item in c.people" href="/future-fellows?id=future_fellows_applicant" target="_blank">
+            <div class="md-list-item-text" layout="column">
+              <h3><strong>{{ item.name }}</strong> <small class="text-muted ml-3">{{ item.date.toLocaleDateString() }}</small></h3>
+              <h4>
+                <em>{{ item.job }}</em>
+              </h4>
+              <p>{{ item.focus }}</p>
+            </div>
+            <md-switch class="md-secondary" ng-model="item.saved" md-invert="true">
+              <small style="color: #595959; font-size: 12px;" ng-if="item.saved">Saved</small
+                </md-switch>
 
 
-
-    <div class="mb-5">
-      <md-button class="md-raised md-primary m-0 shadow-lg" style="width: 100%">Search</md-button>
-    </div>
-
-
-  </div>
-
-  <div flex-gt-sm="5"></div>
-
-  <div flex-gt-sm="60" class="panel shadow-lg mb-5" style="border: none">
-
-    <div class="panel-heading bg-primary">
-      <h4 class="panel-title">
-        Applicants
-      </h4>
-    </div>
-    <div class="panel-body m-0 p-0">
-
-      <md-list flex>
-        <md-subheader class="md-no-sticky">
-          <div class="clearfix">
-            {{ c.people.length }} Applicants Found.  <br>
-            To save applicants, use the toggle switch on the right.
-
-            <div class="pull-right">
-              Sort By
-              <select class="material-select" 
-                      aria-label="sort parameters"
-                      ng-change="sortApplicants()" 
-                      ng-model="c.sortCriteria">
-                <option>Name</option>
-                <option>Submission Date</option>
-                <option>Job Category</option>
-                <option>Saved</option>
-              </select>
+                </md-list-item>      
+              </md-list>
             </div>
           </div>
-        </md-subheader>
 
-        <md-list-item class="md-3-line" ng-repeat="item in c.people" href="/future-fellows?id=future_fellows_applicant" target="_blank">
-          <div class="md-list-item-text" layout="column">
-            <h3><strong>{{ item.name }}</strong> <small class="text-muted ml-3">{{ item.date.toLocaleDateString() }}</small></h3>
-            <h4>
-              <em>{{ item.job }}</em>
-            </h4>
-            <p>{{ item.focus }}</p>
-          </div>
-			    <md-switch class="md-secondary" ng-model="item.saved" md-invert="true">
-          	<small style="color: #595959; font-size: 12px;" ng-if="item.saved">Saved</small
-          </md-switch>
-          
-          
-        </md-list-item>      
-      </md-list>
+      </div>
+
+
     </div>
   </div>
-
+</div>
 ]]></template>
     </sp_widget>
 </record_update>

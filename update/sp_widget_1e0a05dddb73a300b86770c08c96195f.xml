@@ -37,59 +37,60 @@
         <sys_created_on>2019-02-22 07:07:29</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>1e0a05dddb73a300b86770c08c96195f</sys_id>
-        <sys_mod_count>28</sys_mod_count>
+        <sys_mod_count>31</sys_mod_count>
         <sys_name>Future Fellows Preferences</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_1e0a05dddb73a300b86770c08c96195f</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-01 20:05:03</sys_updated_on>
-        <template><![CDATA[<h1>
-  Preferences
-</h1>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-05 05:15:34</sys_updated_on>
+        <template><![CDATA[<div class="mb-5 container">
+  <h1>
+    Preferences
+  </h1>
 
-<hr>
+  <hr>
 
 
-<h2 class="h3">
-  <i class="fa fa-envelope" aria-hidden="true" style="color: rebeccapurple"></i>
-  Receive Email Notifications For...
-</h2>
+  <h2 class="h3">
+    <i class="fa fa-envelope" aria-hidden="true" style="color: rebeccapurple"></i>
+    Receive Email Notifications For...
+  </h2>
 
-<div class="pl-2 pv-2">
-  <md-checkbox>
-    New Applicants
-  </md-checkbox>
+  <div class="pl-2 pv-2">
+    <md-checkbox>
+      New Applicants
+    </md-checkbox>
+  </div>
+
+  <div class="pl-2 pv-2">
+    <md-checkbox>
+      New Applicants (Weekly Email)
+    </md-checkbox>
+  </div>
+
+  <div class="pl-2 pv-2">
+    <md-checkbox>
+      Applicant Updates
+    </md-checkbox>
+  </div>
+
+
+  <div class="pl-2 pv-2">
+    <md-checkbox>
+      Applicant Updates (Only Saved Applicants)
+    </md-checkbox>
+  </div>
+
+  <div>
+    <md-button class="md-raised md-primary m-0 px-4" ng-click="c.save()">
+      Save Preferences
+      <i class="fa fa-check ml-1" aria-hidden="true" ng-if="c.saved"></i>
+    </md-button>
+  </div>
 </div>
-
-<div class="pl-2 pv-2">
-  <md-checkbox>
-    New Applicants (Weekly Email)
-  </md-checkbox>
-</div>
-
-<div class="pl-2 pv-2">
-  <md-checkbox>
-    Applicant Updates
-  </md-checkbox>
-</div>
-
-
-<div class="pl-2 pv-2">
-  <md-checkbox>
-    Applicant Updates (Only Saved Applicants)
-  </md-checkbox>
-</div>
-
-<div>
-  <md-button class="md-raised md-primary m-0 px-4" ng-click="c.save()">
-  	Save Preferences
-    <i class="fa fa-check ml-1" aria-hidden="true" ng-if="c.saved"></i>
-  </md-button>
-</div>
-
 
 ]]></template>
     </sp_widget>

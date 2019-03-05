@@ -87,7 +87,7 @@
         <sys_created_on>2019-02-22 05:03:33</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>c7ada49ddbff6300b86770c08c961958</sys_id>
-        <sys_mod_count>20</sys_mod_count>
+        <sys_mod_count>21</sys_mod_count>
         <sys_name>Future Fellows External Login</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -95,44 +95,44 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_c7ada49ddbff6300b86770c08c961958</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-22 05:23:51</sys_updated_on>
-        <template><![CDATA[<h1>
-  Log In
-</h1>
+        <sys_updated_on>2019-03-03 02:30:27</sys_updated_on>
+        <template><![CDATA[<div class="container">
+  <h1>
+    Log In
+  </h1>
 
-<hr>
+  <hr>
 
-<form ng-if="!data.is_logged_in" 
-      ng-submit="c.login(c.username, c.password)" 
-      style="max-width: 400px; margin: 0 auto;"
-      method="post">
-  
-  <div class="list-group list-group-sm">
-    <div class="list-group-item">
-      <label for="username" class="sr-only">{{::data.usernameMsg}}</label>
-      <input id="username" name="username" autocapitalize="off" ng-keypress="c.message = ''" ng-click="c.message = ''" class="form-control no-border" type="text" placeholder='{{::data.usernameMsg}}' autofocus="true" ng-model="c.username"/>
+  <form ng-if="!data.is_logged_in" 
+        ng-submit="c.login(c.username, c.password)" 
+        style="max-width: 400px; margin: 0 auto;"
+        method="post">
+
+    <div class="list-group list-group-sm">
+      <div class="list-group-item">
+        <label for="username" class="sr-only">{{::data.usernameMsg}}</label>
+        <input id="username" name="username" autocapitalize="off" ng-keypress="c.message = ''" ng-click="c.message = ''" class="form-control no-border" type="text" placeholder='{{::data.usernameMsg}}' autofocus="true" ng-model="c.username"/>
+      </div>
+      <div class="list-group-item">
+        <label for="password" class="sr-only">{{::data.passwordMsg}}</label>
+        <input id="password" name="password" ng-keypress="c.message = ''" ng-click="c.message = ''" class="form-control no-border" type="password" placeholder='{{::data.passwordMsg}}' ng-model="c.password"/>
+      </div>
+
+      <div class="small mt-1">
+        <a href="/$pwd_reset.do?sysparm_url=ss_default">Forgot your password?</a>
+      </div>
+
     </div>
-    <div class="list-group-item">
-      <label for="password" class="sr-only">{{::data.passwordMsg}}</label>
-      <input id="password" name="password" ng-keypress="c.message = ''" ng-click="c.message = ''" class="form-control no-border" type="password" placeholder='{{::data.passwordMsg}}' ng-model="c.password"/>
-    </div>
 
-    <div class="small mt-1">
-      <a href="/$pwd_reset.do?sysparm_url=ss_default">Forgot your password?</a>
-    </div>
-
-  </div>
-
-  <div ng-if="c.message" class="alert alert-danger" role="alert">{{c.message}}</div>
-  <div ng-if="c.success" class="alert alert-success" role="alert">{{c.success}}</div>
-  
-	
-  <button name="login" type="submit" class="btn btn-lg btn-primary btn-block">
-    ${Login}
-  </button>
-</form>
+    <div ng-if="c.message" class="alert alert-danger" role="alert">{{c.message}}</div>
+    <div ng-if="c.success" class="alert alert-success" role="alert">{{c.success}}</div>
 
 
+    <button name="login" type="submit" class="btn btn-lg btn-primary btn-block">
+      ${Login}
+    </button>
+  </form>
+</div>
 ]]></template>
     </sp_widget>
 </record_update>

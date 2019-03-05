@@ -10,10 +10,7 @@
         <name>Create Applicant</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 	try {
-		FutureFellows.createApplicant(request.body);
-		response.setBody({
-			success: true
-		});
+		return FutureFellows.createApplicant(request.body.data);
 	} catch (exception) {
 		response.setStatus(500);
 		response.setBody({
@@ -34,15 +31,15 @@
         <sys_created_on>2019-02-19 19:50:25</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>784adc68dbb36340b86770c08c96197e</sys_id>
-        <sys_mod_count>15</sys_mod_count>
+        <sys_mod_count>19</sys_mod_count>
         <sys_name>Create Applicant</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_ws_operation_784adc68dbb36340b86770c08c96197e</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-01 18:54:40</sys_updated_on>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-04 04:37:39</sys_updated_on>
         <web_service_definition display_value="Future Fellows">db9caa59dbdfa340b86770c08c9619ec</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

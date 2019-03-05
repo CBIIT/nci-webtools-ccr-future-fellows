@@ -5,15 +5,20 @@
         <client_script><![CDATA[function($scope, $timeout, $location, spUtil) {
   var c = this;
 
+	/* make navbar sticky */
+		$timeout(function() {
+			$('#main-navigation')
+				.addClass('navbar-sticky')
+				.insertAfter('header');
+		})
+	
 	$scope.$on('$locationChangeStart', function(e) {
 		c.loading = true;
 	});
 	
-	/* Updates scope.page.id when location changes */
 	$scope.$on('$locationChangeSuccess', function(e) {
 		c.loading = false;
 	});
-
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -50,31 +55,26 @@
 		data.pageLinks = [
 			{
 				title: 'Home',
-				name: 'home',
-				id: 'future_fellows_home'
+				name: 'home'
 			},
 			{
 				title: 'Search Applicants',
-				name: 'search',
-				id: 'future_fellows_search'
+				name: 'search'
 			},
 
 			{
 				title: 'New Applicant',
-				name: 'new-applicant',
-				id: 'future_fellows_new_applicant'
+				name: 'new-applicant'
 			},
 
 			{
 				title: 'Saved Applicants',
-				name: 'saved-applicants',
-				id: 'future_fellows_saved_applicants'
+				name: 'saved-applicants'
 			},
 
 			{
 				title: 'Update Preferences',
-				name: 'preferences',
-				id: 'future_fellows_preferences'
+				name: 'preferences'
 			}
 		];
 
@@ -82,8 +82,7 @@
 		if (data.userRole === 'admin') {
 			data.pageLinks.push({
 				title: 'Track Users',
-				name: 'track-users',
-				id: 'future_fellows_users'
+				name: 'track-users'
 			});
 
 		// links for applicants
@@ -102,21 +101,16 @@
         <sys_created_on>2019-02-06 17:15:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>a6dbb81cdba32700b86770c08c96193b</sys_id>
-        <sys_mod_count>131</sys_mod_count>
+        <sys_mod_count>157</sys_mod_count>
         <sys_name>Future Fellows Navigation</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_a6dbb81cdba32700b86770c08c96193b</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-02 08:18:23</sys_updated_on>
-        <template><![CDATA[<div style="position: fixed; top: 0; left: 0; width: 100%; opacity: 0.1;" 
-     ng-if="c.loading">
-  <md-progress-linear md-mode="indeterminate"></md-progress-linear>
-</div>
-
-<nav class="navbar navbar-default shadow-sm">
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-05 05:14:40</sys_updated_on>
+        <template><![CDATA[<nav class="navbar navbar-default shadow-sm" id="main-navigation">
   <!-- Mobile menu -->
   <div class="d-flex align-items-center justify-content-between visible-xs bg-primary-dark text-light px-3">
 
@@ -140,7 +134,8 @@
     <div class="collapse navbar-collapse px-sm-0" id="main-navbar">
       <ul class="nav navbar-nav">
         <li ng-repeat="link in c.data.pageLinks"
-            ui-sref-active="active">
+            ui-sref-active="active"
+            class="mr-3">
           <a ui-sref="{{ link.name }}"
              class="nav-link">
             <span class="sr-only" 
@@ -154,8 +149,7 @@
       <ul class="nav navbar-nav navbar-right">
 
          <li class="dropdown" ng-if="!c.data.isLoggedIn">
-          <a href="#" 
-             class="dropdown-toggle" 
+          <a class="dropdown-toggle mr-0" 
              data-toggle="dropdown" 
              role="button" 
              aria-haspopup="true" 
@@ -164,7 +158,7 @@
             <span class="caret"></span>
           </a>
            
-          <ul class="dropdown-menu px-3">
+          <ul class="dropdown-menu px-3 shadow-md">
             <li>
               <a ng-if="!c.data.isLoggedIn"
                  ui-sref="external-login"
