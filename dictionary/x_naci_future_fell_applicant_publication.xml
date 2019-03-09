@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Applicant Publication" max_length="40" name="x_naci_future_fell_applicant_publication" type="collection">
+        <element label="Applicant" max_length="32" name="applicant" reference="x_naci_future_fell_applicant" type="reference"/>
+        <element label="Journal" max_length="200" name="journal" type="string"/>
+        <element default="0" label="Order" max_length="40" name="order" type="integer"/>
+        <element label="Title" max_length="200" name="title" type="string"/>
+        <element label="Year" max_length="40" name="year" type="glide_date"/>
+        <index name="index">
+            <element name="applicant"/>
+        </index>
+    </element>
+</database>

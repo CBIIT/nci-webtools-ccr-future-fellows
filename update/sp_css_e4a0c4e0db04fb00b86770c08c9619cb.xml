@@ -11,13 +11,21 @@ md-button, .md-button, button.md-button, a.md-button {&#13;
   font-weight: 600;&#13;
 }&#13;
 &#13;
-md-input-container label {&#13;
+md-input-container label,&#13;
+md-select &gt; .md-select-value.md-select-placeholder {&#13;
   margin-bottom: 0;&#13;
+  color: #595959;&#13;
 }&#13;
 &#13;
 md-input-container textarea.md-input {&#13;
     background-color: #fbfbfb;&#13;
     padding: 10px;&#13;
+}&#13;
+&#13;
+md-input-container.md-input-invalid .md-input,&#13;
+md-select.ng-invalid.ng-touched .md-select-value,&#13;
+md-select.ng-invalid.ng-touched .md-select-value.md-select-placeholder {&#13;
+  background-color: #fff4f4;&#13;
 }&#13;
 &#13;
 .md-label md-select {&#13;
@@ -62,6 +70,19 @@ md-input-container textarea.md-input {&#13;
 .ag-theme-material, .ag-header {&#13;
   font-family: inherit !important;&#13;
 }&#13;
+&#13;
+.ag-theme-material .ag-cell,&#13;
+.ag-theme-material .ag-header-cell {&#13;
+  padding-left: 10px !important;&#13;
+  padding-right: 10px !important;&#13;
+}&#13;
+&#13;
+.ag-theme-material .ag-cell {&#13;
+  padding-top: 5px;&#13;
+  padding-bottom: 5px;&#13;
+  line-height: normal !important;&#13;
+}  &#13;
+&#13;
 </css>
         <name>[future-fellows] material-overrides.css</name>
         <sys_class_name>sp_css</sys_class_name>
@@ -69,14 +90,14 @@ md-input-container textarea.md-input {&#13;
         <sys_created_on>2019-03-04 04:07:15</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>e4a0c4e0db04fb00b86770c08c9619cb</sys_id>
-        <sys_mod_count>30</sys_mod_count>
+        <sys_mod_count>49</sys_mod_count>
         <sys_name>[future-fellows] material-overrides.css</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_css_e4a0c4e0db04fb00b86770c08c9619cb</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-04 22:19:27</sys_updated_on>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-06 19:45:36</sys_updated_on>
     </sp_css>
 </record_update>

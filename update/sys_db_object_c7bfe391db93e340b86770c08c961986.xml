@@ -25,17 +25,17 @@
         <sys_created_on>2019-01-28 22:40:12</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>c7bfe391db93e340b86770c08c961986</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>Publication</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_db_object_c7bfe391db93e340b86770c08c961986</sys_update_name>
-        <sys_updated_by>yuw5@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-06 16:44:42</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-05 19:14:21</sys_updated_on>
         <update_access>false</update_access>
         <user_role display_value="x_naci_future_fell.user" name="x_naci_future_fell.user">20e9ac11db4ba700b86770c08c961988</user_role>
-        <ws_access>true</ws_access>
+        <ws_access>false</ws_access>
     </sys_db_object>
 </record_update>

@@ -65,99 +65,8 @@
         <public>true</public>
         <roles/>
         <script><![CDATA[(function() {
-	var user = gs.getUser();	
-	
 	data.isLoggedIn = gs.getSession().isLoggedIn();
-	data.userName = user.getDisplayName();
-	
-	// if a user has multiple roles, the one with
-	// the highest privilege level is chosen
-	data.userRole = null;
-	if (user.hasRole('x_naci_future_fell.admin'))
-		data.userRole = 'admin';
-	else if (user.hasRole('x_naci_future_fell.user'))
-		data.userRole = 'user';
-	else if (user.hasRole('x_naci_future_fell.applicant'))
-		data.userRole = 'applicant';
-	
-	data.links = [];
-	
-	if (data.userRole === 'admin') {
-		data.links = [
-			{
-				icon: 'fa fa-search fa-2x',
-				title: 'Search Applicants',
-				link: 'search'
-			},
-
-			{
-				icon: 'fa fa-user fa-2x',
-				title: 'New Applicant',
-				link: 'new-applicant'
-			},
-
-			{
-				icon: 'fa fa-users fa-2x',
-				title: 'Saved Applicants',
-				link: 'saved-applicants'
-			},
-
-			{
-				icon: 'fa fa-history fa-2x',
-				title: 'Track Users',
-				link: 'track-users'
-			},
-			
-			{
-				icon: 'fa fa-sliders fa-2x',
-				title: 'Update Preferences',
-				link: 'preferences'
-			}
-		];
-	} else if (data.userRole === 'user') {
-		data.links = [
-			{
-				icon: 'fa fa-search fa-2x',
-				title: 'Search Applicants',
-				link: 'search'
-			},
-
-			{
-				icon: 'fa fa-user fa-2x',
-				title: 'New Applicants',
-				link: 'new-applicant'
-			},
-
-			{
-				icon: 'fa fa-users fa-2x',
-				title: 'Saved Applicants',
-				link: 'saved-applicants'
-			},
-			
-			{
-				icon: 'fa fa-sliders fa-2x',
-				title: 'Update Preferences',
-				link: 'preferences'
-			}
-		];
-	} else if (data.userRole === 'applicant') {
-		data.links = [
-			{
-				icon: 'fa  fa-pencil-square-o fa-2x',
-				title: 'Update My Application',
-				link: 'applicant'
-			},
-			
-			{
-				icon: 'fa fa-list-alt fa-2x',
-				title: 'View My Application Status',
-				link: 'application-status'
-			}
-		]	
-	}
-	
-	
-//	$sp.log("Testing..." + $sp.getParameter('wow'));
+	data.userRole = ClientUtils.getRole();
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
@@ -165,7 +74,7 @@
         <sys_created_on>2019-01-22 16:58:11</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>34f7639fdb4b2f00b86770c08c9619a8</sys_id>
-        <sys_mod_count>302</sys_mod_count>
+        <sys_mod_count>320</sys_mod_count>
         <sys_name>Future Fellows Home</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -173,140 +82,107 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_34f7639fdb4b2f00b86770c08c9619a8</sys_update_name>
         <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-05 05:13:56</sys_updated_on>
-        <template><![CDATA[
-<!-- pi index -->
-<div class="container" ng-if="c.data.isLoggedIn">
+        <sys_updated_on>2019-03-08 22:46:22</sys_updated_on>
+        <template><![CDATA[<!-- public index -->
+<div class="row cover-image" 
+     ng-if="!c.data.isLoggedIn || c.data.userRole == null">
+  <div class="container">
+    <div class="col-md-6 col-lg-4 px-5 py-3 bg-primary-dark text-light">
+      <h1 class="front-header serif">
+        <span class="light-blue">Become a </span><br>
+        Future Fellow <br>
+        <span class="light-blue">of the National Cancer Institute</span>
+      </h1>
+      <p class="front-subheader text-light">
+        Contribute to research in cancer biology, causation, prevention, detection, treatment and survivorship.
+      </p>
+      <p>
+        <md-button ui-sref="apply" class="md-raised md-primary m-0 px-4">
+          Apply for a Fellowship
+          <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+        </md-button>
+      </p>
+    </div>
+  </div>
+</div>  
 
-  <h1>
-    Welcome, {{ c.data.userName }}
-  </h1>
+<div class="container py-5">
+  <div class="col col-md-4">
+    <h1 class="front-header serif mt-0">
+      Welcome to the National Cancer Institute
+    </h1>
+  </div>
 
-  <hr>
+  <div class="col col-md-8">
+    <p>
+      The National Cancer Institute is the Nation's primary agency leading the fight against cancer by supporting and conducting ground-breaking research in cancer biology, causation, prevention, detection, treatment and survivorship. 
+    </p>
+    <p>
+      NCI's goal is to stimulate and support scientific discovery and its application to achieve a future when all cancers are uncommon and easily treatable. The NCI works toward this goal by providing vision to the Nation and leadership for thousands of NCI funded researchers across the United States and around the world, and working to assure that the results of research are translated into reducing the burden of all cancers for all people.        
+    </p>
+    <p>
+      The National Cancer Institute maintains a CV/resume databank of interested candidates to be considered for postdoctoral, doctoral, and postbaccalaureate (master-level and post-college) fellowships. 
+      <a ui-sref="apply">Candidates are encouraged to post their CVs/resumes.</a>
+    </p>
 
-  <p class="lead" style="font-weight: 400; font-size: 18px;">
-    To begin, select an option below:
-  </p>
-
-  <div layout="row"
-       layout-wrap
-       class="mb-5">
-    <div ng-repeat="card in c.data.links"
-         flex-xs="100"
-         flex-gt-xs="50"
-         flex-gt-sm="33"
-         flex-gt-md="25">
-      <a ui-sref="{{ card.link }}"
-         class="p-4 m-4 custom-card relative"
-         md-ink-ripple>
-        <div class="text-center">
-          <i ng-class="[ card.icon ]"
-             aria-hidden="true"
-             class="card-icon"></i>
-
-          <div class="mt-2">
-            {{ card.title }}
-          </div>
-        </div>
-      </a>
+    <div uib-alert type="danger">
+      <div class="d-flex align-items-center">
+        <i class="fa fa-exclamation-circle fa-2x mr-4"></i>
+        Applications are kept for six months after the submission date. After six months, your application will be removed from the system.
+      </div>
     </div>
   </div>
 </div>
 
 
-<!-- public index -->
-<ng-container ng-if="!c.data.isLoggedIn || c.data.userRole == null">
-  <div class="row cover-image">
-    <div class="container">
-      <div class="col-md-6 col-lg-4 px-5 py-3 bg-primary-dark text-light">
-        <h1 class="front-header serif">
-          <span class="light-blue">Become a </span><br>
-          Future Fellow <br>
-          <span class="light-blue">of the National Cancer Institute</span>
-        </h1>
-        <p class="front-subheader text-light">
-          Contribute to research in cancer biology, causation, prevention, detection, treatment and survivorship.
-        </p>
-        <p>
-          <md-button ui-sref="apply" class="md-raised md-primary m-0 px-4">
-            Apply for a Fellowship
-            <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
-          </md-button>
-        </p>
-      </div>
-    </div>
-  </div>  
-
-  <div class="container mb-5 py-4">
-    <div class="col-md-6 col-lg-4">
+<div class="row bg-primary-dark text-light">
+  <div class="container py-5">
+    <div class="col-md-4">
       <h1 class="front-header serif mt-0">
-        Welcome to the National Cancer Institute
+        Further Opportunities
       </h1>
-
     </div>
 
-    <div class="col-md-6 col-lg-8">
+    <div class="col-md-8">
       <p>
-        The National Cancer Institute is the Nation's primary agency leading the fight against cancer by supporting and conducting ground-breaking research in cancer biology, causation, prevention, detection, treatment and survivorship. 
-      </p>
-      <p>
-        NCI's goal is to stimulate and support scientific discovery and its application to achieve a future when all cancers are uncommon and easily treatable. The NCI works toward this goal by providing vision to the Nation and leadership for thousands of NCI funded researchers across the United States and around the world, and working to assure that the results of research are translated into reducing the burden of all cancers for all people.        
+        After posting your resume here, you can also view and apply for current fellowship and intern opportunities offered in our intramural and extramural divisions:
       </p>
 
-      <p>
-        The National Cancer Institute maintains a CV/resume databank of interested candidates to be considered for postdoctoral, doctoral, and postbaccalaureate (master-level and post-college) fellowships. 
-        <a ui-sref="apply">Candidates are encouraged to post their CVs/resumes.</a>
-      </p>
 
-      <div uib-alert type="danger">
-        <div class="d-flex align-items-center">
-          <i class="fa fa-exclamation-circle fa-2x mr-4"></i>
-	        Applications are kept for six months after the submission date. After six months, your application will be removed from the system.
-        </div>
-      </div>
-
-    </div>
-
-  </div>
+      <h2 class="h4 serif light-blue">
+        <a class="light-blue" href="https://ccr.cancer.gov/training" target="_blank">
+          Center for Cancer Research
+        </a>
+      </h2>
 
 
-  <div class="row bg-primary-dark text-light py-5">
-    <div class="container py-5">
-      <div class="col-md-4">
-        <h1 class="front-header serif mt-0">
-          Further Opportunities
-        </h1>
-      </div>
+      <h2 class="h4 serif light-blue">
+        <a class="light-blue" href="https://dceg.cancer.gov/fellowship-training" target="_blank">
+          Division of Cancer Epidemiology and Genetics
+        </a>
+      </h2>
 
-      <div class="col-md-8">
-        <p>
-          After posting your resume here, you can also view and apply for current fellowship and intern opportunities offered in our intramural and extramural divisions:
-        </p>
-
-
-        <h2 class="h4 serif light-blue">
-          <a class="light-blue" href="https://ccr.cancer.gov/training" target="_blank">
-            Center for Cancer Research
-          </a>
-        </h2>
-
-
-        <h2 class="h4 serif light-blue">
-          <a class="light-blue" href="https://dceg.cancer.gov/fellowship-training" target="_blank">
-            Division of Cancer Epidemiology and Genetics
-          </a>
-        </h2>
-
-        <h2 class="h4 serif">
-          <a class="light-blue" href="https://cpfp.cancer.gov/fellowship-program" target="_blank">
-            Division of Cancer Prevention
-          </a>
-        </h2>
-      </div>
+      <h2 class="h4 serif">
+        <a class="light-blue" href="https://cpfp.cancer.gov/fellowship-program" target="_blank">
+          Division of Cancer Prevention
+        </a>
+      </h2>
     </div>
   </div>
-</ng-container>
+</div>
 
+<!-- pi index -->
+<widget id="future_fellows_user_home"
+        ng-if="c.data.loggedIn &&
+               (c.data.userRole == 'user' ||
+               c.data.userRole == 'admin')">
+</widget>
+
+<!-- applicant index -->
+<widget id="future_fellows_applicant_home"
+        ng-if="c.data.loggedIn && 
+               c.data.userRole == 'applicant'">
+</widget>
 ]]></template>
     </sp_widget>
 </record_update>

@@ -2,23 +2,13 @@
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function($scope, $timeout, $location, spUtil) {
-  var c = this;
-
+        <client_script><![CDATA[function($timeout) {
 	/* make navbar sticky */
 		$timeout(function() {
-			$('#main-navigation')
+			angular.element('#main-navigation')
 				.addClass('navbar-sticky')
 				.insertAfter('header');
-		})
-	
-	$scope.$on('$locationChangeStart', function(e) {
-		c.loading = true;
-	});
-	
-	$scope.$on('$locationChangeSuccess', function(e) {
-		c.loading = false;
-	});
+		});
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -43,57 +33,43 @@
 	data.userName = user.getDisplayName();
 	data.userRole = ClientUtils.getRole();
 
-	// initialize navbar links
+	// default page links
+	data.pageLinks = [
+		{title: 'Home', name: 'home'}
+	];
+
+	// add the 'Apply' link for anonymous users
 	if (!data.isLoggedIn) {
-		// links for unauthenticated users
-		data.pageLinks = [
-			{title: 'Home', name: 'home'},
+		data.pageLinks.push(
 			{title: 'Apply', name: 'apply'}
-		];
-	} else {
-		// default links for regular users
-		data.pageLinks = [
-			{
-				title: 'Home',
-				name: 'home'
-			},
+		);
+	}// end anonymous user links
+
+	// add default links for logged-in users
+	else {
+		data.pageLinks.push(
 			{
 				title: 'Search Applicants',
-				name: 'search'
+				name: 'search-applicants'
 			},
-
 			{
 				title: 'New Applicant',
 				name: 'new-applicant'
 			},
-
 			{
 				title: 'Saved Applicants',
 				name: 'saved-applicants'
-			},
-
-			{
-				title: 'Update Preferences',
-				name: 'preferences'
 			}
-		];
+		);
 
-		// links for administrators
-		if (data.userRole === 'admin') {
+		// add links for admins
+		if (userRole == 'admin') {
 			data.pageLinks.push({
-				title: 'Track Users',
-				name: 'track-users'
+				title: 'User History',
+				name: 'user-history'
 			});
-
-		// links for applicants
-		} else if (data.userRole === 'applicant') {
-			data.pageLinks = [
-				{title: 'Home', name: 'home'},
-				{title: 'Update Application', name: 'update-application'},
-				{title: 'Application Status', name: 'application-status'}
-			];
-		}
-	}
+		} // end admin links
+	} // end user links
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
@@ -101,7 +77,7 @@
         <sys_created_on>2019-02-06 17:15:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>a6dbb81cdba32700b86770c08c96193b</sys_id>
-        <sys_mod_count>157</sys_mod_count>
+        <sys_mod_count>200</sys_mod_count>
         <sys_name>Future Fellows Navigation</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -109,18 +85,27 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_a6dbb81cdba32700b86770c08c96193b</sys_update_name>
         <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-05 05:14:40</sys_updated_on>
-        <template><![CDATA[<nav class="navbar navbar-default shadow-sm" id="main-navigation">
+        <sys_updated_on>2019-03-08 22:33:59</sys_updated_on>
+        <template><![CDATA[
+<!-- Future Fellows Ribbon -->
+<div class="bg-primary flex-grow hidden-xs">
+  <h1 class="container py-2 my-0 h4">
+    Future Fellows
+  </h1>
+</div>
+
+<!-- Future Fellows Navbar -->
+<nav class="navbar navbar-default shadow-sm" id="main-navigation">
   <!-- Mobile menu -->
   <div class="d-flex align-items-center justify-content-between visible-xs bg-primary-dark text-light px-3">
-
-    <a class="visible-xs h4" 
-       ng-href="/{{ portal.url_suffix }}?id={{ portal.homepage_dv }}">
-      <img ng-src="{{portal.logo}}" 
-           alt="Future Fellows"
-           height="40"
-           role="presentation" />
+    
+    <!-- Mobile Brand Text -->
+    <a class="visible-xs h4 ml-2 text-light" 
+       ng-href="/{{ portal.url_suffix }}">
+      Future Fellows
     </a>
+    
+    <!-- Mobile Menu Dropdown Button -->
     <md-button class="visible-xs md-raised md-primary"
                data-toggle="collapse" 
                data-target="#main-navbar" 
@@ -129,61 +114,96 @@
     </md-button>    
   </div>
 
+  <!-- Nav Links Container -->
   <div class="container">
-    <!-- Nav Links -->
-    <div class="collapse navbar-collapse px-sm-0" id="main-navbar">
-      <ul class="nav navbar-nav">
-        <li ng-repeat="link in c.data.pageLinks"
-            ui-sref-active="active"
-            class="mr-3">
-          <a ui-sref="{{ link.name }}"
-             class="nav-link">
-            <span class="sr-only" 
-                  ng-if="page.id == link.id">
-              (current)
-            </span>
-            {{ link.title }}
-          </a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
+  <div class="collapse navbar-collapse px-sm-0" id="main-navbar">
 
-         <li class="dropdown" ng-if="!c.data.isLoggedIn">
-          <a class="dropdown-toggle mr-0" 
-             data-toggle="dropdown" 
-             role="button" 
-             aria-haspopup="true" 
-             aria-expanded="false">
-            Log In
-            <span class="caret"></span>
-          </a>
-           
-          <ul class="dropdown-menu px-3 shadow-md">
-            <li>
-              <a ng-if="!c.data.isLoggedIn"
-                 ui-sref="external-login"
-                 class="nav-link">
-                For Applicants
-              </a>
-            </li>
-            <li>
-              <a ng-if="!c.data.isLoggedIn"
-                 ng-href="/nav_to.do?uri=/{{ portal.url_suffix }}&glide_sso_id={{c.data.defaultIDP}}"
-                 class="nav-link">
-                For PIs
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li ng-if="c.data.isLoggedIn">
-          <a ng-href="{{ portal.logoutUrl }}"
-             class="nav-link">
-            Log Out
-          </a>
-        </li>
-      </ul>
-    </div>
+    <!-- Nav Links (Left Side) -->
+    <ul class="nav navbar-nav">
+      <li ng-repeat="link in c.data.pageLinks"
+          ui-sref-active="active"
+          class="mr-3">
+        <a ui-sref="{{ link.name }}"
+           class="nav-link">
+          <span class="sr-only" 
+                ng-if="page.id == link.id">
+            (current)
+          </span>
+          {{ link.title }}
+        </a>
+      </li>
+    </ul>
+    <!-- End Nav Links (Left Side) -->
+
+    <!-- Nav Links (Right Side) -->
+    <ul class="nav navbar-nav navbar-right">
+
+      <!-- Login Dropdown -->
+      <li class="dropdown" ng-if="!c.data.isLoggedIn">
+        <a class="dropdown-toggle mr-0" 
+           data-toggle="dropdown" 
+           role="button" 
+           aria-haspopup="true" 
+           aria-expanded="false">
+          Log In
+          <span class="caret"></span>
+        </a>
+
+        <ul class="dropdown-menu px-3 shadow-md">
+          <li>
+            <a ng-if="!c.data.isLoggedIn"
+               ui-sref="external-login"
+               class="nav-link">
+              For Applicants
+            </a>
+          </li>
+          <li>
+            <a ng-if="!c.data.isLoggedIn"
+               ng-href="/nav_to.do?uri=/{{ portal.url_suffix }}&glide_sso_id={{c.data.defaultIDP}}"
+               class="nav-link">
+              For PIs
+            </a>
+          </li>
+        </ul>
+      </li>
+      <!-- End Login Dropdown -->
+
+      <!-- Profile/Logout Dropdown -->
+      <li class="dropdown" ng-if="c.data.isLoggedIn">
+        <a class="dropdown-toggle mr-0" 
+           data-toggle="dropdown" 
+           role="button" 
+           aria-haspopup="true" 
+           aria-expanded="false">
+          {{ c.data.userName }}
+          <span class="caret"></span>
+        </a>
+
+        <ul class="dropdown-menu px-3 shadow-md">
+          <li>
+            <a ui-sref="preferences"
+               class="nav-link">
+              Preferences
+            </a>
+          </li>
+          <li>
+            <a ng-href="{{ portal.logoutUrl }}"
+               class="nav-link">
+              Log Out
+            </a>
+          </li>
+        </ul>
+      </li>
+      <!-- End Profile/Logout Dropdown -->
+
+    </ul>
+    <!-- End Nav Links (Right Side) -->
+
   </div>
+    
+  </div>
+  <!-- End Nav Links Container -->
+
 </nav>
 ]]></template>
     </sp_widget>

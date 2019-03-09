@@ -56,6 +56,10 @@ p {&#13;
   width: 100%;&#13;
 }&#13;
 &#13;
+.white-space-normal {&#13;
+  white-space: normal !important;&#13;
+}&#13;
+&#13;
 ::placeholder,&#13;
 ::-ms-input-placeholder,&#13;
 ::-ms-input-placeholder {&#13;
@@ -67,7 +71,7 @@ p {&#13;
         <sys_created_on>2019-01-22 17:33:57</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>fb00b79fdb8b2f00b86770c08c96196d</sys_id>
-        <sys_mod_count>145</sys_mod_count>
+        <sys_mod_count>146</sys_mod_count>
         <sys_name>[future-fellows] main.css</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -75,6 +79,6 @@ p {&#13;
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_css_fb00b79fdb8b2f00b86770c08c96196d</sys_update_name>
         <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-04 04:21:20</sys_updated_on>
+        <sys_updated_on>2019-03-06 17:58:13</sys_updated_on>
     </sp_css>
 </record_update>

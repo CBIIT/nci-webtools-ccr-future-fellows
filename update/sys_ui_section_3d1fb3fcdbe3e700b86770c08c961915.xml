@@ -57,6 +57,146 @@
             <sys_user/>
             <type/>
         </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>number_of_presentations</element>
+            <position>4</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-05 16:14:02</sys_created_on>
+            <sys_id>7790b73cdbc4bb0054d8ff621f961904</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-05 16:14:02</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>total_publications</element>
+            <position>5</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-05 16:17:04</sys_created_on>
+            <sys_id>cc51fb7cdbc4bb0054d8ff621f9619d6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-05 16:17:04</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>total_abstracts</element>
+            <position>6</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-05 16:17:04</sys_created_on>
+            <sys_id>0c5173fcdbc4bb0054d8ff621f961957</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-05 16:17:04</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>total_presentations</element>
+            <position>7</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-05 16:17:04</sys_created_on>
+            <sys_id>005173fcdbc4bb0054d8ff621f96195f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-05 16:17:04</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>postal_code</element>
+            <position>8</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-05 19:33:47</sys_created_on>
+            <sys_id>715e5001db88bb0054d8ff621f9619c9</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-05 19:33:47</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>reviewers</element>
+            <position>9</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-08 19:55:11</sys_created_on>
+            <sys_id>5c0008cedb88ff00b86770c08c961918</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-08 19:55:11</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>reviewed_by</element>
+            <position>10</position>
+            <sys_created_by>ff_admin</sys_created_by>
+            <sys_created_on>2019-03-08 21:33:03</sys_created_on>
+            <sys_id>c266144edb487f0054d8ff621f961993</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>ff_admin</sys_updated_by>
+            <sys_updated_on>2019-03-08 21:33:03</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>approved_by</element>
+            <position>11</position>
+            <sys_created_by>ff_admin</sys_created_by>
+            <sys_created_on>2019-03-08 21:34:00</sys_created_on>
+            <sys_id>f796184edb487f0054d8ff621f9619bf</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>ff_admin</sys_updated_by>
+            <sys_updated_on>2019-03-08 21:34:00</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>saved_by</element>
+            <position>12</position>
+            <sys_created_by>ff_admin</sys_created_by>
+            <sys_created_on>2019-03-08 21:35:41</sys_created_on>
+            <sys_id>2c07984edb487f0054d8ff621f961967</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>ff_admin</sys_updated_by>
+            <sys_updated_on>2019-03-08 21:35:41</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>user</element>
+            <position>13</position>
+            <sys_created_by>ff_admin</sys_created_by>
+            <sys_created_on>2019-03-08 21:40:09</sys_created_on>
+            <sys_id>8608d88edb487f0054d8ff621f96195a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Primary Focus" display_value="Primary Focus" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">3d1fb3fcdbe3e700b86770c08c961915</sys_ui_section>
+            <sys_updated_by>ff_admin</sys_updated_by>
+            <sys_updated_on>2019-03-08 21:40:09</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
             <caption>Primary Focus</caption>
             <header>false</header>

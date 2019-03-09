@@ -2,12 +2,15 @@
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function() {  /* widget controller */  
+        <client_script><![CDATA[function($stateParams, dataService) {  /* widget controller */  
 	var c = this;
-	c.applicant = {
-		sys_id: null
-	}
-		
+	c.applicant = null
+
+	var applicantId = $stateParams.applicant_id
+	
+	dataService.getApplicant(applicantId).then(function(applicant) {
+		c.applicant = applicant;
+	});
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -21,12 +24,10 @@
         <internal>false</internal>
         <link/>
         <name>Future Fellows Applicant</name>
-        <option_schema/>
+        <option_schema>[{"name":"applicant_id","section":"Data","label":"Applicant Id","type":"string"}]</option_schema>
         <public>false</public>
         <roles/>
         <script><![CDATA[(function() {
-	data.userRole = ClientUtils.getRole();
-	data.applicantID = null;
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
@@ -34,25 +35,33 @@
         <sys_created_on>2019-01-28 02:35:54</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>582c5b41db1b634054d8ff621f9619a6</sys_id>
-        <sys_mod_count>54</sys_mod_count>
+        <sys_mod_count>87</sys_mod_count>
         <sys_name>Future Fellows Applicant</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_582c5b41db1b634054d8ff621f9619a6</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-03 06:36:10</sys_updated_on>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-06 06:07:04</sys_updated_on>
         <template><![CDATA[<div class="container">
-  <h1>
-    Applicant: John Doe
+  <h1 ng-if="!c.applicant">
+    Loading...
+  </h1>
+  
+  <h1 ng-if="c.applicant">
+    Applicant: 
+    {{ c.applicant.first_name }} 
+    {{ c.applicant.last_name }}
   </h1>
 
   <hr>
 
-  <async-widget id="future_fellows_applicant_form" 
-                options="{type: 'update', applicantId: c.applicantId}">
-  </async-widget>
+  <ng-container ng-if="c.applicant">
+    <widget id="future_fellows_applicant_form"
+            options="{type: 'update'}">
+    </widget>
+  </ng-container>
 
 </div>
 ]]></template>

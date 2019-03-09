@@ -25,28 +25,28 @@
         <sys_created_on>2019-01-22 17:24:35</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>fedd6b5bdb8b2f00b86770c08c96190a</sys_id>
-        <sys_mod_count>15</sys_mod_count>
+        <sys_mod_count>19</sys_mod_count>
         <sys_name>Future Fellows Footer</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_header_footer_fedd6b5bdb8b2f00b86770c08c96190a</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-05 19:14:39</sys_updated_on>
-        <template><![CDATA[<div
-     class="text-left text-md-center py-4 bg-light">
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-08 22:08:22</sys_updated_on>
+        <template><![CDATA[<div class="text-left text-md-center py-4 bg-light">
 
   <div class="container px-4">
     <ul class="list-inline">
       <li class="d-block d-md-inline list-inline-item">
-        <a href="https://www.cancer.gov/" class="">Home</a>
+        <a ng-href="/{{ portal.url_suffix }}"
+           class="">Home</a>
       </li>
 
       <li class="d-none d-md-inline list-inline-item">|</li>
 
       <li class="d-block d-md-inline list-inline-item">
-        <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov" class="">Support</a>
+        <a href="mailto:FutureFellowsAdmin@mail.nih.gov" class="">Support</a>
       </li>
 
       <li class="d-none d-md-inline list-inline-item">|</li>

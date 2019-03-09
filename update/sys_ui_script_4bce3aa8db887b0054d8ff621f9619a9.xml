@@ -78,6 +78,19 @@
 					pageTitle: 'New Applicant - Future Fellows',
 				}
 			},
+
+			{
+				name: 'applicant',
+				url: '/applicant/:applicant_id',
+				component: 'spWidget',
+				resolve: {
+					widget: getWidget('future_fellows_applicant')
+				},
+				data: {
+					pageTitle: 'View Applicant - Future Fellows',
+				}
+			},
+			
 			
 			{
 				name: 'saved-applicants',
@@ -122,9 +135,14 @@
 		});
 		
 		function getWidget(id, options) {
-			return ['spUtil', function(spUtil) {
+			return ['spUtil', '$stateParams', function(spUtil, $stateParams) {
 				// (id, options) argument does not work in Jakarta
-				return spUtil.get(id).then(function(w) {
+				options = options || {};
+				for (var key in $stateParams) {
+					options[key] = $stateParams[key];
+				}
+				
+				return spUtil.get(id, options).then(function(w) {
 					for (var key in options) {
 						w.options[key] = options[key];
 					}
@@ -153,15 +171,15 @@
         <sys_created_on>2019-03-04 17:58:08</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>4bce3aa8db887b0054d8ff621f9619a9</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>15</sys_mod_count>
         <sys_name>x_naci_future_fell.angular_routes</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_ui_script_4bce3aa8db887b0054d8ff621f9619a9</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-04 20:19:54</sys_updated_on>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-05 22:08:33</sys_updated_on>
         <use_scoped_format>false</use_scoped_format>
     </sys_ui_script>
 </record_update>

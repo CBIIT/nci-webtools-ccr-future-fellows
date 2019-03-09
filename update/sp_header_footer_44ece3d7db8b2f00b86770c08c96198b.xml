@@ -29,20 +29,20 @@
         <sys_created_on>2019-01-22 17:20:06</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>44ece3d7db8b2f00b86770c08c96198b</sys_id>
-        <sys_mod_count>234</sys_mod_count>
+        <sys_mod_count>237</sys_mod_count>
         <sys_name>Future Fellows Header</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_header_footer_44ece3d7db8b2f00b86770c08c96198b</sys_update_name>
-        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-06 18:49:44</sys_updated_on>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-08 20:50:09</sys_updated_on>
         <template><![CDATA[<div class="d-none d-md-block py-4 bg-primary-dark">
   <div class="container">
-    <img ng-src="{{::portal.logo}}" 
+    <img ng-src="{{portal.logo}}" 
          alt="Future Fellows Logo"
-         height="60" />
+         height="50" />
   </div>
 </div>
 

@@ -15,7 +15,7 @@
         <choice/>
         <choice_field/>
         <choice_table/>
-        <column_label>Availability Date</column_label>
+        <column_label>Availability date</column_label>
         <comments/>
         <create_roles/>
         <default_value/>
@@ -56,15 +56,15 @@
         <sys_created_on>2019-02-08 20:14:57</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>6efcdc76dbb7a700b86770c08c9619fb</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_name>Availability Date</sys_name>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Availability date</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_dictionary_x_naci_future_fell_applicant_availability_date</sys_update_name>
-        <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2019-02-26 19:41:34</sys_updated_on>
+        <sys_updated_by>ff_admin</sys_updated_by>
+        <sys_updated_on>2019-03-08 21:37:04</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <u_model_id/>

@@ -2,117 +2,216 @@
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function($scope, $mdDialog) {
-	/* widget controller */
+        <client_script><![CDATA[function($scope, $log, $timeout, $mdToast, dataService) {
+	// bind functions/properties to context
 	var c = this;
-	c.accordionStatus = [
-		true,
-		true,
-		true,
-		true,
-		true
-	];
-	
-	c.job_category = [];
-	c.scientific_focus = [];
-	c.other_scientific_focus = '';
-	c.citizenship = [];
-	
-	c.majors = [
-		{label: 'Biology', value: 'biology'},
-		{label: 'Biostatistics', value: 'biostatistics'},
-		{label: 'Epidemiology', value: 'epidemiology'},
-		{label: 'Mathematics', value: 'mathematics'},
-		{label: 'Statistics', value: 'statistics'},
-		{label: 'Other Major', value: 'other'}
-	];
-	
-	c.submission_start_date = null;
-	c.submission_end_date = null;
-	c.submission_date = 'last_week';
-	c.submission_dates = [
-		{label: 'Last Week', value: 'last_week'},
-		{label: 'Last Month', value: 'last_month'},
-		{label: 'Last Year', value: 'last_year'},
-		{label: 'Custom', value: 'custom'}
-	];
-	
-	c.degree = [];
-	c.major = [];
-	c.scientific_focus = [];
-	c.state = [];
-	c.people = [];
-	c.selectedPerson = {};
-	
-	c.sortCriteria = '';
+	c.fields = c.data.fields;
+	c.form = getFormValues();
+	c.ui = getUiValues();
+	c.search = search;
+	c.saveApplicant = saveApplicant;
+	c.applicants = [];
+	c.gridOptions = {
+		rowData: [],
+//		rowSelection: 'multiple',
+//		rowMultiSelectWithClick: true
+		defaultColDef: {
+			resizable: true,
+			sortable: true
+		},
+		columnDefs: [
+			{
+				headerName: "Name", 
+				field: "name", 
+				pinned: 'left', 
+				sortable: true, 
+//				checkboxSelection: true,
+				width: 140, 
+				
+				cellRenderer: function(params) {
+					var data = params.node.data;
+					var id = data.sys_id;
+					var div = $('<div>');
+					$('<a>')
+						.attr('href', '#!/applicant/' + id)
+						.attr('target', '_blank')
+						.css('text-decoration', 'underline')
+						.text(params.value)
+						.appendTo(div);
+					
+					$('<br>')
+						.appendTo(div);
+					
+					$('<a>')
+						.addClass('pointer')
+						.html('(save <i class="fa fa-save"></i>)')
+						.click(saveApplicant.bind(c, data))
+						.appendTo(div);
+					
+					return div[0];
+				}
+				
+			},
+			{
+				headerName: "Submission Date", 
+				field: "submitted_date", 
+				width: 130, 
+				sortable: true,
+				cellRenderer: function(params) {
+					var data = params.node.data;
+					var expirationDate = params.node.data.expiration_date;
+					var expirationWeeks = Math.floor(Math.random() * 100);
+					var div = $('<div>');
+					
+					$('<b>')
+						.text(params.value)
+						.appendTo(div);
+					
+					$('<p>')
+						.text('Expires in ' + expirationWeeks + ' weeks')
+						.appendTo(div);
+					
+					return div[0];
+				}
+			},
+			{
+				headerName: "Status", 
+				field: "status", 
+				width: 130, 
+				sortable: true,
+				cellRenderer: function(params) {
+					return params.value || 'Pending Review';
+				}
+			},
+			{
+				headerName: "Job Category", 
+				field: "job_category_label", 
+				cellClass: 'white-space-normal',
+				width: 120, 
+				sortable: true
+			},
+			{
+				headerName: "Scientific Focus Areas", 
+				field: "scientific_focus_label", 
+				width: 250, 
+				sortable: true, 
+				autoHeight: true, 
+				cellClass: 'white-space-normal',
+				cellRenderer: function(params) {
+					var ul = $('<ul>')
+						.addClass('pl-3');
+					params.value.forEach(function(item) {
+						var li = $('<li>')
+							.text(item)
+							.appendTo(ul);
+					});
+					return ul[0];
+				}
+			},
+		],
+	};
+	$scope.today = new Date();
 
-	$scope.randomItem = function(array) {
-		return array[Math.floor(Math.random() * array.length)];
+	// automatically search
+	search();
+
+	// begin debug properties
+	c.debug = true;
+	c.log = function(obj) { $log.info(obj) };
+	c.logScope = function() { c.log($scope) };
+	// end debug properties
+
+	/*
+	$scope.$watch('c.form.state', function(value, oldValue) {
+		if (value != null && value != '')
+			c.form.country = 'US';
+	});
+	*/
+
+	function search() {
+		dataService.searchApplicants().then(function(applicants) {
+			console.log(applicants);
+			c.applicants = applicants;
+			c.gridOptions.api.setRowData(applicants);
+			c.gridOptions.api.resetRowHeights();
+			//			$scope.gridOptions.rowData = applicants;
+
+		})
+	}
+	
+	function saveApplicant(applicant) {
+		var name = [
+			applicant.first_name,
+			applicant.last_name
+		].join(' ');
+		
+		var toast = $mdToast.simple()
+			.textContent(possessiveNoun(name) +
+									 ' application has been saved.')
+			.position('bottom right');
+		$mdToast.show(toast);
+	
+		console.log(applicant);
+	}
+	
+	function possessiveNoun(noun) {
+		var endsWithS = noun[noun.length - 1].toLowerCase() == 's';
+		var suffix = endsWithS
+			? "'"   // add ' if noun ends with s
+			: "'s"; // add 's if noun does not end with s
+		return noun + suffix;
 	}
 
-	$scope.firstNames = ["Liam","Noah","William","James","Logan","Benjamin","Mason","Elijah","Oliver","Jacob","Emma","Olivia","Ava","Isabella","Sophia","Mia","Charlotte","Amelia","Evelyn","Abigail"]
-	$scope.lastNames = ["Smith","Johnson","Williams","Jones","Brown","Davis","Miller","Wilson","Moore","Taylor","Anderson","Thomas","Jackson","White","Harris","Martin","Thompson","Garcia","Martinez","Robinson","Clark","Rodriguez","Lewis","Lee","Walker","Hall","Allen","Young","Hernandez","King","Wright","Lopez","Hill","Scott","Green","Adams","Baker","Gonzalez","Nelson","Carter","Mitchell","Perez","Roberts","Turner","Phillips","Campbell","Parker","Evans","Edwards","Collins","Stewart","Sanchez","Morris","Rogers","Reed","Cook","Morgan","Bell","Murphy","Bailey","Rivera","Cooper","Richardson","Cox","Howard","Ward","Torres","Peterson","Gray","Ramirez","James","Watson","Brooks","Kelly","Sanders","Price","Bennett","Wood","Barnes","Ross","Henderson","Coleman","Jenkins","Perry","Powell","Long","Patterson","Hughes","Flores","Washington","Butler","Simmons","Foster","Gonzales","Bryant","Alexander","Russell","Griffin","Diaz","Hayes"]
-
-	function randomPerson() {
-		var name = $scope.randomItem($scope.firstNames) + ' ' + $scope.randomItem($scope.lastNames);
-		var focus = [];
-		for (var i = 0; i < 1 + Math.floor(Math.random() * 3); i ++) {
-			var item = $scope.randomItem(c.data.fields.scientific_focus);
-			if (item.label)
-				focus.push(item.label)
-		}
-		
+	function getFormValues() {
 		return {
-			name: name,
-			date: new Date(new Date() - Math.random() * 100000000000),
-			job: $scope.randomItem(c.data.fields.job_category).label,
-			focus: focus.join(', '),
-			saved: Math.random() > 0.6
-		}
+			job_category: [],
+			scientific_focus: [],
+			citizenship: undefined,
+			submission_date: null,
+			submission_start_date: null,
+			submission_end_date: null,
+			degree: [],
+			major: [],
+			educational_degree: []
+		};
 	}
-	
-	for (var i = 0; i < 10; i ++) {
-		c.people.push(randomPerson());
-	}
-	
-	$scope.randomDate = function() {
-		
-	}
-	
-	$scope.sortApplicants = function() {
-		console.log(c.sortCriteria);
-		switch(c.sortCriteria) {
-			case 'Name':
-				c.people = c.people.sort(function(a, b) {
-					return a.name.localeCompare(b.name);
-				})
-				break;
-			case 'Submission Date':
-				c.people = c.people.sort(function(a, b) {
-					return a.date - b.date;
-				});
-				break;
-			case 'Job Category':
-				c.people = c.people.sort(function(a, b) {
-					return a.job.localeCompare(b.job);
-				});
-				break;
-			case 'Saved':
-				c.people = c.people.sort(function(a, b) {
-					return a.saved ? -1 : 1;
-				});
-				break;
 
-		
-		}
+	function getUiValues() {
+		var role = c.data.role;
+
+		var ui = {
+			searchResultsFullWidth: false,
+			panels: [
+/*				{
+					title: 'Applicant Status',
+					enabled: role == 'admin',
+					// this should be the first panel open for new private applications
+					open: true
+				},
+				*/
+				{
+					title: 'Submission Date',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'General Filters',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'Education',
+					enabled: true,
+					open: true
+				}
+			]
+		};
+
+		return ui;
 	}
-	
-	$scope.goto = function(href) {
-		window.location.href = href;
-	}
-	
-	
-} ]]></client_script>
+
+}
+]]></client_script>
         <controller_as>c</controller_as>
         <css>.material-select {
     background-color: transparent;
@@ -134,431 +233,25 @@
         <public>false</public>
         <roles/>
         <script><![CDATA[(function() {
-	
-	
-	
-	/* populate the 'data' object */
-	/* e.g., data.table = $sp.getValue('table'); */
-	data.fields = {
-		"citizenship": [
-			{
-				"value": 1,
-				"label": "United States"
-			},
-			{
-				"value": 2,
-				"label": "U.S. Permanent Resident "
-			},
-			{
-				"value": 3,
-				"label": "Canadian"
-			},
-			{
-				"value": 4,
-				"label": "F-1 Visa"
-			},
-			{
-				"value": 5,
-				"label": "H-1 Visa"
-			},
-			{
-				"value": 6,
-				"label": "J-1 Visa"
-			},
-			{
-				"value": 7,
-				"label": "Foreign National"
-			}
-		],
-		"education_level": [
-			{
-				"value": 1,
-				"label": "DDS"
-			},
-			{
-				"value": 2,
-				"label": "DO"
-			},
-			{
-				"value": 3,
-				"label": "DSc"
-			},
-			{
-				"value": 4,
-				"label": "DVM"
-			},
-			{
-				"value": 5,
-				"label": "JD"
-			},
-			{
-				"value": 6,
-				"label": "MD"
-			},
-			{
-				"value": 7,
-				"label": "MPH"
-			},
-			{
-				"value": 8,
-				"label": "PhD"
-			},
-			{
-				"value": 9,
-				"label": "PharmD"
-			},
-			{
-				"value": 10,
-				"label": "Sc.D."
-			}
-		],
-		"job_category": [
-			{
-				"value": 1,
-				"label": "Postdoctoral Fellowship"
-			},
-			{
-				"value": 2,
-				"label": "Postdoctoral Fellowship (Foreign Visiting Fellow)"
-			},
-			{
-				"value": 3,
-				"label": "Doctoral Fellowship"
-			},
-			{
-				"value": 4,
-				"label": "Postbaccalaureate (Master or Post-Undergrad) Fellowship"
-			}
-		],
-		"scientific_focus": [
-			{
-				"value": 0,
-				"label": "Biomedical Engineering / Biophysics / Physics"
-			},
-			{
-				"value": 1,
-				"label": "Biostatistics / Mathematics"
-			},
-			{
-				"value": 2,
-				"label": "Cancer Biology"
-			},
-			{
-				"value": 3,
-				"label": "Chemistry / Chemical Biology"
-			},
-			{
-				"value": 4,
-				"label": "Chromosome Biology / Epigenetics"
-			},
-			{
-				"value": 5,
-				"label": "Clinical Research"
-			},
-			{
-				"value": 6,
-				"label": "Computational Biology / Bioinformatics"
-			},
-			{
-				"value": 7,
-				"label": "Developmental Biology"
-			},
-			{
-				"value": 8,
-				"label": "Epidemiology / Population Sciences",
-				"children": [
-					{
-						"value": 81,
-						"label": "Clinical epidemiology"
-					},
-					{
-						"value": 82,
-						"label": "Environmental / occupational epidemiology"
-					},
-					{
-						"value": 83,
-						"label": "Epidemiological Methods"
-					},
-					{
-						"value": 84,
-						"label": "Descriptive epidemiology"
-					},
-					{
-						"value": 85,
-						"label": "Genetic / genomic epidemiology"
-					},
-					{
-						"value": 86,
-						"label": "Infections and Immune epidemiology"
-					},
-					{
-						"value": 87,
-						"label": "Nutritional epidemiology"
-					},
-					{
-						"value": 88,
-						"label": "Reproductive epidemiology"
-					},
-					{
-						"value": 89,
-						"label": "Radiation epidemiology"
-					}
-				]
-			},
-			{
-				"value": 9,
-				"label": "Genetics / Genomics"
-			},
-			{
-				"value": 10,
-				"label": "Health Disparities"
-			},
-			{
-				"value": 11,
-				"label": "Immunology"
-			},
-			{
-				"value": 12,
-				"label": "Microbiology / Infectious diseases (non-viral)"
-			},
-			{
-				"value": 13,
-				"label": "Molecular Biology / Biochemistry"
-			},
-			{
-				"value": 14,
-				"label": "Molecular Pharmacology / Toxicology"
-			},
-			{
-				"value": 15,
-				"label": "Neuroscience / Neurophysiology / Neurodevelopment"
-			},
-			{
-				"value": 16,
-				"label": "Social and Behavioral Sciences"
-			},
-			{
-				"value": 17,
-				"label": "Stem Cells / Induced Pluripotent Stem Cells"
-			},
-			{
-				"value": 18,
-				"label": "Exposure Assessment/GIS"
-			},
-			{
-				"value": 19,
-				"other": true,
-				"label": "Other"
-			}
-		],
-		"state": [
-			{
-				"value": 1,
-				"label": "AK"
-			},
-			{
-				"value": 2,
-				"label": "AL"
-			},
-			{
-				"value": 3,
-				"label": "AR"
-			},
-			{
-				"value": 4,
-				"label": "AZ"
-			},
-			{
-				"value": 5,
-				"label": "CA"
-			},
-			{
-				"value": 6,
-				"label": "CO"
-			},
-			{
-				"value": 7,
-				"label": "CT"
-			},
-			{
-				"value": 8,
-				"label": "DC"
-			},
-			{
-				"value": 9,
-				"label": "DE"
-			},
-			{
-				"value": 10,
-				"label": "FL"
-			},
-			{
-				"value": 11,
-				"label": "GA"
-			},
-			{
-				"value": 12,
-				"label": "HI"
-			},
-			{
-				"value": 13,
-				"label": "IA"
-			},
-			{
-				"value": 14,
-				"label": "value"
-			},
-			{
-				"value": 15,
-				"label": "IL"
-			},
-			{
-				"value": 16,
-				"label": "IN"
-			},
-			{
-				"value": 17,
-				"label": "KS"
-			},
-			{
-				"value": 18,
-				"label": "KY"
-			},
-			{
-				"value": 19,
-				"label": "LA"
-			},
-			{
-				"value": 20,
-				"label": "MA"
-			},
-			{
-				"value": 21,
-				"label": "MD"
-			},
-			{
-				"value": 22,
-				"label": "ME"
-			},
-			{
-				"value": 23,
-				"label": "MI"
-			},
-			{
-				"value": 24,
-				"label": "MN"
-			},
-			{
-				"value": 25,
-				"label": "MO"
-			},
-			{
-				"value": 26,
-				"label": "MS"
-			},
-			{
-				"value": 27,
-				"label": "MT"
-			},
-			{
-				"value": 28,
-				"label": "NC"
-			},
-			{
-				"value": 29,
-				"label": "ND"
-			},
-			{
-				"value": 30,
-				"label": "NE"
-			},
-			{
-				"value": 31,
-				"label": "NH"
-			},
-			{
-				"value": 32,
-				"label": "NJ"
-			},
-			{
-				"value": 33,
-				"label": "NM"
-			},
-			{
-				"value": 34,
-				"label": "NV"
-			},
-			{
-				"value": 35,
-				"label": "NY"
-			},
-			{
-				"value": 36,
-				"label": "OH"
-			},
-			{
-				"value": 37,
-				"label": "OK"
-			},
-			{
-				"value": 38,
-				"label": "OR"
-			},
-			{
-				"value": 39,
-				"label": "PA"
-			},
-			{
-				"value": 40,
-				"label": "RI"
-			},
-			{
-				"value": 41,
-				"label": "SC"
-			},
-			{
-				"value": 42,
-				"label": "SD"
-			},
-			{
-				"value": 43,
-				"label": "TN"
-			},
-			{
-				"value": 44,
-				"label": "TX"
-			},
-			{
-				"value": 45,
-				"label": "UT"
-			},
-			{
-				"value": 46,
-				"label": "VA"
-			},
-			{
-				"value": 47,
-				"label": "VT"
-			},
-			{
-				"value": 48,
-				"label": "WA"
-			},
-			{
-				"value": 49,
-				"label": "WI"
-			},
-			{
-				"value": 50,
-				"label": "WV"
-			},
-			{
-				"value": 51,
-				"label": "WY"
-			}
-		]
-	};
+	data.role = ClientUtils.getRole();
+//	data.userData = ClientUtils.getUserData();
 
+	data.fields = FutureFellows.getFields();
+	data.fields.majors = [
+		{label: 'Biology', value: 'biology'},
+		{label: 'Biostatistics', value: 'biostatistics'},
+		{label: 'Epidemiology', value: 'epidemiology'},
+		{label: 'Mathematics', value: 'mathematics'},
+		{label: 'Statistics', value: 'statistics'},
+		{label: 'Other Major', value: 'other'}
+	];
+	data.fields.submission_dates = [
+		{label: 'Last Week', value: 'last_week'},
+		{label: 'Last Month', value: 'last_month'},
+		{label: 'Last Year', value: 'last_year'},
+		{label: 'Custom', value: 'custom'}
+	]	
+	
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
@@ -566,7 +259,7 @@
         <sys_created_on>2019-01-27 16:50:38</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>cf26910ddbdf6340b86770c08c961969</sys_id>
-        <sys_mod_count>273</sys_mod_count>
+        <sys_mod_count>462</sys_mod_count>
         <sys_name>Future Fellows Search</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -574,7 +267,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_cf26910ddbdf6340b86770c08c961969</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-03 02:33:55</sys_updated_on>
+        <sys_updated_on>2019-03-08 17:23:11</sys_updated_on>
         <template><![CDATA[<div class="container">
   <h1>
     Search Applicants
@@ -583,214 +276,215 @@
 
   <div  layout-gt-sm="row" layout-wrap>
 
-    <div flex-gt-sm="35">
+    <div flex-gt-sm="25">
+      <form name="searchForm" 
+            novalidate>
 
-      <uib-accordion close-others="false">
+        <!-- Panels for each section -->
+        <div class="panel panel-primary shadow-lg"
+             ng-repeat="panel in c.ui.panels"
+             ng-if="panel.enabled"
+             ng-switch="panel.title">
 
-        <div uib-accordion-group 
-             class="panel-primary shadow-lg mb-5" 
-             is-open="c.accordionStatus[0]">
-          <uib-accordion-heading>
-            Submission Date
-            <i class="pull-right fa" 
-               ng-class="{'fa-chevron-down': c.accordionStatus[0], 
-                         'fa-chevron-right': !c.accordionStatus[0]}"></i>
-          </uib-accordion-heading>    
+          <!-- Panel Header -->
+          <div class="panel-heading pointer relative"
+               ng-click="panel.open = !panel.open"	
+               md-ink-ripple>
+            <h2 class="h5 m-0 no-select">
+              {{ panel.title }}
+              <i class="pull-right transition-fast fa fa-chevron-down" 
+                 ng-class="{'rotate-180': panel.open}"></i>
+            </h2>
+          </div>
 
-          <md-input-container class="md-block" style="width: 100%">
-            <label>Submission Date</label>
-            <md-select ng-model="c.submission_date">
-              <md-option ng-repeat="item in c.submission_dates" 
-                         ng-value="item.value">
-                {{ item.label }}
-              </md-option>
-            </md-select>
-          </md-input-container>            
+          <!-- Panel Body -->
+          <div uib-collapse="!panel.open" style="transition: all 0.25s">
+            <div class="panel-body overflow-hidden">
+              <!-- Applicant Status -->
+              <ng-container ng-switch-when="Applicant Status">
+                To Be Determined
+              </ng-container>
 
-          <md-input-container class="md-block">
-            <label>Start Date</label>
-            <md-datepicker ng-model="c.submission_start_date" 
-                           md-open-on-focus
-                           md-hide-icons="calendar"
-                           ng-change="c.submission_date = 'custom'">
-            </md-datepicker>
-          </md-input-container>            
+              <ng-container ng-switch-when="Submission Date">
+                <md-date-range
+                  ng-model="c.form.submission_date"
+                  auto-confirm="true"
+                  show-template="true"
+                               
+                  one-panel="true">
+                </md-date-range>                
 
-          <md-input-container class="md-block">
-            <label>End Date</label>
-            <md-datepicker ng-model="c.submission_end_date" 
-                           md-open-on-focus
-                           md-hide-icons="calendar"
-                           ng-change="c.submission_date = 'custom'">
-            </md-datepicker>
-          </md-input-container>            
+                <!--
+                <md-input-container class="md-block" style="width: 100%">
+                  <label>Submission Date</label>
+                  <md-select ng-model="c.form.submission_date">
+                    <md-option ng-repeat="item in c.fields.submission_dates" 
+                               ng-value="item.value">
+                      {{ item.label }}
+                    </md-option>
+                  </md-select>
+                </md-input-container>            
+                
+                <div layout-gt-xs="row"
+                     layout-wrap>
+                <md-input-container flex-gt-sm="40"
+                                    class="md-block">
+                  <label>Start Date</label>
+                  <md-datepicker ng-model="c.form.submission_start_date" 
+                                 md-open-on-focus
+                                 md-hide-icons="calendar"
+                                 ng-change="c.form.submission_date = 'custom'">
+                  </md-datepicker>
+                </md-input-container>            
 
-        </div>
+                <md-input-container flex-gt-sm="40"
+                                    class="md-block">
+                  <label>End Date</label>
+                  <md-datepicker ng-model="c.form.submission_end_date" 
+                                 md-open-on-focus
+                                 md-hide-icons="calendar"
+                                 ng-change="c.form.submission_date = 'custom'">
+                  </md-datepicker>
+                </md-input-container>            
+                  
+                </div>
 
-        <div uib-accordion-group 
-             class="panel-primary shadow-lg mb-5" 
-             is-open="c.accordionStatus[1]">
+               	-->
 
-          <uib-accordion-heading>
-            General Filters
-            <i class="pull-right fa" 
-               ng-class="{'fa-chevron-down': c.accordionStatus[1], 
-                         'fa-chevron-right': !c.accordionStatus[1]}"></i>
-          </uib-accordion-heading>    
-
-
-          <md-input-container class="md-block" style="max-width: 100%">
-            <label>Job Category</label>
-            <md-select ng-model="c.job_category"
-                       multiple>
-              <md-option ng-repeat="field in c.data.fields.job_category"
-                         ng-value="field.value" >
-                {{ field.label }}
-              </md-option>
-            </md-select>
-          </md-input-container>        
-
-
-          <md-input-container class="md-block" style="max-width: 100%">
-            <label>Scientific Focus</label>
-            <md-select ng-model="c.scientific_focus"
-                       multiple>
-
-              <ng-container ng-repeat="field in c.data.fields.scientific_focus">
-                <md-option ng-if="!field.children"
-                           ng-value="field.value" >
-                  {{ field.label }}
-                </md-option>
-
-                <md-optgroup ng-if="field.children"
-                             label="{{ field.label }}">
-                  <md-option style="margin-left: 20px"
-                             ng-repeat="child in field.children"
-                             ng-value="child.value">
-                    {{ child.label }}
-                  </md-option>
-                </md-optgroup>
 
               </ng-container>
-            </md-select>
-          </md-input-container>        
 
 
-          <md-input-container class="md-block" style="max-width: 100%">
-            <label>Citizenship/Visa Status</label>
-            <md-select ng-model="c.citizenship"
-                       multiple>
-              <md-option ng-repeat="item in c.data.fields.citizenship"
-                         ng-value="item.value">
-                {{ item.label }}
-              </md-option>
-            </md-select>
-          </md-input-container>            
+              <ng-container ng-switch-when="General Filters">
 
 
+                <md-input-container class="md-block" style="max-width: 100%">
+                  <label>Job Category</label>
+                  <md-select ng-model="c.form.job_category"
+                             multiple>
+                    <md-option ng-repeat="field in c.fields.job_category"
+                               ng-value="field.value" >
+                      {{ field.label }}
+                    </md-option>
+                  </md-select>
+                </md-input-container>        
 
+
+                <md-input-container class="md-block" style="max-width: 100%">
+                  <label>Scientific Focus</label>
+                  <md-select ng-model="c.form.scientific_focus"
+                             multiple>
+
+                    <ng-container ng-repeat="field in c.fields.scientific_focus">
+                      <md-option ng-if="!field.children"
+                                 ng-value="field.value" >
+                        {{ field.label }}
+                      </md-option>
+                      <md-optgroup ng-if="field.children"
+                                   label="{{ field.label }}">
+                        <md-option style="margin-left: 20px"
+                                   ng-repeat="child in field.children"
+                                   ng-value="child.value">
+                          {{ child.label }}
+                        </md-option>
+                      </md-optgroup>
+
+                    </ng-container>
+                  </md-select>
+                </md-input-container>        
+
+
+                <md-input-container class="md-block" style="max-width: 100%">
+                  <label>Citizenship/Visa Status</label>
+                  <md-select ng-model="c.form.citizenship"
+                             multiple>
+                    <md-option ng-repeat="item in c.fields.citizenship"
+                               ng-value="item.value">
+                      {{ item.label }}
+                    </md-option>
+                  </md-select>
+                </md-input-container>            
+
+
+              </ng-container>
+
+              <ng-container ng-switch-when="Education">
+
+
+                <md-input-container class="md-block">
+                  <label>Degree</label>
+                  <md-select ng-model="c.form.degree" multiple>
+                    <md-option ng-repeat="item in c.fields.degree" 
+                               ng-value="item.value">
+                      {{ item.label }}
+                    </md-option>
+                  </md-select>
+                </md-input-container>            
+
+
+                <md-input-container class="md-block">
+                  <label>Major</label>
+                  <md-select ng-model="c.form.major" multiple>
+                    <md-option ng-repeat="item in c.fields.majors">
+                      {{ item.label }}
+                    </md-option>
+                  </md-select>
+                </md-input-container>    
+
+              </ng-container>
+
+            </div>
+          </div> <!-- End panel body -->
+        </div> <!-- End panel -->
+
+        <div>
+          <md-button class="md-raised md-primary m-0 shadow-lg w-100"
+                     ng-click="c.search()">
+            Search
+          </md-button>
         </div>
-
-
-        <div uib-accordion-group 
-             class="panel-primary shadow-lg mb-5" 
-             style="overflow: hidden"
-             is-open="c.accordionStatus[2]">
-
-          <uib-accordion-heading>
-            Education
-            <i class="pull-right fa" 
-               ng-class="{'fa-chevron-down': c.accordionStatus[2], 
-                         'fa-chevron-right': !c.accordionStatus[2]}"></i>
-          </uib-accordion-heading>    
-
-
-          <md-input-container class="md-block">
-            <label>Degree</label>
-            <md-select ng-model="c.degree" multiple>
-              <md-option ng-repeat="item in c.data.fields.education_level" 
-                         ng-value="item.value">
-                {{ item.label }}
-              </md-option>
-            </md-select>
-          </md-input-container>            
-
-
-          <md-input-container class="md-block">
-            <label>Major</label>
-            <md-select ng-model="c.major" multiple>
-              <md-option ng-repeat="item in c.majors" ng-value="item.value">
-                {{ item.label }}
-              </md-option>
-            </md-select>
-          </md-input-container>            
-        </div>
-      </uib-accordion>
-
-
-
-      <div class="mb-5">
-        <md-button class="md-raised md-primary m-0 shadow-lg" style="width: 100%">Search</md-button>
-      </div>
-
+      </form>      
 
     </div>
 
     <div flex-gt-sm="5"></div>
 
-    <div flex-gt-sm="60" class="panel shadow-lg mb-5" style="border: none">
+    <div flex-gt-sm="70" class="mb-5">
+      <div class="panel panel-primary shadow-lg" style="height: 100%">
+        <!-- Panel Header -->
+        <div class="panel-heading">
+          <h2 class="h5 m-0 no-select">
+            Applicants
 
-      <div class="panel-heading bg-primary">
-        <h4 class="panel-title">
-          Applicants
-        </h4>
-      </div>
-      <div class="panel-body m-0 p-0">
+          </h2>
+        </div>
+        <div ag-grid="c.gridOptions" 
+             class="ag-theme-material" 
+             style="height: 100%; width: 100%;">
+        </div>
 
-        <md-list flex>
-          <md-subheader class="md-no-sticky">
-            <div class="clearfix">
-              {{ c.people.length }} Applicants Found.  <br>
-              To save applicants, use the toggle switch on the right.
-
-              <div class="pull-right">
-                Sort By
-                <select class="material-select" 
-                        aria-label="sort parameters"
-                        ng-change="sortApplicants()" 
-                        ng-model="c.sortCriteria">
-                  <option>Name</option>
-                  <option>Submission Date</option>
-                  <option>Job Category</option>
-                  <option>Saved</option>
-                </select>
-              </div>
-            </div>
-          </md-subheader>
-
-          <md-list-item class="md-3-line" ng-repeat="item in c.people" href="/future-fellows?id=future_fellows_applicant" target="_blank">
-            <div class="md-list-item-text" layout="column">
-              <h3><strong>{{ item.name }}</strong> <small class="text-muted ml-3">{{ item.date.toLocaleDateString() }}</small></h3>
-              <h4>
-                <em>{{ item.job }}</em>
-              </h4>
-              <p>{{ item.focus }}</p>
-            </div>
-            <md-switch class="md-secondary" ng-model="item.saved" md-invert="true">
-              <small style="color: #595959; font-size: 12px;" ng-if="item.saved">Saved</small
-                </md-switch>
-
-
-                </md-list-item>      
-              </md-list>
-            </div>
-          </div>
 
       </div>
 
 
     </div>
   </div>
+</div>
+
+
+
+<div ng-if="c.debug" class="container my-5">
+  <h5>
+    debug
+  </h5>
+
+  <hr>
+  <md-button ng-click="c.logScope()">Log $scope</md-button>
+  <md-button ng-click="c.log(c)">Log self</md-button>
+  <pre>{{ c.form | json }}</pre>
+</div>
+
+
 </div>
 ]]></template>
     </sp_widget>

@@ -29,8 +29,8 @@ var FutureFellows = {
 		publicationTable: 'x_naci_future_fell_publication',
 		userHistoryTable: 'x_naci_future_fell_user_history',
 		applicantAttachmentFields: [
-			'resume',
-			'references'
+			'resume_file',
+			'references_file'
 		],
 		applicantFields: [
 			'first_name', 
@@ -50,12 +50,11 @@ var FutureFellows = {
 			'citizenship',
 			'job_category',
 			'scientific_focus',
-			'other_scientific_focus',
-			'num_publications',
-			'num_abstracts',
-			'num_presentations',
+			'total_publications',
+			'total_abstracts',
+			'total_presentations',
 			'research_interests',
-			'postdoctoral_experience',
+			'experience',
 			'referral_source',
 			'availability_date',
 		],
@@ -63,16 +62,16 @@ var FutureFellows = {
 			'degree', 
 			'major', 
 			'institution', 
-			'year_completed',
+			'year',
 			'gpa',
 		],
 		publicationFields: [
 			'title',
-			'journal_name',
+			'journal',
 			'year',
 		],
 		ignoredFields: [
-			
+
 		],
 		userActions: [
 			'ADD_APPLICANT',
@@ -85,48 +84,52 @@ var FutureFellows = {
 };
 
 function validateApplicant(params) {
+	return true;
 	var validate = ValidationUtils.validate;
 	var required = ValidationUtils.required;
 	var pattern = ValidationUtils.pattern;
 	var maxLength = ValidationUtils.maxLength;
-	
+
 	return validate(params, {
 		first_name: [required, maxLength(255)],
 		middle_initial: [maxLength(255)],
 		last_name: [required, maxLength(255)],
 		email: [required, pattern(/\@/)],
-	
+
 	});
 }
 
 function createApplicant(params) {
-	return params;
 	if (!validateApplicant(params)) return false;
 	var constants = FutureFellows.constants;
 
 	var applicantTable = constants.applicantTable;
 	var applicantFields = constants.applicantFields;
 	var applicantAttachmentFields = constants.applicantAttachmentFields;
-	
+
 	var educationTable = constants.educationTable;
 	var educationFields = constants.educationFields;
-	
+
 	var publicationTable = constants.publicationTable;
 	var publicationFields = constants.publicationFields;
 
 	// insert applicant record
-	var grApplicant = RecordUtils.insertRecord(applicantTable, grApplicant);
+	var applicantParams = {};
+	applicantFields.forEach(function(fieldName) {
+		applicantParams[fieldName] = params[fieldName];
+	});
+	var grApplicant = RecordUtils.insertRecord(applicantTable, applicantParams);
 	var applicantId = grApplicant.getUniqueValue();
-	
+
 	// insert education records
 	params.education.forEach(function(educationItem) {
-		educationItem.applicant = grApplicant;
+		educationItem.applicant = applicantId;
 		insertRecord(educationTable, educationItem);
 	});
-	
+
 	// insert publication records
-	params.publication.forEach(function(publicationItem) {
-		publicationItem.applicant = grApplicant;
+	params.publications.forEach(function(publicationItem) {
+		publicationItem.applicant = applicantId;
 		insertRecord(publicationTable, publicationItem);
 	});
 
@@ -144,24 +147,60 @@ function createApplicant(params) {
 }
 
 function getApplicant(applicantId) {
-	var applicant = {};
-
-	var grUtil = new GlideRecordUtil();
 	var applicantTable = FutureFellows.constants.applicantTable;
+	var educationTable = FutureFellows.constants.educationTable;
+	var publicationTable = FutureFellows.constants.publicationTable;
+
 	var applicantFields = FutureFellows.constants.applicantFields;
-	var applicantAttachmentFields = FutureFellows.constants.applicantAttachmentFields;
-	
-	var grApplicant = grUtil.getGR(applicantTable, applicantId);
-	grUtil.populateFromGR(applicant, grApplicant);
+	var educationFields = FutureFellows.constants.educationFields;
+	var publicationFields = FutureFellows.constants.publicationFields;
 
-	applicant.education = RecordUtils.getRecords(educationTable, [
-		['applicant', grApplicant]
+	var applicant = RecordUtils.getRecord(applicantTable, applicantId);
+	applicant.scientific_focus = applicant.scientific_focus.split(',');
+	applicant.other_scientific_focus = applicant.scientific_focus.filter(function(item) {
+		return item.indexOf('.') > -1;
+	});
+
+	applicant.resume_file_name = 'resume.pdf';
+	applicant.references_file_name = 'references.pdf';
+
+	// retrieve education fields
+	applicant.education = RecordUtils.getRecords(
+		educationTable,
+		[['applicant', applicant.sys_id]],
+		{orderBy: 'year', descending: true}
+	).map(function(row) {
+		row = _.pick(row, educationFields);
+		row.year = +row.year || null;
+		row.gpa = +row.gpa || null;
+		return row;
+	}).sort(function(a, b) {
+		return a.year > (b.year || 0);
+	});
+
+	applicant.publications = RecordUtils.getRecords(
+		publicationTable, 
+		[['applicant', applicant.sys_id]],
+		{orderBy: 'year', descending: true}
+	).map(function(row) {
+		row = _.pick(row, publicationFields);
+		row.year = +row.year || null;
+		return row;
+	});
+
+	var allowedFields = applicantFields.concat([
+		'sys_id',
+		'publications', 
+		'education',
+		'resume_file_name',
+		'references_file_name',
 	]);
 
-	applicant.publications = RecordUtils.getRecords(publicationTable, [
-		['applicant', grApplicant]
-	]);
-	
+	applicant = _.pick(applicant, allowedFields);
+	applicant.total_publications = +applicant.total_publications || null;
+	applicant.total_abstracts = +applicant.total_abstracts || null;
+	applicant.total_presentations = +applicant.total_presentations || null;
+
 	return applicant;
 }
 
@@ -175,8 +214,38 @@ function updateApplicant(applicantId, params) {
 }
 
 function searchApplicants(params) {
-	var applicants = TableUtil.getRecords(applicantsTable, params.applicant);
-	return applicants;
+	var applicantTable = FutureFellows.constants.applicantTable;
+
+	var applicants = RecordUtils.getRecords(applicantTable);
+	var fields = getFields();
+
+	return applicants.map(function(applicant) {
+		applicant.name = applicant.first_name + ' ' + applicant.last_name;
+		applicant.submitted_date = applicant.sys_created_on.split(' ')[0];
+
+
+		applicant.citizenship_label = _.find(
+			fields.citizenship, 
+			{value: applicant.citizenship}
+		).label;
+
+		applicant.job_category_label = _.find(
+			fields.job_category,
+			{value: applicant.job_category}
+		).label;
+
+		applicant.scientific_focus = applicant.scientific_focus.split(',');
+		applicant.scientific_focus_label = applicant.scientific_focus.filter(function(scientific_focus) {
+			return scientific_focus.indexOf('.') == -1;
+		}).map(function(scientific_focus) {
+			return _.find(
+				fields.scientific_focus,
+				{value: scientific_focus}
+			).label;
+		});
+
+		return applicant;
+	});
 }
 
 function sendEmail(recipient, contents, attachments) {
@@ -194,7 +263,7 @@ function validateUserHistoryRecord(params) {
 function addUserHistory(params) {
 	if (!validateUserHistoryRecord(params))
 		return false;
-	
+
 	var userHistoryTable = FutureFellows.constants.userHistoryTable;
 	return TableUtil.insertRecord(userHistoryTable, params);
 }
@@ -231,14 +300,55 @@ function getFields() {
 		return obj;
 	}, {});
 
+	/* convert scientific_focus to a tree */
+	fields.scientific_focus = createTree(
+		fields.scientific_focus
+	);
+
 	return fields;
+}
+
+
+
+/**
+	 * Creates a tree from a flat array of items
+	 * where each item has a 'value' property
+	 * that tells us its parents
+	 * eg: an item with a value of "1.2"
+	 * has a parent with a value of "1"
+	 */
+function createTree(items, separator) {
+	separator = separator || '.';
+
+	var tree = [];
+	items.forEach(function(item) {
+		var value = item.value.split(separator);
+
+		if (value.length <= 1) {
+			tree.push(item);
+			return;
+		}
+
+		var parentValue = value[value.length - 2];
+		var parents = items.filter(function(e) {
+			return e.value == parentValue;
+		})
+
+		if (parents.length > 0) {
+			var parent = parents[0];
+			if (!parent.children)
+				parent.children = [];
+			parent.children.push(item);
+		}
+	});
+	return tree;		
 }]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>parkbw@nih.gov</sys_created_by>
         <sys_created_on>2019-01-29 16:38:12</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>d666e765dbdbe340b86770c08c961985</sys_id>
-        <sys_mod_count>61</sys_mod_count>
+        <sys_mod_count>102</sys_mod_count>
         <sys_name>FutureFellows</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy>read</sys_policy>
@@ -246,6 +356,6 @@ function getFields() {
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_script_include_d666e765dbdbe340b86770c08c961985</sys_update_name>
         <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-04 04:58:29</sys_updated_on>
+        <sys_updated_on>2019-03-06 18:39:09</sys_updated_on>
     </sys_script_include>
 </record_update>
