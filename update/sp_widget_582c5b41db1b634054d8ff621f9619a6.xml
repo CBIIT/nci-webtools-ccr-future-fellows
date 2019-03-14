@@ -4,16 +4,65 @@
         <category>custom</category>
         <client_script><![CDATA[function($stateParams, dataService) {  /* widget controller */  
 	var c = this;
-	c.applicant = null
+	c.applicant = null;
+	c.isEditable = false;
+	c.ui = getUiValues();
+	c.status = 'pending';
 
 	var applicantId = $stateParams.applicant_id
 	
 	dataService.getApplicant(applicantId).then(function(applicant) {
 		c.applicant = applicant;
+		console.log(applicant);
 	});
+	
+	function getUiValues() {
+		return {
+			panels: [
+				{
+					title: 'Overview',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'Additional Questions',
+					enabled: true,
+					open: true
+				},
+				{
+					title: 'Contact Information',
+					enabled: true,
+					open: true
+				}
+			]
+		};
+
+	}	
+	
 }]]></client_script>
         <controller_as>c</controller_as>
-        <css/>
+        <css>.v-middle {
+  vertical-align: middle;
+}
+
+.material-table &gt; tbody &gt; tr &gt; td,
+.material-table &gt; tbody &gt; tr &gt; th {
+}
+
+.material-select {
+  border: none;
+  border-bottom: 1px solid steelblue;
+  cursor: pointer;
+  display: inline-block;
+  background-color: transparent;
+  padding-left: 0;
+  box-shadow: none;
+}
+
+.material-select:focus {
+  border-bottom: 2px solid steelblue;
+}
+</css>
         <data_table>sp_instance</data_table>
         <demo_data/>
         <description/>
@@ -35,34 +84,287 @@
         <sys_created_on>2019-01-28 02:35:54</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>582c5b41db1b634054d8ff621f9619a6</sys_id>
-        <sys_mod_count>87</sys_mod_count>
+        <sys_mod_count>307</sys_mod_count>
         <sys_name>Future Fellows Applicant</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_582c5b41db1b634054d8ff621f9619a6</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-06 06:07:04</sys_updated_on>
-        <template><![CDATA[<div class="container">
-  <h1 ng-if="!c.applicant">
-    Loading...
-  </h1>
-  
-  <h1 ng-if="c.applicant">
-    Applicant: 
-    {{ c.applicant.first_name }} 
-    {{ c.applicant.last_name }}
-  </h1>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-11 16:00:47</sys_updated_on>
+        <template><![CDATA[<div class="container"
+     ng-if="c.applicant">
+	
+  <div class="clearfix mb-0">
+    <h1 class="mb-0">
+      {{ c.applicant.first_name }} 
+                    {{ c.applicant.middle_initials || '' }} 
+                    {{ c.applicant.last_name }}'s Application
 
+      
+      <button class="btn btn-primary m-0 pull-right relative" 
+            md-ink-ripple
+            ng-click="c.isEditable = !c.isEditable"
+            ng-if="c.isEditable == false">
+      Edit Application
+    </button>
+    </h1>
+  </div>
+  
   <hr>
 
-  <ng-container ng-if="c.applicant">
+
+  <div ng-if="!c.isEditable">
+    <!-- Panels for each section -->
+    <div class="panel panel-primary shadow-lg"
+         ng-repeat="panel in c.ui.panels"
+         ng-if="panel.enabled"
+         ng-switch="panel.title">
+
+      <!-- Panel Header -->
+      <div class="panel-heading pointer relative"
+           ng-click="panel.open = !panel.open"	
+           md-ink-ripple>
+        <h2 class="h5 m-0 no-select">
+          {{ panel.title }}
+          <i class="pull-right transition-fast fa fa-chevron-down" 
+             ng-class="{'rotate-180': panel.open}"></i>
+        </h2>
+      </div>
+
+      <!-- Panel Body -->
+      <div uib-collapse="!panel.open" style="transition: all 0.25s">
+        <div class="panel-body overflow-hidden">
+          <!-- Applicant Status -->
+          <ng-container ng-switch-when="Overview">
+            
+            <table class="table table-hover material-table">
+              <tbody>
+								<tr>
+                	<td style="width: 20%">
+                  	<strong>Name</strong>
+                  </td>
+                	<td>
+                    {{ c.applicant.first_name }} 
+                    {{ c.applicant.middle_initials || '' }} 
+                    {{ c.applicant.last_name }} 
+                  </td>
+                </tr>              
+                
+                <tr>
+                  <td class="v-middle">
+                    <strong>Status</strong>
+                  </td>
+                  <td>
+                    <select ng-model="c.status" 
+                            class="form-control input-sm material-select mr-4" 
+                            style="width:200px">
+                    	<option value="pending">Awaiting Review</option>
+                    	<option value="under_review">Under Consideration</option>
+                    	<option value="approved">Approved</option>
+                    </select>
+
+                    <button class="btn btn-primary btn-sm relative" 
+                            md-ink-ripple>
+                      Update
+                    </button>
+                  </td>
+                </tr>                
+                
+                <tr>
+                	<td><strong>Submission Date</strong></td>
+                  <td>{{ c.applicant.sys_created_on }}</td>
+                </tr>
+
+                <tr>
+                	<td><strong>Job Category</strong></td>
+                  <td>{{ c.applicant.job_category_label }}</td>
+                </tr>
+                
+                <tr>
+                  <td><strong>Scientific Focus Areas</strong></td>
+                  <td>
+										<ul class="pl-0 mb-0">	
+                      <li ng-repeat="item in c.applicant.scientific_focus_labels">
+                      	{{ item }}
+                      </li>
+                    </ul>                    
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><strong>Citizenship/Visa Status</strong></td>
+                  <td>{{ c.applicant.citizenship_label }}</td>
+                </tr>
+
+
+                <tr>
+                  <td><strong>Education</strong></td>
+                  <td>
+                    <ul class="pl-0 mb-0">
+                      <li ng-repeat="item in c.applicant.education_list">
+                        <b>{{ item.degree }}</b> 
+                        {{ item.major && ' in ' + item.major }}
+                        from
+                        <b>{{ item.institution }}</b>
+                        ({{ item.year || 'In Progress' }})
+                      </li>
+                    </ul>
+                  
+                  </td>
+                </tr>
+
+                
+                <tr>
+                  <td><strong>Publications</strong></td>
+                  <td>
+                    <p ng-if="c.applicant.total_abstracts || c.applicant.total_presentations || c.applicant.total_publications"
+                       class="mb-1">
+                      <b>{{ c.applicant.total_abstracts }}</b> abstracts,
+                      <b>{{ c.applicant.total_presentations }}</b> presentations, 
+                      <b>{{ c.applicant.total_publications }}</b> publications
+                    </p>
+                    
+                    
+                    <ul class="pl-0 mb-0">
+                      <li ng-repeat="item in c.applicant.publication_list">
+                      	<b>{{ item.title }}</b>. <i>{{ item.journal }}</i>. {{ item.year }}
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+                
+                
+                <tr>
+                  <td class="v-middle">
+                    <strong>Downloads</strong>
+                  </td>
+                  <td>
+                    <a class="btn btn-default btn-sm relative" 
+                       ng-href="/sys_attachment.do?sys_id={{c.applicant.resume_file}}"
+                      md-ink-ripple>
+                      CV/Resume
+                    </a>
+
+                    <a class="btn btn-default btn-sm relative" 
+                       ng-href="/sys_attachment.do?sys_id={{c.applicant.references_file}}"
+                      md-ink-ripple>
+                      References
+                    </a>
+
+
+                    <a class="btn btn-default btn-sm relative" 
+                       ng-href="/x_naci_future_fell_applicant.do?PDF&sys_id={{c.applicant.sys_id}}"
+                      md-ink-ripple>
+                      All Information
+                    </a>
+                    
+                  </td>
+                </tr>
+                
+                
+              </tbody>
+            </table>
+            
+          </ng-container>
+          
+
+          <ng-container ng-switch-when="Contact Information">
+            <table class="table table-hover">
+              <tbody>
+								<tr>
+                	<td style="width: 20%">
+                  	<strong>Email</strong>
+                  </td>
+
+                	<td>
+                    <a ng-href="mailto:{{ c.applicant.email }}">{{ c.applicant.email }}</a>
+                    <em>(Primary)</em>
+                    
+                    <div ng-if="c.applicant.email_2">	
+                      <a ng-href="mailto:{{ c.applicant.email_2 }}">{{ c.applicant.email_2 }}</a>
+                      <em>(Secondary)</em>
+                    </div>
+                  </td>
+                </tr>
+
+                
+                <tr>
+                	<td style="width: 20%">
+                  	<strong>Address</strong>
+                  </td>
+                  <td>
+                  	<div>
+                      {{ c.applicant.address }}
+                    </div>
+                    <div ng-if="c.applicant.address_2">
+                      {{ c.applicant.address_2 }}
+                    </div>
+                    <div>
+                    	{{ c.applicant.city }},
+                    	{{ c.applicant.state }}
+                    	{{ c.applicant.zip }}
+                    </div>
+                    <div>
+	                  	{{ c.applicant.country_label }}
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                	<td><strong>Home Phone</strong></td>
+                	<td>{{ c.applicant.home_phone }}</td>
+                </tr>
+
+                
+                <tr>
+                	<td><strong>Work Phone</strong></td>
+                	<td>{{ c.applicant.work_phone }}</td>
+                </tr>
+
+                <tr>
+                	<td><strong>Fax Phone</strong></td>
+                	<td>{{ c.applicant.fax_phone }}</td>
+                </tr>
+
+                
+              </tbody>
+            </table>
+          </ng-container>
+          
+          
+          <ng-container ng-switch-when="Additional Questions">
+            <ol>
+              <li class="mb-4">Please give a brief statement of your research interests and reason for seeking a fellowship at the NCI.
+              	<br><em><strong>{{ c.applicant.research_interests }}</strong></em>
+              </li>
+              
+              <li class="mb-4">Please provide a brief overview of your experience if any. List title of positions held and length of time employed.
+              	<br><em><strong>{{ c.applicant.experience }}</strong></em>
+              </li>
+              
+              <li class="mb-4">Please tell us how you heard about this opportunity (name of school, title of event or conference, advertisement/journal, etc.).
+              	<br><em><strong>{{ c.applicant.referral_source }}</strong></em>
+              </li>
+              
+              <li class="mb-4">Please let us know your date of availability.
+                <br><em><strong>{{ c.applicant.availability_date }}</strong></em>
+              </li>
+            </ol>
+          </ng-container>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="c.isEditable">
     <widget id="future_fellows_applicant_form"
             options="{type: 'update'}">
     </widget>
-  </ng-container>
-
+  </div>
 </div>
 ]]></template>
     </sp_widget>

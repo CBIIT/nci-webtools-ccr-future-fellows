@@ -11,7 +11,7 @@
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 	try {
 		var id = request.pathParams.id;
-		var applicant = FutureFellows.getApplicant(id);
+		var applicant = ApplicantUtils.get(id);
 		response.setBody(applicant);
 	} catch (error) {
 		response.setError(error);
@@ -30,7 +30,7 @@
         <sys_created_on>2019-02-19 19:59:12</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>21add0e8dbb36340b86770c08c96194a</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>Get Applicant</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -38,7 +38,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_ws_operation_21add0e8dbb36340b86770c08c96194a</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-19 19:59:12</sys_updated_on>
+        <sys_updated_on>2019-03-10 06:36:39</sys_updated_on>
         <web_service_definition display_value="Future Fellows">db9caa59dbdfa340b86770c08c9619ec</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

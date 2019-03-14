@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_naci_future_fell.ApplicantUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Includes methods for working with Applicants</description>
+        <name>ApplicantUtils</name>
+        <script><![CDATA[/** Import modules/functions */
+var _ = Lodash._;
+var updateRecord = RecordUtils.updateRecord;
+var insertRecord = RecordUtils.insertRecord;
+var getRecords = RecordUtils.getRecords;
+var getChoices = RecordUtils.getChoices;
+
+/** Export ApplicantUtils module */
+var ApplicantUtils = {
+	getFieldChoices: getFieldChoices,
+	create: createApplicant,
+	get: getApplicant,
+	update: updateApplicant,
+	search: searchApplicants,
+	addSavedUser: addSavedUser,
+	removeSavedUser: removeSavedUser,
+	addReviewer: addReviewer,
+	removeReviewer: removeReviewer,
+	setApprover: setApprover,
+	removeApprover: removeApprover,
+	constants: {
+		applicantTable: 'x_naci_future_fell_applicant',
+		educationTable: 'x_naci_future_fell_applicant_education',
+		publicationTable: 'x_naci_future_fell_applicant_publication',
+		applicantAttachmentFields: [
+			'resume_file',
+			'references_file'
+		],
+		applicantFields: [
+			'first_name', 
+			'middle_initial', 
+			'last_name',
+			'email',
+			'email_2',
+			'address',
+			'address_2',
+			'city',
+			'state',
+			'postal_code',
+			'country',
+			'home_phone',
+			'work_phone',
+			'fax_phone',
+			'citizenship',
+			'job_category',
+			'scientific_focus',
+			'total_publications',
+			'total_abstracts',
+			'total_presentations',
+			'research_interests',
+			'experience',
+			'referral_source',
+			'availability_date',
+		],
+		educationFields: [
+			'order',
+			'degree', 
+			'major', 
+			'institution', 
+			'year',
+			'gpa',
+		],
+		publicationFields: [
+			'order',
+			'title',
+			'journal',
+			'year',
+		],
+	}
+};
+
+function validateApplicant(params) {
+	return true;
+	var validate = ValidationUtils.validate;
+	var required = ValidationUtils.required;
+	var pattern = ValidationUtils.pattern;
+	var maxLength = ValidationUtils.maxLength;
+
+	return validate(params, {
+		first_name: [required, maxLength(255)],
+		middle_initial: [maxLength(255)],
+		last_name: [required, maxLength(255)],
+		email: [required, pattern(/\@/)],
+		email_2: [pattern(/\@/)],
+		address: [required],
+		city: [required],
+		country: [required],
+		home_phone: [required],
+		citizenship: [required],
+		job_category: [required],
+		total_publications: [pattern(/^\d+$/)],
+		total_abstracts: [pattern(/^\d+$/)],
+		total_presentations: [pattern(/^\d+$/)],
+		research_interests: [required],
+		availability_date: [required],
+	});
+}
+
+function createApplicant(params) {
+	if (!validateApplicant(params)) return false;
+	var constants = ApplicantUtils.constants;
+
+	var applicantTable = constants.applicantTable;
+	var applicantFields = constants.applicantFields;
+	var applicantAttachmentFields = constants.applicantAttachmentFields;
+
+	var educationTable = constants.educationTable;
+	var educationFields = constants.educationFields;
+
+	var publicationTable = constants.publicationTable;
+	var publicationFields = constants.publicationFields;
+
+	// insert applicant record
+	var applicantParams = {};
+	applicantFields.forEach(function(fieldName) {
+		applicantParams[fieldName] = params[fieldName];
+	});
+	var grApplicant = RecordUtils.insertRecord(applicantTable, applicantParams);
+	var applicantId = grApplicant.getUniqueValue();
+
+	// insert education records
+	params.education.forEach(function(educationRecord) {
+		educationRecord.applicant = applicantId;
+		insertRecord(educationTable, educationRecord);
+	});
+
+	// insert publication records
+	params.publications.forEach(function(publicationRecord) {
+		publicationRecord.applicant = applicantId;
+		insertRecord(publicationTable, publicationRecord);
+	});
+
+	// add attachments to the applicant record
+	applicantAttachmentFields.forEach(function(fieldName) {
+		var attachment = new GlideSysAttachment();
+		var filename = fieldName + '.pdf';
+		var parts = params[fieldName].split(',');
+		var mimetype = parts[0].replace(/(^data:)|(;base64$)/g, '');
+		var content = parts[1];
+		var attachmentId = attachment.writeBase64(grApplicant, filename,  mimetype, content);
+		grApplicant.setValue(fieldName, attachmentId);
+		grApplicant.update();
+	});
+	
+	return true;
+}
+
+function grAsObject(gr) {
+	var object = {};
+	for (var key in gr) {
+		object[key] = gr.getValue(key);
+	}
+	return object;
+}
+
+function getApplicant(applicantId) {
+	var constants = ApplicantUtils.constants;
+	var applicantTable = constants.applicantTable;
+	var educationTable = constants.educationTable;
+	var publicationTable = constants.publicationTable;
+
+	var applicantFields = constants.applicantFields;
+	var educationFields = constants.educationFields;
+	var publicationFields = constants.publicationFields;
+	
+	var fields = getFieldChoices();
+
+	var grApplicant = RecordUtils.getRecord(applicantTable, applicantId);
+	var applicant = grAsObject(grApplicant);
+	
+	applicant.scientific_focus = applicant.scientific_focus.split(',');
+	applicant.other_scientific_focus = applicant.scientific_focus.filter(function(item) {
+		return item.indexOf('.') > -1;
+	});
+
+	applicant.resume_file_name = 'resume_file.pdf';
+	applicant.references_file_name = 'references_file.pdf';
+
+	// retrieve education fields
+	applicant.education = RecordUtils.getRecords(
+		educationTable,
+		[['applicant', applicant.sys_id]],
+		{orderBy: 'order'}
+	).map(function(row) {
+		row = _.pick(row, educationFields);
+		row.year = +row.year || null;
+		row.gpa = +row.gpa || null;
+		return row;
+	}).sort(function(a, b) {
+		return a.year > (b.year || 0);
+	});
+
+	applicant.publications = RecordUtils.getRecords(
+		publicationTable, 
+		[['applicant', applicant.sys_id]],
+		{orderBy: 'order'}
+	).map(function(row) {
+		row = _.pick(row, publicationFields);
+		row.year = +row.year || null;
+		return row;
+	});
+	
+	function notAllNull(obj) {
+		for (var key in obj)
+			if (obj[key] && key != 'order')
+				return true;
+		return false;
+	}
+	
+	applicant.publication_list = applicant.publications.filter(notAllNull);
+	applicant.education_list = applicant.education.filter(notAllNull);
+	
+	applicant.job_category_label = _.find(
+		fields.job_category, 
+		{value: applicant.job_category}
+	).label;
+	
+	
+	applicant.citizenship_label = _.find(
+		fields.citizenship, 
+		{value: applicant.citizenship}
+	).label;
+
+	
+	applicant.country_label = _.find(
+		fields.country, 
+		{value: applicant.country}
+	).label;
+	
+	
+	applicant.scientific_focus_labels = applicant.scientific_focus.map(function(focus) {
+		return _.find(
+			fields.scientific_focus,
+			{value: focus}
+		).label;
+	});
+	
+	applicant.resume_file_url = '';
+	applicant.references_file_url = '';
+	
+
+	var allowedFields = applicantFields.concat([
+		'sys_id',
+		'publications', 
+		'education',
+		'resume_file_name',
+		'references_file_name',
+	]);
+
+	// applicant = _.pick(applicant, allowedFields);
+	applicant.total_publications = +applicant.total_publications || null;
+	applicant.total_abstracts = +applicant.total_abstracts || null;
+	applicant.total_presentations = +applicant.total_presentations || null;
+
+	return applicant;
+}
+
+function updateApplicant(applicantId, params) {
+	if (!validateApplicant(params)) return false;
+
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var applicantFields = ApplicantUtils.constants.applicantFields;
+	
+	var updateParams = {};
+	applicantFields.forEach(function(field) {
+		updateParams[field] = params[field];
+	});
+	
+	RecordUtils.updateRecord(applicantTable, applicantId, updateParams);
+	return true;
+}
+
+function searchApplicants(params) {
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+
+	var applicants = RecordUtils.getRecords(applicantTable);
+	var fields = getFieldChoices();
+
+	return applicants.map(function(applicant) {
+		applicant.name = applicant.first_name + ' ' + applicant.last_name;
+		applicant.submitted_date = applicant.sys_created_on.split(' ')[0];
+
+
+		applicant.citizenship_label = _.find(
+			fields.citizenship, 
+			{value: applicant.citizenship}
+		).label;
+
+		applicant.job_category_label = _.find(
+			fields.job_category,
+			{value: applicant.job_category}
+		).label;
+
+
+		applicant.scientific_focus = applicant.scientific_focus.split(',');
+		applicant.scientific_focus_label = applicant.scientific_focus.filter(function(scientific_focus) {
+			return scientific_focus.indexOf('.') == -1;
+		}).map(function(scientific_focus) {
+			return _.find(
+				fields.scientific_focus,
+				{value: scientific_focus}
+			).label;
+		});
+
+		return applicant;
+	});
+}
+
+function sendEmail(recipient, contents, attachments) {
+	var eventParams = {
+		recipient: recipient,
+		contents: contents,
+		attachments: attachments || []
+	};
+}
+
+/** Adds a user to the list of users who have saved this applicant */
+function addSavedUser(applicantId, userId) {
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var grApplicant = new GlideRecord(applicantTable);
+	grApplicant.get(applicantId)
+	insertIntoList(grApplicant, 'saved_by', userId);
+}
+
+function removeSavedUser(applicantId, userId) {
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var grApplicant = new GlideRecord(applicantTable);
+	grApplicant.get(applicantId)
+    removeFromList(grApplicant, 'saved_by', userId);
+}
+
+function addReviewer(applicantId, userId) {
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var grApplicant = RecordUtils.getRecord(applicantTable, applicantId);
+	insertIntoList(grApplicant, 'reviewed_by', userId);
+}
+
+function removeReviewer(applicantId, userId) {
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var applicant = RecordUtils.getRecord(applicantTable, applicantId);
+    removeFromList(grApplicant, 'reviewed_by', userId);
+}
+
+/**
+ * Sets the approver for an applicant record
+ */
+function setApprover(applicantId, userId) {
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var applicant = RecordUtils.getRecord(applicantTable, applicantId);
+	gr.setValue('approved_by', userId);
+    gr.update();
+}
+
+function removeApprover(applicantId, userId) {
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var applicant = RecordUtils.getRecord(applicantTable, applicantId);
+	gr.setValue('approved_by', '');
+    gr.update();
+}
+
+function getFieldChoices() {
+	/** Tables with field choices we need */
+	var applicantTable = ApplicantUtils.constants.applicantTable;
+	var educationTable = ApplicantUtils.constants.educationTable;
+
+	/** Fields which have choice lists */
+	var fieldLookup = [
+		{tableName: applicantTable, fieldName: 'citizenship'},
+		{tableName: applicantTable, fieldName: 'job_category'},
+		{tableName: applicantTable, fieldName: 'scientific_focus'},
+		{tableName: applicantTable, fieldName: 'state'},
+		{tableName: applicantTable, fieldName: 'country'},
+		{tableName: educationTable, fieldName: 'degree'},
+	];
+
+	/** 
+	 * Create an object where each key is the name of a field
+	 * and each value is an array of choices for that field 
+	 */
+	var fieldChoices = fieldLookup.reduce(function(obj, lookup) {
+		var fieldName = lookup.fieldName;
+		var tableName = lookup.tableName;
+		/* retrieve labels/values for all choices */
+		obj[fieldName] = getChoices(tableName, fieldName);
+		return obj;
+	}, {});
+
+	/* convert scientific_focus to a tree */
+	fieldChoices.scientific_focus_tree = createTree(
+		fieldChoices.scientific_focus
+	);
+
+	return fieldChoices;
+}
+
+
+
+/**
+	 * Creates a tree from a flat array of items
+	 * where each item has a 'value' property
+	 * that tells us its parents
+	 * eg: an item with a value of "1.2"
+	 * has a parent with a value of "1"
+	 */
+function createTree(items, separator) {
+	separator = separator || '.';
+
+	var tree = [];
+	items.forEach(function(item) {
+		var value = item.value.split(separator);
+
+		if (value.length <= 1) {
+			tree.push(item);
+			return;
+		}
+
+		var parentValue = value[value.length - 2];
+		var parents = items.filter(function(e) {
+			return e.value == parentValue;
+		});
+
+		if (parents.length > 0) {
+			var parent = parents[0];
+			if (!parent.children)
+				parent.children = [];
+			parent.children.push(item);
+		}
+	});
+	return tree;		
+}
+
+
+function removeFromList(gr, fieldName, value) {
+	var values = (gr.getValue(fieldName) || '').split(',');
+	if (values.indexOf(value) > -1) {
+		values.splice(values.indexOf(value), 1);
+		gr.setValue(fieldName, values);
+		gr.update();
+	}
+}
+
+function insertIntoList(gr, fieldName, value) {
+	var values = (gr.getValue(fieldName) || '').split(',');
+	if (values.indexOf(value) == -1) {
+		values.push(value);
+		gr.setValue(fieldName, values);
+		gr.update();
+	}
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-03-09 05:12:20</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>f36f718adb003340b86770c08c9619f6</sys_id>
+        <sys_mod_count>45</sys_mod_count>
+        <sys_name>ApplicantUtils</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_script_include_f36f718adb003340b86770c08c9619f6</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-11 16:42:53</sys_updated_on>
+    </sys_script_include>
+</record_update>

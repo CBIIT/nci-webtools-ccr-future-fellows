@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="User Preferences" max_length="40" name="x_naci_future_fell_user_preferences" type="collection">
+        <element label="Email applicant updates" max_length="40" name="email_applicant_updates" type="boolean"/>
+        <element label="Email new applicants" max_length="40" name="email_new_applicants" type="boolean"/>
+        <element label="Email new applicants weekly" max_length="40" name="email_new_applicants_weekly" type="boolean"/>
+        <element label="Email saved applicant updates" max_length="40" name="email_saved_applicant_updates" type="boolean"/>
+        <element label="User" max_length="32" name="user" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="user"/>
+        </index>
+    </element>
+</database>

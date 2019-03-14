@@ -6,8 +6,8 @@
         <sys_created_on>2019-02-08 19:43:41</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>1fd077b0dbe3e700b86770c08c961913</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_name>x_naci_future_fell_user_history.x_naci_future_fell.user</sys_name>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_naci_future_fell_user_history.x_naci_future_fell.admin</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
@@ -15,8 +15,8 @@
         <sys_security_acl display_value="x_naci_future_fell_user_history">97d037b0dbe3e700b86770c08c9619c2</sys_security_acl>
         <sys_update_name>sys_security_acl_role_1fd077b0dbe3e700b86770c08c961913</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-08 19:43:41</sys_updated_on>
-        <sys_user_role display_value="x_naci_future_fell.user" name="x_naci_future_fell.user">20e9ac11db4ba700b86770c08c961988</sys_user_role>
+        <sys_updated_on>2019-03-09 05:09:31</sys_updated_on>
+        <sys_user_role display_value="x_naci_future_fell.admin" name="x_naci_future_fell.admin">21836cd1dbff6300b86770c08c961902</sys_user_role>
         <transaction_id/>
     </sys_security_acl_role>
 </record_update>

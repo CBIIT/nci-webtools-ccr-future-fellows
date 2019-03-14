@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="degree" table="x_naci_future_fell_applicant_education" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>DDS</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:57:50</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>d43ee98adbccff00b86770c08c9619a2</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:57:53</sys_updated_on>
+            <value>DDS</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>DO</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:57:56</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>5a7e25cadbccff00b86770c08c9619ad</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:57:58</sys_updated_on>
+            <value>DO</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>DSc</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:58:02</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>7b7e21cadbccff00b86770c08c96193e</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:58:04</sys_updated_on>
+            <value>DSc</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>DVM</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:58:07</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>9d8ea5cadbccff00b86770c08c96195e</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:58:11</sys_updated_on>
+            <value>DVM</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>JD</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:58:18</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>3a8ea94adbccff00b86770c08c961966</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:58:20</sys_updated_on>
+            <value>JD</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>MPH</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:58:23</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>d19e69cadbccff00b86770c08c96193b</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:58:25</sys_updated_on>
+            <value>MPH</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>PharmD</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:58:28</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>2a9ea5cadbccff00b86770c08c96195f</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:58:31</sys_updated_on>
+            <value>PharmD</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>PhD</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:58:36</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>3b9ea9cadbccff00b86770c08c961917</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:58:38</sys_updated_on>
+            <value>PhD</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>degree</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Sc.D.</label>
+            <language>en</language>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sequence/>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:58:43</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_id>a5aea9cadbccff00b86770c08c9619dd</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:58:46</sys_updated_on>
+            <value>Sc.D</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>degree</element>
+            <name>x_naci_future_fell_applicant_education</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 03:57:50</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>127ee98adbccff00b86770c08c9619a5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>degree</sys_name>
+            <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+            <sys_update_name>sys_choice_x_naci_future_fell_applicant_education_degree</sys_update_name>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 03:57:50</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

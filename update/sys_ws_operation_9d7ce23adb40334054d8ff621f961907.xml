@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>POST</http_method>
+        <name>Save Applicant</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	var applicantId = request.pathParams.id;
+	var action = request.pathParams.action;
+	
+	if (action == 'save') {
+		ApplicantUtils.addSavedUser(applicantId, gs.getUserID());
+	} else if (action == 'unsave') {
+		ApplicantUtils.removeSavedUser(applicantId, gs.getUserID());
+	}
+	
+	return true;
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_naci_future_fell/future_fellows/applicants/{action}/{id}</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/applicants/{action}/{id}</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>parkbw@nih.gov</sys_created_by>
+        <sys_created_on>2019-03-11 16:24:36</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>9d7ce23adb40334054d8ff621f961907</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Save Applicant</sys_name>
+        <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
+        <sys_update_name>sys_ws_operation_9d7ce23adb40334054d8ff621f961907</sys_update_name>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-11 16:29:57</sys_updated_on>
+        <web_service_definition display_value="Future Fellows">db9caa59dbdfa340b86770c08c9619ec</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

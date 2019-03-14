@@ -27,7 +27,7 @@
 		{
 			icon: 'fa fa-search fa-2x',
 			title: 'Search Applicants',
-			link: 'search'
+			link: 'search-applicants'
 		},
 		{
 			icon: 'fa fa-user fa-2x',
@@ -44,8 +44,8 @@
 	if (data.userRole === 'admin') {
 		data.links.push({
 			icon: 'fa fa-history fa-2x',
-			title: 'Track Users',
-			link: 'track-users'
+			title: 'User History',
+			link: 'user-history'
 		});
 	}
 })();]]></script>
@@ -55,15 +55,15 @@
         <sys_created_on>2019-03-08 20:25:49</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>89078486dbc8ff00b86770c08c9619c8</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>Future Fellows User Home</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_89078486dbc8ff00b86770c08c9619c8</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-08 20:43:39</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-10 06:46:47</sys_updated_on>
         <template><![CDATA[<div class="container">
 
   <h1>

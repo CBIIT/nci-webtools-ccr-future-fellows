@@ -5,7 +5,6 @@
             <choice/>
         </element>
         <element label="Applicant" max_length="32" name="applicant" reference="x_naci_future_fell_applicant" type="reference"/>
-        <element label="Target" max_length="255" name="target" type="string"/>
         <element label="User" max_length="32" name="user" reference="sys_user" type="reference"/>
         <index name="index">
             <element name="user"/>

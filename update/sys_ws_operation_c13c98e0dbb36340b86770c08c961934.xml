@@ -10,18 +10,15 @@
         <name>Update Applicant</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 	try {
-		var id = request.pathParams.id;
-		// FutureFellows.updateApplicant(id, request.body);
-		
-		response.setBody(id);
-		
-
-	} catch (error) {
-		response.setError(error);
+		response.setBody({
+			success: ApplicantUtils.update(request.pathParams.id, request.body.data)
+		});
+	} catch (exception) {
+		response.setStatus(500);
+		response.setBody({
+			error: exception.toString()
+		});
 	}
-	
-    // implement resource here
-
 })(request, response);]]></operation_script>
         <operation_uri>/api/x_naci_future_fell/future_fellows/applicants/{id}</operation_uri>
         <produces>application/json,application/xml,text/xml</produces>
@@ -36,7 +33,7 @@
         <sys_created_on>2019-02-19 19:54:34</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>c13c98e0dbb36340b86770c08c961934</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>Update Applicant</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -44,7 +41,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_ws_operation_c13c98e0dbb36340b86770c08c961934</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-02-19 19:54:34</sys_updated_on>
+        <sys_updated_on>2019-03-11 15:47:31</sys_updated_on>
         <web_service_definition display_value="Future Fellows">db9caa59dbdfa340b86770c08c9619ec</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

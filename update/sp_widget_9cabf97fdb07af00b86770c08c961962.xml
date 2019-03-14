@@ -6,13 +6,12 @@
 					$log, 
 					$window, 
 					$q, 
-					$anchorScroll, 
 					$timeout, 
 					$stateParams, 
 					dataService) {
 	// bind functions/properties to context
 	var c = this;
-	c.applicantId = $stateParams.applicant_id
+	c.applicantId = $stateParams.applicant_id || c.data.applicantId;
 	c.fields = c.data.fields;
 	c.form = getEmptyFormValues();
 	c.ui = getUiValues();
@@ -31,7 +30,7 @@
 	}
 
 	// begin debug properties
-	c.debug = true;
+	c.debug = false;
 	c.log = function(obj) { $log.info(obj) };
 	c.logScope = function() { c.log($scope) };
 	// end debug properties
@@ -70,15 +69,18 @@
 
 	function submit() {
 		$scope.appForm.$submitted = true;
-
 		if ($scope.appForm.$invalid) {
 			$('header')[0].scrollIntoView();
 			return false;
 		}
 
-		var endpoint = apiRoot + 'applicants';
 		var formValues = parseForm(c.form);
 		console.log(formValues);
+		
+		// fix date
+		formValues.availability_date = asDateString(
+			formValues.availability_date
+		);
 
 		if (c.options.type == 'new') {
 			createApplicant(formValues);
@@ -103,8 +105,8 @@
 	}
 
 	function updateApplicant(parameters) {
-
-		dataService.updateApplicant(parameters).then(function(response) {
+		var id = c.applicantId;
+		dataService.updateApplicant(id, parameters).then(function(response) {
 			$log.info(response);
 			c.submitDisabled = true;
 		}).catch(function(error) {
@@ -158,6 +160,14 @@
 			list.push(item);
 		}
 	}
+	
+	function asDateString(date) {
+		return [
+			date.getFullYear(), 
+			date.getMonth() + 1, 
+			date.getDate()
+		].join('-');
+	}
 
 
 	function getEmptyFormValues() {
@@ -188,14 +198,14 @@
 			referral_source: null,
 			availability_date: null,
 			education: [
-				{institution: null, degree: null, major: null, gpa: null, year: null},
-				{institution: null, degree: null, major: null, gpa: null, year: null},
-				{institution: null, degree: null, major: null, gpa: null, year: null}
+				{order: 0, institution: null, degree: null, major: null, gpa: null, year: null},
+				{order: 1, institution: null, degree: null, major: null, gpa: null, year: null},
+				{order: 2, institution: null, degree: null, major: null, gpa: null, year: null}
 			],
 			publications: [
-				{journal: null, title: null, year: null},
-				{journal: null, title: null, year: null},
-				{journal: null, title: null, year: null}
+				{order: 0, journal: null, title: null, year: null},
+				{order: 1, journal: null, title: null, year: null},
+				{order: 2, journal: null, title: null, year: null}
 			],
 			resume_file: null,
 			references_file: null,
@@ -218,17 +228,6 @@
 				email_2: type == 'new'
 			},
 			panels: [
-				{
-					title: 'Applicant Status',
-					enabled: isUser && type == 'update',
-					// this should be the first panel open for new private applications
-					open: true
-				},
-				{
-					title: 'Applicant Files',
-					enabled: isUser && type == 'update',
-					open: true
-				},
 				{
 					title: 'Job Category',
 					enabled: true,
@@ -288,12 +287,17 @@
         <public>true</public>
         <roles/>
         <script><![CDATA[(function() {
-	
 	data.role = ClientUtils.getRole();
+	data.fields = ApplicantUtils.getFieldChoices();
 	
-	/* retrieve form fields */
-	data.fields = FutureFellows.getFields();
-
+	data.applicantId = null;
+	
+	if (data.role == 'applicant') {
+		var userId = gs.getUserID();
+		var gr = new GlideRecord('x_naci_future_fell_applicant');
+		
+	}
+	
 })();
 ]]></script>
         <servicenow>false</servicenow>
@@ -302,15 +306,15 @@
         <sys_created_on>2019-01-23 22:21:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>9cabf97fdb07af00b86770c08c961962</sys_id>
-        <sys_mod_count>927</sys_mod_count>
+        <sys_mod_count>944</sys_mod_count>
         <sys_name>Future Fellows Applicant Form</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_9cabf97fdb07af00b86770c08c961962</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-06 06:09:40</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-11 15:44:56</sys_updated_on>
         <template><![CDATA[<div id="error-message"
      ng-if="appForm.$submitted && appForm.$invalid"
      class="alert alert-danger d-flex align-items-center">
@@ -322,7 +326,8 @@
      ng-if="appForm.$submitted && appForm.$valid"
      class="alert alert-success d-flex align-items-center">
   <i class="fa fa-check-circle fa-2x mr-4"></i>
-  Your application has been submitted.
+  Your application has been 
+  {{ c.options.type == 'new' ? 'submitted' : 'updated' }}.
 </div>
 
 
@@ -384,7 +389,7 @@
           </p>
           <div layout-wrap layout-gt-sm="row">
             <div flex-gt-sm="50"
-                 ng-repeat="field in c.data.fields.scientific_focus">
+                 ng-repeat="field in c.data.fields.scientific_focus_tree">
               <md-checkbox name="scientific_focus" 
                            ng-click="c.toggle(field.value, c.form.scientific_focus)"
                            ng-checked="c.form.scientific_focus.indexOf(field.value) > -1"
@@ -883,7 +888,7 @@
                      ng-model="c.form.resume_file_name"
                      ng-pattern="/\.pdf$/"
                      readonly
-                     required>
+                     ng-required="c.options.type == 'new'">
               <div ng-messages="appForm.resume_file_name.$error">
                 <div ng-message-exp="['required', 'pattern']">
                   This field is required and must contain a valid pdf file.
@@ -917,7 +922,7 @@
                      ng-model="c.form.references_file_name"
                      ng-pattern="/\.pdf$/"
                      readonly
-                     required>
+                     ng-required="c.options.type == 'new'">
               <div ng-messages="appForm.references_file_name.$error">
                 <div ng-message-exp="['required', 'pattern']">
                   This field is required and must contain a valid pdf file.

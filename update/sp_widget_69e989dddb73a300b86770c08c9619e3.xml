@@ -2,58 +2,203 @@
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function($scope) {
+        <client_script><![CDATA[function($scope, $mdToast, $http, $state) {
 	/* widget controller */
 	var c = this;
-	c.people = [];
-
+	console.log(c);
+	c.people = c.data.savedApplicants;
 
 	var columnDefs = [
 		{headerName: "Name", field: "name", pinned: 'left', sortable: true, checkboxSelection: true},
-		{headerName: "Submitted Date", field: "date", width: 200, sortable: true},
-		{headerName: "Job Category", field: "job", width: 300, sortable: true},
-		{headerName: "Scientific Focus Areas", field: "focus", width: 500, sortable: true}
+		{headerName: "Submitted Date", field: "submitted_date", width: 200, sortable: true},
+		{headerName: "Job Category", field: "job_category_label", width: 300, sortable: true},
+		{headerName: "Scientific Focus Areas", field: "scientific_focus_label", width: 500, sortable: true}
 	];
 
-	$scope.gridOptions = {
-		columnDefs: columnDefs,
-		rowData: c.people,
-    rowSelection: 'multiple',
-    rowMultiSelectWithClick: true
-	};	
-
-
-	$scope.randomItem = function(array) {
-		return array[Math.floor(Math.random() * array.length)];
-	}
-
-	$scope.firstNames = ["Liam","Noah","William","James","Logan","Benjamin","Mason","Elijah","Oliver","Jacob","Emma","Olivia","Ava","Isabella","Sophia","Mia","Charlotte","Amelia","Evelyn","Abigail"]
-	$scope.lastNames = ["Smith","Johnson","Williams","Jones","Brown","Davis","Miller","Wilson","Moore","Taylor","Anderson","Thomas","Jackson","White","Harris","Martin","Thompson","Garcia","Martinez","Robinson","Clark","Rodriguez","Lewis","Lee","Walker","Hall","Allen","Young","Hernandez","King","Wright","Lopez","Hill","Scott","Green","Adams","Baker","Gonzalez","Nelson","Carter","Mitchell","Perez","Roberts","Turner","Phillips","Campbell","Parker","Evans","Edwards","Collins","Stewart","Sanchez","Morris","Rogers","Reed","Cook","Morgan","Bell","Murphy","Bailey","Rivera","Cooper","Richardson","Cox","Howard","Ward","Torres","Peterson","Gray","Ramirez","James","Watson","Brooks","Kelly","Sanders","Price","Bennett","Wood","Barnes","Ross","Henderson","Coleman","Jenkins","Perry","Powell","Long","Patterson","Hughes","Flores","Washington","Butler","Simmons","Foster","Gonzales","Bryant","Alexander","Russell","Griffin","Diaz","Hayes"]
-
-	function randomPerson() {
-		var name = $scope.randomItem($scope.firstNames) + ' ' + $scope.randomItem($scope.lastNames);
-		var focus = [];
-		for (var i = 0; i < 1 + Math.floor(Math.random() * 3); i ++) {
-			var item = $scope.randomItem(c.data.fields.scientific_focus);
-			if (item.label)
-				focus.push(item.label)
+c.gridOptions = {
+		rowData: c.data.savedApplicants,
+		defaultColDef: {
+			resizable: true,
+			sortable: true
+		},
+		columnDefs: [
+			{
+				headerName: "Name", 
+				field: "name", 
+				pinned: 'left', 
+				sortable: true, 
+//				checkboxSelection: true,
+				width: 140, 
+				
+				cellRenderer: function(params) {
+					var data = params.node.data;
+					var id = data.sys_id;
+					var div = $('<div>');
+					$('<a>')
+						.attr('href', '#!/applicant/' + id)
+						.attr('target', '_blank')
+						.css('text-decoration', 'underline')
+						.text(params.value)
+						.appendTo(div);
+					
+					return div[0];
 				}
+				
+			},
 
-		return {
-			name: name,
-			date: new Date(new Date() - Math.random() * 100000000000),
-			job: $scope.randomItem(c.data.fields.job_category).label,
-			focus: focus.join(', '),
-			saved: Math.random() > 0.8
-		}
-	}
+			{
+				headerName: "Actions", 
+				field: "null", 
+				width: 150, 
+				sortable: true, 
+				autoHeight: true, 
+				cellClass: 'white-space-normal',
+				cellRenderer: function(params) {
+					var data = params.node.data;
+					
+					var container = $('<div/>');
 
-	for (var i = 0; i < 10; i ++) {
-		c.people.push(randomPerson());
+					var approveButton = $('<button/>')
+						.addClass('btn btn-primary btn-xs d-block w-100px my-2')
+						.text(
+							data.approved_by 
+								? 'Undo approval' 
+							  : 'Approve'
+						);
+					
+					var unsaveButton = $('<button/>')
+						.addClass('btn btn-danger btn-xs d-block w-100px my-2')
+						.click(unsave.bind(c, data))
+						.text('Remove Saved');
+
+					container.append(approveButton, unsaveButton);
+					
+					return container[0];
+				}				
+			},
+			
+			
+
+			
+			{
+				headerName: "Submission Date", 
+				field: "submitted_date", 
+				cellClass: 'white-space-normal',
+				width: 130, 
+				sortable: true,
+				cellRenderer: function(params) {
+					var data = params.node.data;
+					var expirationDate = params.node.data.expiration_date;
+					var expirationWeeks = Math.floor(Math.random() * 100);
+					var div = $('<div>');
+					
+					$('<b>')
+						.text(params.value)
+						.appendTo(div);
+					
+					$('<p>')
+						.text('Expires in ' + expirationWeeks + ' weeks')
+						.appendTo(div);
+					
+					return div[0];
+				}
+			},
+			{
+				headerName: "Status", 
+				field: "status", 
+				cellClass: 'white-space-normal',
+				width: 130, 
+				sortable: true,
+				cellRenderer: function(params) {
+					return params.value || 'Pending Review';
+				}
+			},
+			{
+				headerName: "Job Category", 
+				field: "job_category_label", 
+				cellClass: 'white-space-normal',
+				width: 120, 
+				sortable: true
+			},
+			{
+				headerName: "Scientific Focus Areas", 
+				field: "scientific_focus_label", 
+				width: 250, 
+				sortable: true, 
+				autoHeight: true, 
+				cellClass: 'white-space-normal',
+				cellRenderer: function(params) {
+					var ul = $('<ul>')
+						.addClass('pl-3');
+					params.value.forEach(function(item) {
+						var li = $('<li>')
+							.text(item)
+							.appendTo(ul);
+					});
+					return ul[0];
+				}
+			},
+
+			{
+				headerName: "Contact", 
+				width: 350, 
+				field: null, 
+				sortable: false, 
+				autoHeight: true, 
+				cellClass: 'white-space-normal',
+				cellRenderer: function(params) {
+					var data = params.node.data;
+					
+					var contactInfo = $('<div/>');
+					
+					contactInfo
+						.append($('<b>').text('Email: '))
+						.append($('<a>')
+							.attr('href', 'mailto:' + data.email)
+							.text(data.email))
+						.append('<br>')
+
+						.append($('<b>').text('Home Phone: '))
+						.append(data.home_phone || 'N/A')
+						.append('<br>')
+					
+					
+						.append($('<b>').text('Work Phone: '))
+						.append(data.work_phone || 'N/A')
+						.append('<br>')
+						
+					
+					
+					;
+					
+					return contactInfo[0];
+				}
+			},
+		],
+	};	
+	
+	
+	
+	function unsave(applicant) {
+		$http.post('/api/x_naci_future_fell/future_fellows/applicants/unsave/' + applicant.sys_id)
+			.then(function() {
+			
+			var toast = $mdToast.simple()
+				.textContent('Applicant has been removed from the list. ')
+				.position('bottom right');
+			$mdToast.show(toast);
+			location.reload();
+		})
+		
+		
+		
 	}
+	
 }]]></client_script>
         <controller_as>c</controller_as>
-        <css/>
+        <css>.w-100px {
+  width: 100px;
+}</css>
         <data_table>sp_instance</data_table>
         <demo_data/>
         <description/>
@@ -68,10 +213,12 @@
         <public>false</public>
         <roles/>
         <script><![CDATA[(function() {
-  /* populate the 'data' object */
-  /* e.g., data.table = $sp.getValue('table'); */
-	data.fields = FutureFellows.getFields();
-	
+	var id = gs.getUserID();
+	data.fields = ApplicantUtils.getFieldChoices();
+	data.savedApplicants = ApplicantUtils.search().filter(function(e) {
+		var savedBy = (e.saved_by || '').toString();
+		return savedBy.indexOf(id) > -1;
+	});
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
@@ -79,7 +226,7 @@
         <sys_created_on>2019-02-22 07:06:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>69e989dddb73a300b86770c08c9619e3</sys_id>
-        <sys_mod_count>44</sys_mod_count>
+        <sys_mod_count>160</sys_mod_count>
         <sys_name>Future Fellows Saved Applicants</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -87,7 +234,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_69e989dddb73a300b86770c08c9619e3</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-03 02:33:07</sys_updated_on>
+        <sys_updated_on>2019-03-11 16:50:07</sys_updated_on>
         <template><![CDATA[<div class="container">
   <h1>
     Saved Applicants
@@ -99,14 +246,8 @@
     Below are applicants who have been saved for further review.
   </p>
 
-  <div>
-    <md-button class="md-raised md-accent m-0">
-      Remove Checked Applicants
-    </md-button>
-  </div>
-
-  <div class="mb-5">
-    <div ag-grid="gridOptions" 
+  <div class="mb-5" style="height: 500px">
+    <div ag-grid="c.gridOptions" 
          class="ag-theme-material" 
          style="height: 100%; width: 100%;">
     </div>

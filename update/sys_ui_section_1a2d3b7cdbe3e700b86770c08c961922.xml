@@ -5,13 +5,13 @@
             <element>first_name</element>
             <position>0</position>
             <sys_created_by>parkbw@nih.gov</sys_created_by>
-            <sys_created_on>2019-02-08 20:47:06</sys_created_on>
-            <sys_id>046fb7fcdbe3e700b86770c08c9619af</sys_id>
+            <sys_created_on>2019-03-09 04:12:52</sys_created_on>
+            <sys_id>eee17d8edbccff00b86770c08c961999</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Basic Information" display_value="Basic Information" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">1a2d3b7cdbe3e700b86770c08c961922</sys_ui_section>
             <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:47:06</sys_updated_on>
+            <sys_updated_on>2019-03-09 04:12:52</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -19,13 +19,13 @@
             <element>middle_initial</element>
             <position>1</position>
             <sys_created_by>parkbw@nih.gov</sys_created_by>
-            <sys_created_on>2019-02-08 20:47:06</sys_created_on>
-            <sys_id>846fb7fcdbe3e700b86770c08c9619af</sys_id>
+            <sys_created_on>2019-03-09 04:12:52</sys_created_on>
+            <sys_id>62e17d8edbccff00b86770c08c96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Basic Information" display_value="Basic Information" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">1a2d3b7cdbe3e700b86770c08c961922</sys_ui_section>
             <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:47:06</sys_updated_on>
+            <sys_updated_on>2019-03-09 04:12:52</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -33,57 +33,43 @@
             <element>last_name</element>
             <position>2</position>
             <sys_created_by>parkbw@nih.gov</sys_created_by>
-            <sys_created_on>2019-02-08 20:47:06</sys_created_on>
-            <sys_id>086fb7fcdbe3e700b86770c08c9619af</sys_id>
+            <sys_created_on>2019-03-09 04:12:52</sys_created_on>
+            <sys_id>e2e17d8edbccff00b86770c08c96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Basic Information" display_value="Basic Information" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">1a2d3b7cdbe3e700b86770c08c961922</sys_ui_section>
             <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:47:06</sys_updated_on>
+            <sys_updated_on>2019-03-09 04:12:52</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>citizenship</element>
+            <position>3</position>
+            <sys_created_by>parkbw@nih.gov</sys_created_by>
+            <sys_created_on>2019-03-09 04:12:52</sys_created_on>
+            <sys_id>66e17d8edbccff00b86770c08c96199a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Basic Information" display_value="Basic Information" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">1a2d3b7cdbe3e700b86770c08c961922</sys_ui_section>
+            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-03-09 04:12:52</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.split</element>
-            <position>3</position>
-            <sys_created_by>parkbw@nih.gov</sys_created_by>
-            <sys_created_on>2019-02-08 20:47:06</sys_created_on>
-            <sys_id>886fb7fcdbe3e700b86770c08c9619af</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="Basic Information" display_value="Basic Information" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">1a2d3b7cdbe3e700b86770c08c961922</sys_ui_section>
-            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:47:06</sys_updated_on>
-            <sys_user/>
-            <type>.split</type>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>citizenship</element>
             <position>4</position>
             <sys_created_by>parkbw@nih.gov</sys_created_by>
-            <sys_created_on>2019-02-08 20:47:06</sys_created_on>
-            <sys_id>0c6fb7fcdbe3e700b86770c08c9619af</sys_id>
+            <sys_created_on>2019-03-09 04:12:52</sys_created_on>
+            <sys_id>e6e17d8edbccff00b86770c08c96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Basic Information" display_value="Basic Information" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">1a2d3b7cdbe3e700b86770c08c961922</sys_ui_section>
             <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:47:06</sys_updated_on>
+            <sys_updated_on>2019-03-09 04:12:52</sys_updated_on>
             <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>status</element>
-            <position>5</position>
-            <sys_created_by>parkbw@nih.gov</sys_created_by>
-            <sys_created_on>2019-02-08 20:47:06</sys_created_on>
-            <sys_id>8c6fb7fcdbe3e700b86770c08c9619af</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="Basic Information" display_value="Basic Information" name="x_naci_future_fell_applicant" sys_domain="global" view="Default view">1a2d3b7cdbe3e700b86770c08c961922</sys_ui_section>
-            <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-            <sys_updated_on>2019-02-08 20:47:06</sys_updated_on>
-            <sys_user/>
-            <type/>
+            <type>.split</type>
         </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
             <caption>Basic Information</caption>

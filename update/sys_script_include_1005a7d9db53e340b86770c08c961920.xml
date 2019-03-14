@@ -96,7 +96,7 @@ function getRecord(table, sysId) {
 	var gr = new GlideRecord(table);
 	gr.get(sysId);
 	gr.next();
-	return toObject(gr);
+	return gr;
 }
 
 
@@ -108,7 +108,6 @@ function getRecord(table, sysId) {
  * @return {GlideRecord} The inserted record
  */
 function insertRecord(table, object) {
-	// var grUtil = new GlideRecordUtil();
 	var gr = new GlideRecord(table);
 	gr.initialize();
 	
@@ -128,7 +127,8 @@ function insertRecord(table, object) {
  * @return {GlideRecord} The updated record
  */
 function updateRecord(table, recordId, object) {
-	var gr = getRecord(table, recordId);
+	var gr = new GlideRecord(table);
+	gr.get(recordId);
 	for (var key in object) {
 		gr.setValue(key, object[key]);
 	}
@@ -140,14 +140,14 @@ function updateRecord(table, recordId, object) {
         <sys_created_on>2019-01-28 21:57:50</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>1005a7d9db53e340b86770c08c961920</sys_id>
-        <sys_mod_count>36</sys_mod_count>
+        <sys_mod_count>38</sys_mod_count>
         <sys_name>RecordUtils</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy>read</sys_policy>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_script_include_1005a7d9db53e340b86770c08c961920</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-06 18:37:11</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-11 15:50:43</sys_updated_on>
     </sys_script_include>
 </record_update>

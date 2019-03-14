@@ -269,6 +269,7 @@
         <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;// Add your code here&#13;&#10;&#9;return '';  // return the calculated value&#13;&#10;&#13;&#10;})(current);" label="Expiration date" max_length="40" name="expiration_date" type="glide_date"/>
         <element label="Fax phone" max_length="40" name="fax_phone" type="string"/>
         <element label="First name" max_length="255" name="first_name" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;  return [current.first_name, current.middle_name, current.last_name].filter(String).join(' ');&#13;&#10;})(current);" display="true" label="Full name" max_length="400" name="full_name" type="string" virtual="true"/>
         <element label="Home phone" max_length="40" name="home_phone" type="string"/>
         <element choice="3" default="1" label="Job category" max_length="255" name="job_category" type="choice">
             <choice>
@@ -281,13 +282,15 @@
         <element label="Last name" max_length="255" name="last_name" type="string"/>
         <element label="Middle initial" max_length="255" name="middle_initial" type="string"/>
         <element label="Postal code" max_length="40" name="postal_code" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;// Add your code here&#13;&#10;&#9;return '';  // return the calculated value&#13;&#10;&#13;&#10;})(current);" label="References file" max_length="32" name="references_file" reference="sys_attachment" type="reference"/>
         <element label="Referral source" max_length="2000" name="referral_source" type="string"/>
         <element label="Research interests" max_length="2000" name="research_interests" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;// Add your code here&#13;&#10;&#9;return '';  // return the calculated value&#13;&#10;&#13;&#10;})(current);" label="Resume file" max_length="32" name="resume_file" reference="sys_attachment" type="reference"/>
         <element label="Reviewed by" max_length="4000" name="reviewed_by" reference="sys_user" type="glide_list"/>
         <element label="Saved by" max_length="4000" name="saved_by" reference="sys_user" type="glide_list"/>
         <element label="Scientific focus" max_length="255" name="scientific_focus" type="glide_list"/>
         <element label="State" max_length="255" name="state" type="string"/>
-        <element label="Status" max_length="40" name="status" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;  var numReviewers = current.reviewed_by.toString().split(',').length;&#13;&#10;  var isApproved = current.approved_by.toString().length &gt; 0;&#13;&#10;&#13;&#10;  // if there are no PIs reviewing this application &#13;&#10;  if (numReviewers == 0 &amp;&amp; !isApproved) {&#13;&#10;    return 'Awaiting Review';&#13;&#10;  }&#13;&#10;&#13;&#10;  // if there are PIs who are reviewing this application&#13;&#10;  else if (numReviewers &gt; 0 &amp;&amp; !isApproved) {&#13;&#10;    return 'Under consideration';&#13;&#10;    return 'Under review by ' &#13;&#10;      + numReviewers + ' PI'&#13;&#10;      + (numReviewers &gt; 1 ? 's' : '');&#13;&#10;  }&#13;&#10;&#13;&#10;  // if we have a PI who has approved this application&#13;&#10;  else if (isApproved) {&#13;&#10;    return 'Approved';&#13;&#10;//    var grUser = gs.getUser().getUserByID(current.approved_by.toString());&#13;&#10;    return 'Approved by ' + current.approved_by.email;&#13;&#10;  }&#13;&#10;&#13;&#10;})(current);" label="Status" max_length="40" name="status" type="string" virtual="true"/>
         <element label="Total abstracts" max_length="40" name="total_abstracts" type="integer"/>
         <element label="Total presentations" max_length="40" name="total_presentations" type="integer"/>
         <element label="Total publications" max_length="40" name="total_publications" type="integer"/>
@@ -297,6 +300,12 @@
             <element name="approved_by"/>
         </index>
         <index name="index2">
+            <element name="references_file"/>
+        </index>
+        <index name="index3">
+            <element name="resume_file"/>
+        </index>
+        <index name="index4">
             <element name="user"/>
         </index>
     </element>

@@ -10,7 +10,7 @@
         <name>Search Applicants</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 	try {
-		var applicants = FutureFellows.searchApplicants(request.params);
+		var applicants = ApplicantUtils.search(request.params);
 		response.setBody(applicants);
 	} catch (exception) {
 		response.setStatus(500);
@@ -32,15 +32,15 @@
         <sys_created_on>2019-02-19 19:57:07</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>b8fc14e8dbb36340b86770c08c961906</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>Search Applicants</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_ws_operation_b8fc14e8dbb36340b86770c08c961906</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-06 00:39:21</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-10 06:36:44</sys_updated_on>
         <web_service_definition display_value="Future Fellows">db9caa59dbdfa340b86770c08c9619ec</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

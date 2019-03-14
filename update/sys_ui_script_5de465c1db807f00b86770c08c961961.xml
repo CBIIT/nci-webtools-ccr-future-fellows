@@ -10,14 +10,35 @@
 	
 	app.factory('dataService', ['$http', 'apiRoot', function($http, apiRoot) {
 		return {
+			createApplicant: createApplicant,
+			updateApplicant: updateApplicant,
 			getApplicant: getApplicant,
 			searchApplicants: searchApplicants
 		};
 		
+		function createApplicant(params) {
+			return $http.post(
+				apiRoot + 'applicants', 
+				params
+			).then(function(response) {
+				return response.data.result;
+			});
+		}
+		
+		function updateApplicant(id, params) {
+			return $http.put(
+				apiRoot + 'applicants/' + id, 
+				params
+			).then(function(response) {
+				return response.data.result;
+			});
+		}		
+		
 		function searchApplicants(params) {
-			return $http.get(apiRoot + 'applicants', {
-				params: params
-			}).then(function(response) {
+			return $http.get(
+				apiRoot + 'applicants', 
+				params
+			).then(function(response) {
 				return response.data.result;
 			});
 		}
@@ -40,15 +61,15 @@
         <sys_created_on>2019-03-06 00:52:20</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>5de465c1db807f00b86770c08c961961</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>x_naci_future_fell.angular_services</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sys_ui_script_5de465c1db807f00b86770c08c961961</sys_update_name>
-        <sys_updated_by>ff_admin</sys_updated_by>
-        <sys_updated_on>2019-03-06 01:00:07</sys_updated_on>
+        <sys_updated_by>parkbw@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-03-11 15:41:08</sys_updated_on>
         <use_scoped_format>false</use_scoped_format>
     </sys_ui_script>
 </record_update>
