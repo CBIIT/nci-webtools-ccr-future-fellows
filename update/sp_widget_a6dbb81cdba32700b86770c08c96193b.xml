@@ -77,7 +77,7 @@
         <sys_created_on>2019-02-06 17:15:53</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>a6dbb81cdba32700b86770c08c96193b</sys_id>
-        <sys_mod_count>203</sys_mod_count>
+        <sys_mod_count>204</sys_mod_count>
         <sys_name>Future Fellows Navigation</sys_name>
         <sys_package display_value="Future Fellows" source="x_naci_future_fell">34c0a415db0ba700b86770c08c9619dc</sys_package>
         <sys_policy/>
@@ -85,7 +85,7 @@
         <sys_scope display_value="Future Fellows">34c0a415db0ba700b86770c08c9619dc</sys_scope>
         <sys_update_name>sp_widget_a6dbb81cdba32700b86770c08c96193b</sys_update_name>
         <sys_updated_by>parkbw@nih.gov</sys_updated_by>
-        <sys_updated_on>2019-03-11 17:12:03</sys_updated_on>
+        <sys_updated_on>2019-03-14 17:29:27</sys_updated_on>
         <template><![CDATA[
 <!-- Future Fellows Ribbon -->
 <div class="bg-primary flex-grow hidden-xs">
@@ -158,8 +158,7 @@
             </a>
           </li>
           <li>
-            <a ng-if="!c.data.isLoggedIn"
-               ng-href="/nav_to.do?uri=/{{ portal.url_suffix }}&glide_sso_id={{c.data.defaultIDP}}"
+            <a ng-href="/nav_to.do?uri=/{{ portal.url_suffix }}&glide_sso_id={{c.data.defaultIDP}}"
                class="nav-link">
               For PIs
             </a>
